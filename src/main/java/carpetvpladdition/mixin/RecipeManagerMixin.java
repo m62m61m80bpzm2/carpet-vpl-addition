@@ -3,20 +3,22 @@ package carpetvpladdition.mixin;
 import carpetvpladdition.settings.CarpetVPLAdditionSettings;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.llamalad7.mixinextras.sugar.Local;
+import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.mojang.serialization.JsonOps;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+import org.spongepowered.asm.mixin.injection.At;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.item.crafting.RecipeMap;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import java.util.SortedMap;
+import java.util.ArrayList;
+import java.util.List;
 
 @Mixin(value = RecipeManager.class, priority = 16888)
 public abstract class RecipeManagerMixin {
@@ -38,22 +40,23 @@ public abstract class RecipeManagerMixin {
         }
         """;
 
-    @Inject(
+    @ModifyReturnValue(
         method = "prepare(Lnet/minecraft/server/packs/resources/ResourceManager;Lnet/minecraft/util/profiling/ProfilerFiller;)Lnet/minecraft/world/item/crafting/RecipeMap;",
-        at = @At(
-            value = "INVOKE",
-            target = "Ljava/util/ArrayList;<init>(I)V"
-        )
+        at = @At("RETURN")
     )
-    private void addTotemRecipe(CallbackInfoReturnable<RecipeMap> cir,
-                                 @Local SortedMap<ResourceLocation, Recipe<?>> recipes) {
-        if (!CarpetVPLAdditionSettings.totemRecipe) return;
+    private RecipeMap addTotemRecipe(RecipeMap original) {
+        if (!CarpetVPLAdditionSettings.totemRecipe) return original;
 
         RecipeManagerAccessor accessor = (RecipeManagerAccessor) this;
         JsonObject json = GSON.fromJson(TOTEM_RECIPE_JSON, JsonObject.class);
         Recipe<?> recipe = Recipe.CODEC
             .parse(accessor.getRegistries().createSerializationContext(JsonOps.INSTANCE), json)
             .getOrThrow();
-        recipes.put(TOTEM_ID, recipe);
+
+        ResourceKey<Recipe<?>> recipeKey = ResourceKey.create(Registries.RECIPE, TOTEM_ID);
+        List<RecipeHolder<?>> all = new ArrayList<>();
+        original.values().forEach(all::add);
+        all.add(new RecipeHolder<>(recipeKey, recipe));
+        return RecipeMap.create(all);
     }
 }
