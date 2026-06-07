@@ -59,5 +59,11 @@
     "carpet.rule.stackableCake.name": "Stackable Cake",
     "carpet.rule.stackableCake.desc": "Allows cakes to stack up to 64. Takes effect immediately, no re-join needed. Still placeable and edible.",
     "carpet.rule.stackableCake.extra.0": "Only modifies max stack size. Existing stacked cakes won't auto-split when rule is turned off.",
+    "carpet.rule.villagerGolem.name": "Villager Golem",
+    "carpet.rule.villagerGolem.desc": "Allows summoning a villager by placing a carved pumpkin on an emerald block, similar to snow golem construction. Takes effect immediately.",
+    "carpet.rule.villagerGolem.extra.0": "Place a carved pumpkin on top of an emerald block to summon a villager. Both blocks are consumed. Disable the rule to prevent summoning.",
+    "carpet.rule.villagerAttraction.name": "Villager Attraction",
+    "carpet.rule.villagerAttraction.desc": "Villagers follow players holding specific items, like animals follow wheat. Takes effect immediately.",
+    "carpet.rule.villagerAttraction.extra.0": "Emerald Block attracts all villagers; Emerald attracts unemployed villagers; Lapis Lazuli attracts employed villagers; Cake attracts baby villagers.",
     "carpet.category.carpet_vpl_addition": "Carpet VPL Addition"
 }

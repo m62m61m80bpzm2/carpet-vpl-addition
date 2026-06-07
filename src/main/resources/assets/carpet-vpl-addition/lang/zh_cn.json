@@ -59,5 +59,11 @@
     "carpet.rule.stackableCake.name": "可堆叠蛋糕",
     "carpet.rule.stackableCake.desc": "将蛋糕的最大堆叠数改为64，调整后即时生效，无需退出存档。仍可正常放置/食用。",
     "carpet.rule.stackableCake.extra.0": "此规则仅修改物品最大堆叠数，不影响物品原有功能。关闭规则后已存在的堆叠蛋糕不会自动拆分。",
+    "carpet.rule.villagerGolem.name": "村民傀儡",
+    "carpet.rule.villagerGolem.desc": "允许通过将雕刻南瓜放在绿宝石块上来召唤村民，类似雪傀儡的建造方式。调整后即时生效。",
+    "carpet.rule.villagerGolem.extra.0": "在绿宝石块上方放置雕刻南瓜即可召唤一个村民。绿宝石块和南瓜会被消耗。关闭规则后无法召唤。",
+    "carpet.rule.villagerAttraction.name": "可吸引村民",
+    "carpet.rule.villagerAttraction.desc": "村民会被玩家手持特定物品吸引跟随，类似动物被小麦吸引。调整后即时生效。",
+    "carpet.rule.villagerAttraction.extra.0": "绿宝石块吸引所有村民；绿宝石吸引无职业村民；青金石吸引有职业村民；蛋糕吸引小村民。",
     "carpet.category.carpet_vpl_addition": "Carpet VPL Addition"
 }

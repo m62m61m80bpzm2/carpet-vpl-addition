@@ -9,7 +9,9 @@
     "PlayerAttributeMixin",
     "StackableItemMixin",
     "LivingEntityMixin",
-    "FoodDataMixin"
+    "FoodDataMixin",
+    "VillagerGolemMixin",
+    "VillagerAttractionMixin"
   ],
   "injectors": {
     "defaultRequire": 1
