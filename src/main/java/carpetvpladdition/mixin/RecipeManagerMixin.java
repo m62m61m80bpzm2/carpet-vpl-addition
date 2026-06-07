@@ -5,13 +5,10 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.mojang.serialization.JsonOps;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.item.crafting.Recipe;
-import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.item.crafting.RecipeMap;
 import org.spongepowered.asm.mixin.Mixin;
@@ -19,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import java.util.TreeMap;
+import java.util.SortedMap;
 
 @Mixin(value = RecipeManager.class, priority = 16888)
 public abstract class RecipeManagerMixin {
@@ -32,10 +29,10 @@ public abstract class RecipeManagerMixin {
             "category": "equipment",
             "pattern": ["ABA","CDC","DDD"],
             "key": {
-                "A": {"item": "minecraft:golden_carrot"},
-                "B": {"item": "minecraft:enchanted_golden_apple"},
-                "C": {"item": "minecraft:emerald"},
-                "D": {"item": "minecraft:gold_block"}
+                "A": "minecraft:golden_carrot",
+                "B": "minecraft:enchanted_golden_apple",
+                "C": "minecraft:emerald",
+                "D": "minecraft:gold_block"
             },
             "result": {"id": "minecraft:totem_of_undying", "count": 1}
         }
@@ -49,7 +46,7 @@ public abstract class RecipeManagerMixin {
         )
     )
     private void addTotemRecipe(CallbackInfoReturnable<RecipeMap> cir,
-                                 @Local TreeMap<ResourceLocation, RecipeHolder<?>> recipes) {
+                                 @Local SortedMap<ResourceLocation, Recipe<?>> recipes) {
         if (!CarpetVPLAdditionSettings.totemRecipe) return;
 
         RecipeManagerAccessor accessor = (RecipeManagerAccessor) this;
@@ -57,7 +54,6 @@ public abstract class RecipeManagerMixin {
         Recipe<?> recipe = Recipe.CODEC
             .parse(accessor.getRegistries().createSerializationContext(JsonOps.INSTANCE), json)
             .getOrThrow();
-        ResourceKey<Recipe<?>> key = ResourceKey.create(Registries.RECIPE, TOTEM_ID);
-        recipes.put(TOTEM_ID, new RecipeHolder<>(key, recipe));
+        recipes.put(TOTEM_ID, recipe);
     }
 }
