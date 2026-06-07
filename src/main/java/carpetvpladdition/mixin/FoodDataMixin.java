@@ -9,9 +9,9 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 @Mixin(FoodData.class)
 public abstract class FoodDataMixin {
     @ModifyArg(
-        method = "eat",
-        at = @At(value = "INVOKE", target = "Ljava/lang/Math;min(II)I"),
-        index = 1
+        method = "add",
+        at = @At(value = "INVOKE", target = "Lnet/minecraft/util/Mth;clamp(III)I"),
+        index = 2
     )
     private int modifyFoodLevelCap(int original) {
         try {
