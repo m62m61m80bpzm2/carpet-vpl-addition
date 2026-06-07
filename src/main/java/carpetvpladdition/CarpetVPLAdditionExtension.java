@@ -60,13 +60,16 @@ public class CarpetVPLAdditionExtension implements CarpetExtension {
 
     @Override
     public Map<String, String> canHasTranslations(String lang) {
-        InputStream langFile = getClass().getClassLoader()
-                .getResourceAsStream("assets/carpet-vpl-addition/lang/" + lang + ".json");
-        if (langFile == null) {
-            return Collections.emptyMap();
-        }
         try {
+            InputStream langFile = CarpetVPLAdditionExtension.class.getResourceAsStream("/assets/carpet-vpl-addition/lang/" + lang + ".json");
+            if (langFile == null) {
+                langFile = CarpetVPLAdditionExtension.class.getResourceAsStream("/assets/carpet-vpl-addition/lang/" + lang.replace('-', '_') + ".json");
+            }
+            if (langFile == null) {
+                return Collections.emptyMap();
+            }
             String jsonData = new String(langFile.readAllBytes(), StandardCharsets.UTF_8);
+            langFile.close();
             return GSON.fromJson(jsonData, new TypeToken<Map<String, String>>() {}.getType());
         } catch (Exception e) {
             return Collections.emptyMap();
