@@ -16,7 +16,7 @@ public abstract class FurnaceXpControllerMixin {
         index = 3,
         argsOnly = true
     )
-    private float multiplyXpPerItem(float xpPerItem) {
+    private static float multiplyXpPerItem(float xpPerItem) {
         try {
             float multiplier = Float.parseFloat(CarpetVPLAdditionSettings.furnaceXpMultiplier);
             if (multiplier != 1.0F) {
