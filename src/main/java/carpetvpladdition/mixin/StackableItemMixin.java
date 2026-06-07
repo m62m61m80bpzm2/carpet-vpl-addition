@@ -91,7 +91,7 @@ public abstract class StackableItemMixin {
 
         if (self.is(Items.HOPPER_MINECART)) {
             try {
-                int size = Integer.parseInt(CarpetVPLAdditionSettings.hopperMinecartStackSize);
+                int size = Math.min(Integer.parseInt(CarpetVPLAdditionSettings.hopperMinecartStackSize), 99);
                 if (size > 1) {
                     cir.setReturnValue(size);
                 }
