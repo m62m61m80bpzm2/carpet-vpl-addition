@@ -6,7 +6,13 @@
     "carpet.rule.playerAttackDamage.desc": "Set the base attack damage for all players",
     "carpet.rule.playerAttackDamage.extra.0": "Default: 2.0. Requires re-entering world to take effect.",
     "carpet.rule.totemRecipe.name": "Totem of Undying Recipe",
-    "carpet.rule.totemRecipe.desc": "Enable craftable Totem of Undying recipe",
-    "carpet.rule.totemRecipe.extra.0": "Enable craftable Totem of Undying recipe. Requires re-entering world to take effect.",
+    "carpet.rule.totemRecipe.desc": "Enables crafting Totem of Undying. Recipe: Golden Carrot, Enchanted Golden Apple, Emerald, Gold Block",
+    "carpet.rule.totemRecipe.extra.0": "Enables crafting Totem of Undying. Requires re-entering world to take effect.",
+    "carpet.rule.stackableTotem.name": "Stackable Totem of Undying",
+    "carpet.rule.stackableTotem.desc": "Allows Totems of Undying to stack up to 64",
+    "carpet.rule.stackableTotem.extra.0": "Requires re-entering world to take effect.",
+    "carpet.rule.stackableLavaBucket.name": "Stackable Lava Bucket",
+    "carpet.rule.stackableLavaBucket.desc": "Allows Lava Buckets to stack up to 64",
+    "carpet.rule.stackableLavaBucket.extra.0": "Requires re-entering world to take effect.",
     "carpet.category.carpet_vpl_addition": "Carpet VPL Addition"
 }
