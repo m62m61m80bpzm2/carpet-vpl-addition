@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "carpetvpladdition.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "RecipeManagerAccessor",
+    "RecipeManagerMixin",
+    "PlayerAttributeMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

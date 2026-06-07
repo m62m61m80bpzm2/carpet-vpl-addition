@@ -1,0 +1,48 @@
+plugins {
+    id 'fabric-loom' version '1.10-SNAPSHOT'
+    id 'maven-publish'
+}
+
+version = project.mod_version
+group = project.maven_group
+
+repositories {
+    maven { url 'https://masa.dy.fi/maven' }
+    maven { url 'https://maven.fabricmc.net/' }
+    mavenCentral()
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    mappings loom.officialMojangMappings()
+    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+    modImplementation "carpet:fabric-carpet:${project.carpet_version}"
+    include(annotationProcessor(modImplementation("io.github.llamalad7:mixinextras-fabric:0.4.1")))
+}
+
+java {
+    withSourcesJar()
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+}
+
+tasks.withType(JavaCompile).configureEach {
+    it.options.release = 21
+}
+
+processResources {
+    inputs.property "version", project.version
+    inputs.property "mod_id", project.mod_id
+    inputs.property "mod_name", project.mod_name
+    filteringCharset = "UTF-8"
+    filesMatching("fabric.mod.json") {
+        expand project.properties
+    }
+}
+
+jar {
+    from("LICENSE") {
+        rename { "${it}_${project.archives_base_name}" }
+    }
+}
