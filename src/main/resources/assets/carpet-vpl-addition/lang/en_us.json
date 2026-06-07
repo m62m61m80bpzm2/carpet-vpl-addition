@@ -14,5 +14,14 @@
     "carpet.rule.stackableLavaBucket.name": "Stackable Lava Bucket",
     "carpet.rule.stackableLavaBucket.desc": "Allows Lava Buckets to stack up to 64",
     "carpet.rule.stackableLavaBucket.extra.0": "Requires re-entering world to take effect.",
+    "carpet.rule.stackableBucket.name": "Stackable Bucket",
+    "carpet.rule.stackableBucket.desc": "Allows empty buckets to stack up to 64",
+    "carpet.rule.stackableBucket.extra.0": "Requires re-entering world to take effect.",
+    "carpet.rule.stackableGlassBottle.name": "Stackable Glass Bottle",
+    "carpet.rule.stackableGlassBottle.desc": "Allows glass bottles to stack up to 64",
+    "carpet.rule.stackableGlassBottle.extra.0": "Requires re-entering world to take effect.",
+    "carpet.rule.stackableWaterBucket.name": "Stackable Water Bucket",
+    "carpet.rule.stackableWaterBucket.desc": "Allows water buckets to stack up to 64",
+    "carpet.rule.stackableWaterBucket.extra.0": "Requires re-entering world to take effect.",
     "carpet.category.carpet_vpl_addition": "Carpet VPL Addition"
 }

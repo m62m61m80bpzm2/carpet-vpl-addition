@@ -21,5 +21,17 @@ public abstract class StackableItemMixin {
         if (CarpetVPLAdditionSettings.stackableLavaBucket && self.is(Items.LAVA_BUCKET)) {
             cir.setReturnValue(64);
         }
+
+        if (CarpetVPLAdditionSettings.stackableBucket && self.is(Items.BUCKET)) {
+            cir.setReturnValue(64);
+        }
+
+        if (CarpetVPLAdditionSettings.stackableGlassBottle && self.is(Items.GLASS_BOTTLE)) {
+            cir.setReturnValue(64);
+        }
+
+        if (CarpetVPLAdditionSettings.stackableWaterBucket && self.is(Items.WATER_BUCKET)) {
+            cir.setReturnValue(64);
+        }
     }
 }

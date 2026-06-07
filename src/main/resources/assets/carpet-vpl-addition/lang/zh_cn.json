@@ -14,5 +14,14 @@
     "carpet.rule.stackableLavaBucket.name": "可堆叠岩浆桶",
     "carpet.rule.stackableLavaBucket.desc": "岩浆桶最大堆叠数改为64",
     "carpet.rule.stackableLavaBucket.extra.0": "退出重进存档后生效。",
+    "carpet.rule.stackableBucket.name": "可堆叠空桶",
+    "carpet.rule.stackableBucket.desc": "空桶最大堆叠数改为64",
+    "carpet.rule.stackableBucket.extra.0": "退出重进存档后生效。",
+    "carpet.rule.stackableGlassBottle.name": "可堆叠空瓶子",
+    "carpet.rule.stackableGlassBottle.desc": "空瓶子最大堆叠数改为64",
+    "carpet.rule.stackableGlassBottle.extra.0": "退出重进存档后生效。",
+    "carpet.rule.stackableWaterBucket.name": "可堆叠水桶",
+    "carpet.rule.stackableWaterBucket.desc": "水桶最大堆叠数改为64",
+    "carpet.rule.stackableWaterBucket.extra.0": "退出重进存档后生效。",
     "carpet.category.carpet_vpl_addition": "Carpet VPL Addition"
 }
