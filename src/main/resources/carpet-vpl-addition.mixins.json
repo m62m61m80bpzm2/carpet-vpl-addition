@@ -6,7 +6,8 @@
   "mixins": [
     "RecipeManagerAccessor",
     "RecipeManagerMixin",
-    "PlayerAttributeMixin"
+    "PlayerAttributeMixin",
+    "StackableItemMixin"
   ],
   "injectors": {
     "defaultRequire": 1

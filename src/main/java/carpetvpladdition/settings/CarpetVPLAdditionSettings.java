@@ -26,4 +26,14 @@ public class CarpetVPLAdditionSettings {
         validators = RecipeRuleObserver.class
     )
     public static boolean totemRecipe = false;
+
+    @Rule(
+        categories = {CARPET_VPL_ADDITION, FEATURE}
+    )
+    public static boolean stackableTotem = false;
+
+    @Rule(
+        categories = {CARPET_VPL_ADDITION, FEATURE}
+    )
+    public static boolean stackableLavaBucket = false;
 }
