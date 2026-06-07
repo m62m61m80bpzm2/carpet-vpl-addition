@@ -11,7 +11,10 @@
     "LivingEntityMixin",
     "FoodDataMixin",
     "VillagerGolemMixin",
-    "VillagerAttractionMixin"
+    "VillagerAttractionMixin",
+    "FastLeafDecayMixin",
+    "FixedXpPerLevelMixin",
+    "FurnaceXpControllerMixin"
   ],
   "injectors": {
     "defaultRequire": 1
