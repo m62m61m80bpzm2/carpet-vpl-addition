@@ -65,5 +65,14 @@
     "carpet.rule.villagerAttraction.name": "Villager Attraction",
     "carpet.rule.villagerAttraction.desc": "Villagers follow players holding specific items, like animals follow wheat. Takes effect immediately.",
     "carpet.rule.villagerAttraction.extra.0": "Emerald Block attracts all villagers; Emerald attracts unemployed villagers; Lapis Lazuli attracts employed villagers; Cake attracts baby villagers.",
+    "carpet.rule.fastLeafDecay.name": "Fast Leaf Decay",
+    "carpet.rule.fastLeafDecay.desc": "Leaves start decaying immediately after logs are removed, no tick delay. Takes effect immediately.",
+    "carpet.rule.fastLeafDecay.extra.0": "Modifies the scheduled tick delay in LeavesBlock.updateShape to 0, so leaves enter the decay process instantly after losing support.",
+    "carpet.rule.fixedXpPerLevel.name": "Fixed XP Per Level",
+    "carpet.rule.fixedXpPerLevel.desc": "Requires a fixed 62 XP per level (same as vanilla level 20→21). Requires re-entering world to take effect.",
+    "carpet.rule.fixedXpPerLevel.extra.0": "Modifies Player.getXpNeededForNextLevel() to always return 62. XP required per level no longer increases, suitable for custom servers.",
+    "carpet.rule.furnaceXpMultiplier.name": "Furnace XP Multiplier",
+    "carpet.rule.furnaceXpMultiplier.desc": "Multiplier for furnace smelting XP output. Takes effect immediately. Default: 1.0 (vanilla).",
+    "carpet.rule.furnaceXpMultiplier.extra.0": "Multiplies the experience produced when taking items out of a furnace after smelting. E.g., 2.0 doubles XP, 0.5 halves, 0.0 gives no XP.",
     "carpet.category.carpet_vpl_addition": "Carpet VPL Addition"
 }

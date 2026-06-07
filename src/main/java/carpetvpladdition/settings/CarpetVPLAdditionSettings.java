@@ -129,4 +129,21 @@ public class CarpetVPLAdditionSettings {
         categories = {CARPET_VPL_ADDITION, FEATURE, SURVIVAL}
     )
     public static boolean villagerAttraction = false;
+
+    @Rule(
+        categories = {CARPET_VPL_ADDITION, FEATURE, SURVIVAL}
+    )
+    public static boolean fastLeafDecay = false;
+
+    @Rule(
+        categories = {CARPET_VPL_ADDITION, FEATURE, SURVIVAL}
+    )
+    public static boolean fixedXpPerLevel = false;
+
+    @Rule(
+        categories = {CARPET_VPL_ADDITION, FEATURE, SURVIVAL},
+        options = {"1.0", "2.0", "5.0", "10.0", "50.0"},
+        strict = false
+    )
+    public static String furnaceXpMultiplier = "1.0";
 }

@@ -65,5 +65,14 @@
     "carpet.rule.villagerAttraction.name": "可吸引村民",
     "carpet.rule.villagerAttraction.desc": "村民会被玩家手持特定物品吸引跟随，类似动物被小麦吸引。调整后即时生效。",
     "carpet.rule.villagerAttraction.extra.0": "绿宝石块吸引所有村民；绿宝石吸引无职业村民；青金石吸引有职业村民；蛋糕吸引小村民。",
+    "carpet.rule.fastLeafDecay.name": "快速树叶腐烂",
+    "carpet.rule.fastLeafDecay.desc": "树叶被砍伐后立即开始腐烂，无需等待延迟。调整后即时生效。",
+    "carpet.rule.fastLeafDecay.extra.0": "修改 LeavesBlock.updateShape 中计划刻的延迟为0，使树叶在失去支撑后立即进入腐烂过程。",
+    "carpet.rule.fixedXpPerLevel.name": "固定升级经验",
+    "carpet.rule.fixedXpPerLevel.desc": "每级升级所需经验固定为62点（原版20→21级所需经验），需要退出重进存档后生效。",
+    "carpet.rule.fixedXpPerLevel.extra.0": "修改 Player.getXpNeededForNextLevel() 返回值为固定62。后续升级所需经验不再递增，适合自定义服务器使用。",
+    "carpet.rule.furnaceXpMultiplier.name": "熔炉经验倍率",
+    "carpet.rule.furnaceXpMultiplier.desc": "设置熔炉烧炼产出的经验倍率，调整后即时生效。默认值: 1.0（原版）。",
+    "carpet.rule.furnaceXpMultiplier.extra.0": "倍率作用于每次烧炼完成时产生的经验值。例如设为2.0则经验翻倍，设0.5则减半，设0.0则无经验。",
     "carpet.category.carpet_vpl_addition": "Carpet VPL Addition"
 }
