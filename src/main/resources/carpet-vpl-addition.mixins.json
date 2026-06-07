@@ -7,7 +7,9 @@
     "RecipeManagerAccessor",
     "RecipeManagerMixin",
     "PlayerAttributeMixin",
-    "StackableItemMixin"
+    "StackableItemMixin",
+    "LivingEntityMixin",
+    "FoodDataMixin"
   ],
   "injectors": {
     "defaultRequire": 1

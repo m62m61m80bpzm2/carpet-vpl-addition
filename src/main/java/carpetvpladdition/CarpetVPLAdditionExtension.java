@@ -19,7 +19,11 @@ public class CarpetVPLAdditionExtension implements CarpetExtension {
 
     @Override
     public void onGameStarted() {
-        CarpetServer.settingsManager.parseSettingsClass(CarpetVPLAdditionSettings.class);
+        try {
+            CarpetServer.settingsManager.parseSettingsClass(CarpetVPLAdditionSettings.class);
+        } catch (Exception e) {
+            System.err.println("[carpet-vpl-addition] Failed to register settings: " + e.getMessage());
+        }
     }
 
     @Override
@@ -28,17 +32,27 @@ public class CarpetVPLAdditionExtension implements CarpetExtension {
     }
 
     public static void applyAttributes(ServerPlayer player) {
-        int health = parseHealth();
-        AttributeInstance healthAttr = player.getAttribute(Attributes.MAX_HEALTH);
-        if (healthAttr != null) {
-            healthAttr.setBaseValue(health);
-            player.setHealth(Math.min(player.getHealth(), (float) health));
-        }
+        try {
+            int health = parseHealth();
+            AttributeInstance healthAttr = player.getAttribute(Attributes.MAX_HEALTH);
+            if (healthAttr != null) {
+                healthAttr.setBaseValue(health);
+                player.setHealth(Math.min(player.getHealth(), (float) health));
+            }
 
-        double damage = parseDamage();
-        AttributeInstance damageAttr = player.getAttribute(Attributes.ATTACK_DAMAGE);
-        if (damageAttr != null) {
-            damageAttr.setBaseValue(damage);
+            double damage = parseDamage();
+            AttributeInstance damageAttr = player.getAttribute(Attributes.ATTACK_DAMAGE);
+            if (damageAttr != null) {
+                damageAttr.setBaseValue(damage);
+            }
+
+            double armor = parseArmor();
+            AttributeInstance armorAttr = player.getAttribute(Attributes.ARMOR);
+            if (armorAttr != null) {
+                armorAttr.setBaseValue(armor);
+            }
+        } catch (Exception e) {
+            System.err.println("[carpet-vpl-addition] Failed to apply attributes: " + e.getMessage());
         }
     }
 
@@ -55,6 +69,14 @@ public class CarpetVPLAdditionExtension implements CarpetExtension {
             return Double.parseDouble(CarpetVPLAdditionSettings.playerAttackDamage);
         } catch (NumberFormatException e) {
             return 2.0;
+        }
+    }
+
+    private static double parseArmor() {
+        try {
+            return Double.parseDouble(CarpetVPLAdditionSettings.maxArmor);
+        } catch (NumberFormatException e) {
+            return 0.0;
         }
     }
 
