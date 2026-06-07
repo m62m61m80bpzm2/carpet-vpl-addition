@@ -2,6 +2,8 @@ package carpetvpladdition.mixin;
 
 import carpetvpladdition.settings.CarpetVPLAdditionSettings;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.ai.memory.MemoryModuleType;
+import net.minecraft.world.entity.ai.memory.WalkTarget;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.entity.player.Player;
@@ -26,7 +28,7 @@ public abstract class VillagerAttractionMixin {
         ItemStack offHand = nearestPlayer.getOffhandItem();
         if (isTempting(self, mainHand) || isTempting(self, offHand)) {
             if (self.distanceToSqr(nearestPlayer) > 2.25) {
-                self.getNavigation().moveTo(nearestPlayer, 0.5);
+                self.getBrain().setMemory(MemoryModuleType.WALK_TARGET, new WalkTarget(nearestPlayer, 0.5F, 0));
             }
         }
     }
