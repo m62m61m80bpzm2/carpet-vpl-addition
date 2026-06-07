@@ -60,8 +60,9 @@ public class CarpetVPLAdditionExtension implements CarpetExtension {
 
     @Override
     public Map<String, String> canHasTranslations(String lang) {
+        InputStream langFile = null;
         try {
-            InputStream langFile = CarpetVPLAdditionExtension.class.getResourceAsStream("/assets/carpet-vpl-addition/lang/" + lang + ".json");
+            langFile = CarpetVPLAdditionExtension.class.getResourceAsStream("/assets/carpet-vpl-addition/lang/" + lang + ".json");
             if (langFile == null) {
                 langFile = CarpetVPLAdditionExtension.class.getResourceAsStream("/assets/carpet-vpl-addition/lang/" + lang.replace('-', '_') + ".json");
             }
@@ -69,10 +70,14 @@ public class CarpetVPLAdditionExtension implements CarpetExtension {
                 return Collections.emptyMap();
             }
             String jsonData = new String(langFile.readAllBytes(), StandardCharsets.UTF_8);
-            langFile.close();
             return GSON.fromJson(jsonData, new TypeToken<Map<String, String>>() {}.getType());
         } catch (Exception e) {
+            System.err.println("[carpet-vpl-addition] Failed to load translations for " + lang + ": " + e.getMessage());
             return Collections.emptyMap();
+        } finally {
+            if (langFile != null) {
+                try { langFile.close(); } catch (Exception ignored) {}
+            }
         }
     }
 
