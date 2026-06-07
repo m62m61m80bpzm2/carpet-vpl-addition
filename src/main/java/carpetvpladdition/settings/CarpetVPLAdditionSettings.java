@@ -51,4 +51,72 @@ public class CarpetVPLAdditionSettings {
         categories = {CARPET_VPL_ADDITION, FEATURE}
     )
     public static boolean stackableWaterBucket = false;
+
+    @Rule(
+        categories = {CARPET_VPL_ADDITION, FEATURE, SURVIVAL},
+        options = {"300", "600", "1200", "2400"},
+        strict = false
+    )
+    public static String maxAir = "300";
+
+    @Rule(
+        categories = {CARPET_VPL_ADDITION, FEATURE, SURVIVAL},
+        options = {"0", "10", "20", "30"},
+        strict = false
+    )
+    public static String maxArmor = "0";
+
+    @Rule(
+        categories = {CARPET_VPL_ADDITION, FEATURE, SURVIVAL},
+        options = {"20", "40", "60", "100", "200"},
+        strict = false
+    )
+    public static String maxSaturation = "20";
+
+    @Rule(
+        categories = {CARPET_VPL_ADDITION, FEATURE}
+    )
+    public static boolean stackableMusicDisc = false;
+
+    @Rule(
+        categories = {CARPET_VPL_ADDITION, FEATURE}
+    )
+    public static boolean stackableMilkBucket = false;
+
+    @Rule(
+        categories = {CARPET_VPL_ADDITION, FEATURE}
+    )
+    public static boolean stackablePowderSnowBucket = false;
+
+    @Rule(
+        categories = {CARPET_VPL_ADDITION, FEATURE}
+    )
+    public static boolean stackableEnderPearl = false;
+
+    @Rule(
+        categories = {CARPET_VPL_ADDITION, FEATURE}
+    )
+    public static boolean stackableSign = false;
+
+    @Rule(
+        categories = {CARPET_VPL_ADDITION, FEATURE},
+        options = {"1", "16", "32", "64"},
+        strict = false
+    )
+    public static String hopperMinecartStackSize = "1";
+
+    @Rule(
+        categories = {CARPET_VPL_ADDITION, FEATURE}
+    )
+    public static boolean stackablePotion = false;
+
+    @Rule(
+        categories = {CARPET_VPL_ADDITION, FEATURE}
+    )
+    public static boolean stackableStew = false;
+
+    @Rule(
+        categories = {CARPET_VPL_ADDITION, FEATURE}
+    )
+    public static boolean stackableCake = false;
 }
