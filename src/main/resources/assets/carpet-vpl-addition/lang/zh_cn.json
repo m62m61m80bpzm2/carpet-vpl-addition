@@ -1,12 +1,12 @@
 {
     "carpet.rule.maxPlayerHealth": "最大血量",
     "carpet.rule.maxPlayerHealth.desc": "设置所有玩家的最大血量",
-    "carpet.rule.maxPlayerHealth.extra.0": "默认值: 20。需要重新登录或重生后生效。",
+    "carpet.rule.maxPlayerHealth.extra.0": "默认值: 20。退出重进存档后生效。",
     "carpet.rule.playerAttackDamage": "基础攻击力",
     "carpet.rule.playerAttackDamage.desc": "设置所有玩家的基础攻击力",
-    "carpet.rule.playerAttackDamage.extra.0": "默认值: 2.0。需要重新登录或重生后生效。",
+    "carpet.rule.playerAttackDamage.extra.0": "默认值: 2.0。退出重进存档后生效。",
     "carpet.rule.totemRecipe": "不死图腾配方",
     "carpet.rule.totemRecipe.desc": "开启可合成的不死图腾配方",
-    "carpet.rule.totemRecipe.extra.0": "开启后可合成不死图腾。需要重新加载数据包生效。",
+    "carpet.rule.totemRecipe.extra.0": "开启后可合成不死图腾。退出重进存档后生效。",
     "carpet.category.carpet_vpl_addition": "Carpet VPL Addition"
 }
