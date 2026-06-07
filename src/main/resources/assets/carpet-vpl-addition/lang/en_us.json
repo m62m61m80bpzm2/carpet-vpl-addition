@@ -1,11 +1,11 @@
 {
-    "carpet.rule.maxPlayerHealth": "Max Player Health",
+    "carpet.rule.maxPlayerHealth.name": "Max Player Health",
     "carpet.rule.maxPlayerHealth.desc": "Set the max health for all players",
     "carpet.rule.maxPlayerHealth.extra.0": "Default: 20. Requires re-entering world to take effect.",
-    "carpet.rule.playerAttackDamage": "Player Attack Damage",
+    "carpet.rule.playerAttackDamage.name": "Player Attack Damage",
     "carpet.rule.playerAttackDamage.desc": "Set the base attack damage for all players",
     "carpet.rule.playerAttackDamage.extra.0": "Default: 2.0. Requires re-entering world to take effect.",
-    "carpet.rule.totemRecipe": "Totem of Undying Recipe",
+    "carpet.rule.totemRecipe.name": "Totem of Undying Recipe",
     "carpet.rule.totemRecipe.desc": "Enable craftable Totem of Undying recipe",
     "carpet.rule.totemRecipe.extra.0": "Enable craftable Totem of Undying recipe. Requires re-entering world to take effect.",
     "carpet.category.carpet_vpl_addition": "Carpet VPL Addition"
