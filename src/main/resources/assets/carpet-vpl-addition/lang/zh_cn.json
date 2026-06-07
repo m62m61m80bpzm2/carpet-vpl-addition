@@ -6,7 +6,13 @@
     "carpet.rule.playerAttackDamage.desc": "设置所有玩家的基础攻击力",
     "carpet.rule.playerAttackDamage.extra.0": "默认值: 2.0。退出重进存档后生效。",
     "carpet.rule.totemRecipe.name": "不死图腾配方",
-    "carpet.rule.totemRecipe.desc": "开启可合成的不死图腾配方",
+    "carpet.rule.totemRecipe.desc": "开启后可合成不死图腾。合成配方：金胡萝卜、附魔金苹果、绿宝石、金块",
     "carpet.rule.totemRecipe.extra.0": "开启后可合成不死图腾。退出重进存档后生效。",
+    "carpet.rule.stackableTotem.name": "可堆叠不死图腾",
+    "carpet.rule.stackableTotem.desc": "不死图腾最大堆叠数改为64",
+    "carpet.rule.stackableTotem.extra.0": "退出重进存档后生效。",
+    "carpet.rule.stackableLavaBucket.name": "可堆叠岩浆桶",
+    "carpet.rule.stackableLavaBucket.desc": "岩浆桶最大堆叠数改为64",
+    "carpet.rule.stackableLavaBucket.extra.0": "退出重进存档后生效。",
     "carpet.category.carpet_vpl_addition": "Carpet VPL Addition"
 }
