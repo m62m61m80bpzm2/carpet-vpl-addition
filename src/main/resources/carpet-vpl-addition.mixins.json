@@ -14,7 +14,10 @@
     "VillagerAttractionMixin",
     "FastLeafDecayMixin",
     "FixedXpPerLevelMixin",
-    "FurnaceXpControllerMixin"
+    "FurnaceXpControllerMixin",
+    "TridentContinuousDamageMixin",
+    "TridentVoidReturnMixin",
+    "VillagerReincarnationMixin"
   ],
   "injectors": {
     "defaultRequire": 1
