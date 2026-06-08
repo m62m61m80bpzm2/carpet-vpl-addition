@@ -146,4 +146,19 @@ public class CarpetVPLAdditionSettings {
         strict = false
     )
     public static String furnaceXpMultiplier = "1.0";
+
+    @Rule(
+        categories = {CARPET_VPL_ADDITION, FEATURE, SURVIVAL}
+    )
+    public static boolean tridentContinuousDamage = false;
+
+    @Rule(
+        categories = {CARPET_VPL_ADDITION, FEATURE, SURVIVAL}
+    )
+    public static boolean tridentVoidReturn = false;
+
+    @Rule(
+        categories = {CARPET_VPL_ADDITION, FEATURE, SURVIVAL}
+    )
+    public static boolean villagerReincarnation = false;
 }

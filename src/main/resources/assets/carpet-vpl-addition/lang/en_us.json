@@ -74,5 +74,14 @@
     "carpet.rule.furnaceXpMultiplier.name": "Furnace XP Multiplier",
     "carpet.rule.furnaceXpMultiplier.desc": "Multiplier for furnace smelting XP output. Takes effect immediately. Default: 1.0 (vanilla).",
     "carpet.rule.furnaceXpMultiplier.extra.0": "Multiplies the experience produced when taking items out of a furnace after smelting. E.g., 2.0 doubles XP, 0.5 halves, 0.0 gives no XP.",
+    "carpet.rule.tridentContinuousDamage.name": "Trident Continuous Damage",
+    "carpet.rule.tridentContinuousDamage.desc": "Trident keeps dealing damage to entities until they die, without collision blocking. Takes effect immediately.",
+    "carpet.rule.tridentContinuousDamage.extra.0": "Resets the dealtDamage flag to false, similar to 25w41a snapshot behavior. The trident does not stop collision detection after hitting an entity.",
+    "carpet.rule.tridentVoidReturn.name": "Loyalty Trident Void Return",
+    "carpet.rule.tridentVoidReturn.desc": "Loyalty-enchanted tridents automatically return when 10 blocks below the void. Takes effect immediately.",
+    "carpet.rule.tridentVoidReturn.extra.0": "Works in all dimensions (Overworld, Nether, End). Triggers when the trident's Y is below world min height - 10.",
+    "carpet.rule.villagerReincarnation.name": "Villager Reincarnation",
+    "carpet.rule.villagerReincarnation.desc": "Villagers killed by an enchanted wooden sword drop a spawn egg with their trade data. Takes effect immediately.",
+    "carpet.rule.villagerReincarnation.extra.0": "The spawn egg preserves the villager's profession, level, trades, and XP. The spawned villager is identical except for reset health. Requires a wooden sword with any enchantment.",
     "carpet.category.carpet_vpl_addition": "Carpet VPL Addition"
 }

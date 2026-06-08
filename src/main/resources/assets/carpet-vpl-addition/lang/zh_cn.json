@@ -74,5 +74,14 @@
     "carpet.rule.furnaceXpMultiplier.name": "熔炉经验倍率",
     "carpet.rule.furnaceXpMultiplier.desc": "设置熔炉烧炼产出的经验倍率，调整后即时生效。默认值: 1.0（原版）。",
     "carpet.rule.furnaceXpMultiplier.extra.0": "倍率作用于每次烧炼完成时产生的经验值。例如设为2.0则经验翻倍，设0.5则减半，设0.0则无经验。",
+    "carpet.rule.tridentContinuousDamage.name": "三叉戟连续伤害",
+    "carpet.rule.tridentContinuousDamage.desc": "三叉戟命中生物后不会停止碰撞检测，会持续伤害直到目标死亡。调整后即时生效。",
+    "carpet.rule.tridentContinuousDamage.extra.0": "通过重置 dealtDamage 标签为 false 实现，类似 25w41a 快照行为。三叉戟在命中后不屏蔽后续碰撞检测。",
+    "carpet.rule.tridentVoidReturn.name": "忠诚三叉戟虚空返回",
+    "carpet.rule.tridentVoidReturn.desc": "带有忠诚附魔的三叉戟掉入虚空后会在虚空下10格自动返回。调整后即时生效。",
+    "carpet.rule.tridentVoidReturn.extra.0": "在主世界、下界、末地三个维度均有效。当三叉戟 Y 坐标低于世界最低高度-10时自动触发返回。",
+    "carpet.rule.villagerReincarnation.name": "转世村民",
+    "carpet.rule.villagerReincarnation.desc": "村民被附魔木剑杀死时掉落带有其交易数据的刷怪蛋。调整后即时生效。",
+    "carpet.rule.villagerReincarnation.extra.0": "刷怪蛋包含村民的职业、等级、交易、经验等完整数据。放置后生成的村民与原来一致，仅血量重置。需要木剑（任意附魔）作为击杀武器。",
     "carpet.category.carpet_vpl_addition": "Carpet VPL Addition"
 }
