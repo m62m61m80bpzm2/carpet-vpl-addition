@@ -18,7 +18,7 @@ public abstract class TridentContinuousDamageMixin {
         method = "findHitEntity",
         at = @At(value = "FIELD", target = "Lnet/minecraft/world/entity/projectile/ThrownTrident;dealtDamage:Z")
     )
-    private boolean redirectDealtDamage() {
+    private boolean redirectDealtDamage(ThrownTrident instance) {
         if (CarpetVPLAdditionSettings.tridentContinuousDamage) {
             return false;
         }
