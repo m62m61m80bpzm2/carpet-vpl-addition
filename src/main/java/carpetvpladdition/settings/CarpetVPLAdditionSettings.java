@@ -150,15 +150,35 @@ public class CarpetVPLAdditionSettings {
     @Rule(
         categories = {CARPET_VPL_ADDITION, FEATURE, SURVIVAL}
     )
-    public static boolean tridentContinuousDamage = false;
-
-    @Rule(
-        categories = {CARPET_VPL_ADDITION, FEATURE, SURVIVAL}
-    )
     public static boolean tridentVoidReturn = false;
 
     @Rule(
         categories = {CARPET_VPL_ADDITION, FEATURE, SURVIVAL}
     )
     public static boolean villagerReincarnation = false;
+
+    @Rule(
+        categories = {CARPET_VPL_ADDITION, FEATURE, SURVIVAL}
+    )
+    public static boolean bedrockSugarcaneBonemeal = false;
+
+    @Rule(
+        categories = {CARPET_VPL_ADDITION, FEATURE, SURVIVAL}
+    )
+    public static boolean bedrockKelpBonemeal = false;
+
+    @Rule(
+        categories = {CARPET_VPL_ADDITION, FEATURE, SURVIVAL}
+    )
+    public static boolean bedrockPortalZombiePigman = false;
+
+    @Rule(
+        categories = {CARPET_VPL_ADDITION, FEATURE, SURVIVAL}
+    )
+    public static boolean bedrockPushableFurnace = false;
+
+    @Rule(
+        categories = {CARPET_VPL_ADDITION, FEATURE, SURVIVAL}
+    )
+    public static boolean oldLightingEngine = false;
 }

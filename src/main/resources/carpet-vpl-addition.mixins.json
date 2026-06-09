@@ -15,9 +15,12 @@
     "FastLeafDecayMixin",
     "FixedXpPerLevelMixin",
     "FurnaceXpControllerMixin",
-    "TridentContinuousDamageMixin",
     "TridentVoidReturnMixin",
-    "VillagerReincarnationMixin"
+    "VillagerReincarnationMixin",
+    "SugarcaneBonemealMixin",
+    "PortalZombiePigmanMixin",
+    "PushableFurnaceMixin",
+    "OldLightingEngineMixin"
   ],
   "injectors": {
     "defaultRequire": 1
