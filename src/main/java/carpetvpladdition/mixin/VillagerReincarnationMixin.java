@@ -8,6 +8,7 @@ import net.minecraft.util.ProblemReporter;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.item.ItemStack;
@@ -35,7 +36,10 @@ public abstract class VillagerReincarnationMixin {
 
             if (!(self.level() instanceof ServerLevel serverLevel)) return;
 
-            TagValueOutput output = TagValueOutput.createWithoutContext(ProblemReporter.DISCARDING);
+            self.getBrain().eraseMemory(MemoryModuleType.JOB_SITE);
+            self.getBrain().eraseMemory(MemoryModuleType.POTENTIAL_JOB_SITE);
+
+            TagValueOutput output = TagValueOutput.createWithContext(ProblemReporter.DISCARDING, serverLevel.registryAccess());
             self.saveWithoutId(output);
             CompoundTag tag = output.buildResult();
 
