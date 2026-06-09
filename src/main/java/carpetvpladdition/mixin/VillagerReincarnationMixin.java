@@ -39,9 +39,37 @@ public abstract class VillagerReincarnationMixin {
             self.getBrain().eraseMemory(MemoryModuleType.JOB_SITE);
             self.getBrain().eraseMemory(MemoryModuleType.POTENTIAL_JOB_SITE);
 
+            self.getBrain().eraseMemory(MemoryModuleType.LAST_WORKED_AT_POI);
+
             TagValueOutput output = TagValueOutput.createWithContext(ProblemReporter.DISCARDING, serverLevel.registryAccess());
             self.saveWithoutId(output);
             CompoundTag tag = output.buildResult();
+            tag.putString("id", "minecraft:villager");
+
+            tag.remove("Pos");
+            tag.remove("Motion");
+            tag.remove("Rotation");
+            tag.remove("UUID");
+            tag.remove("Health");
+            tag.remove("Air");
+            tag.remove("Fire");
+            tag.remove("FallDistance");
+            tag.remove("OnGround");
+            tag.remove("DeathTime");
+            tag.remove("HurtTime");
+            tag.remove("HurtByTimestamp");
+            tag.remove("PortalCooldown");
+            tag.remove("FallFlying");
+            tag.remove("AbsorptionAmount");
+            tag.remove("Invulnerable");
+            tag.remove("PersistenceRequired");
+            tag.remove("CanPickUpLoot");
+            tag.remove("LeftHanded");
+            tag.remove("FoodLevel");
+            tag.remove("ForcedAge");
+            tag.remove("LastRestock");
+            tag.remove("LastGossipDecay");
+            tag.remove("RestocksToday");
 
             ItemStack egg = new ItemStack(Items.VILLAGER_SPAWN_EGG);
             egg.set(DataComponents.ENTITY_DATA, CustomData.of(tag));
