@@ -11,12 +11,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(LevelLightEngine.class)
 public abstract class OldLightingEngineMixin {
-    private static int lightUpdateCount = 0;
+    private int lightUpdateCount = 0;
     private static final int MAX_LIGHT_UPDATES = 2000;
 
     @Inject(method = "checkBlock", at = @At("HEAD"), cancellable = true)
     private void onCheckBlock(BlockPos pos, CallbackInfo ci) {
-        if (!CarpetVPLAdditionSettings.oldLightingEngine) return;
+        if (!CarpetVPLAdditionSettings.simulateOldLightSuppression) return;
         lightUpdateCount++;
         if (lightUpdateCount > MAX_LIGHT_UPDATES) {
             ci.cancel();
@@ -25,7 +25,7 @@ public abstract class OldLightingEngineMixin {
 
     @Inject(method = "runLightUpdates", at = @At("HEAD"))
     private void onRunLightUpdates(CallbackInfoReturnable<Integer> cir) {
-        if (CarpetVPLAdditionSettings.oldLightingEngine) {
+        if (CarpetVPLAdditionSettings.simulateOldLightSuppression) {
             lightUpdateCount = 0;
         }
     }

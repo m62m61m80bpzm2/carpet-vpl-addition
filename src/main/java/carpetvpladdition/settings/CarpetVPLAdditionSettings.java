@@ -180,5 +180,5 @@ public class CarpetVPLAdditionSettings {
     @Rule(
         categories = {CARPET_VPL_ADDITION, FEATURE, SURVIVAL}
     )
-    public static boolean oldLightingEngine = false;
+    public static boolean simulateOldLightSuppression = false;
 }
