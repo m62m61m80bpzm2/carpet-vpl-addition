@@ -1,8 +1,10 @@
 package carpetvpladdition.mixin;
 
 import carpetvpladdition.settings.CarpetVPLAdditionSettings;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.ProblemReporter;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -11,6 +13,8 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.component.CustomData;
+import net.minecraft.world.level.storage.TagValueOutput;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -34,10 +38,12 @@ public abstract class VillagerReincarnationMixin {
 
             self.getBrain().eraseMemory(MemoryModuleType.JOB_SITE);
             self.getBrain().eraseMemory(MemoryModuleType.POTENTIAL_JOB_SITE);
+
             self.getBrain().eraseMemory(MemoryModuleType.LAST_WORKED_AT_POI);
 
-            CompoundTag tag = new CompoundTag();
-            self.saveWithoutId(tag);
+            TagValueOutput output = TagValueOutput.createWithContext(ProblemReporter.DISCARDING, serverLevel.registryAccess());
+            self.saveWithoutId(output);
+            CompoundTag tag = output.buildResult();
             tag.putString("id", "minecraft:villager");
 
             tag.remove("Pos");
@@ -66,7 +72,7 @@ public abstract class VillagerReincarnationMixin {
             tag.remove("RestocksToday");
 
             ItemStack egg = new ItemStack(Items.VILLAGER_SPAWN_EGG);
-            egg.getOrCreateTag().put("EntityTag", tag);
+            egg.set(DataComponents.ENTITY_DATA, CustomData.of(tag));
 
             ItemEntity itemEntity = new ItemEntity(
                 serverLevel,
