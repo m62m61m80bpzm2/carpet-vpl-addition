@@ -95,5 +95,8 @@
     "carpet.rule.simulateOldLightSuppression.name": "Simulate Old Light Suppression",
     "carpet.rule.simulateOldLightSuppression.desc": "Simulates pre-1.20.1 lighting behavior by limiting light update throughput per tick. Takes effect immediately.",
     "carpet.rule.simulateOldLightSuppression.extra.0": "Rate-limits light engine checks per tick so rapid block updates can overwhelm the queue, mimicking the old light suppression mechanics.",
+    "carpet.rule.legacyMinecartMovement.name": "Legacy Minecart Movement",
+    "carpet.rule.legacyMinecartMovement.desc": "Restores 1.21.8 minecart movement behavior, skipping position interpolation for minecarts. Takes effect immediately.",
+    "carpet.rule.legacyMinecartMovement.extra.0": "Disables the computeSpeed() call introduced in 1.21.11 for minecarts, reverting to 1.21.8's movement interpolation logic. Affects all minecart types including hopper minecarts.",
     "carpet.category.carpet_vpl_addition": "Carpet VPL Addition"
 }

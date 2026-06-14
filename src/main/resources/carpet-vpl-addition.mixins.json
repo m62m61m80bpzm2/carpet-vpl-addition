@@ -20,7 +20,9 @@
     "SugarcaneBonemealMixin",
     "PortalZombiePigmanMixin",
     "PushableFurnaceMixin",
+    "MinecartLegacyMixin",
     "KelpBonemealMixin",
+    "KelpBonemealGrowthMixin",
     "OldLightingEngineMixin"
   ],
   "injectors": {
