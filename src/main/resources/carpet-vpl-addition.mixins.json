@@ -21,6 +21,7 @@
     "PortalZombiePigmanMixin",
     "PushableFurnaceMixin",
     "MinecartLegacyMixin",
+    "EntityMinecartLegacyMixin",
     "KelpBonemealMixin",
     "KelpBonemealGrowthMixin",
     "OldLightingEngineMixin"
