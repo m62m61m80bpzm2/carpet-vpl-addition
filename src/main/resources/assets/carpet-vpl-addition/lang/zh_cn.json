@@ -95,5 +95,8 @@
     "carpet.rule.simulateOldLightSuppression.name": "模拟旧版光照抑制器",
     "carpet.rule.simulateOldLightSuppression.desc": "通过限制每tick的光照更新数量来模拟旧版光照行为。调整后即时生效。",
     "carpet.rule.simulateOldLightSuppression.extra.0": "限制光照引擎每tick的处理量，快速方块变化可以撑爆队列，模拟旧版光照抑制器的效果。",
+    "carpet.rule.legacyMinecartMovement.name": "旧版矿车移动",
+    "carpet.rule.legacyMinecartMovement.desc": "恢复 1.21.8 的矿车移动逻辑，跳过矿车的位置插值计算。调整后即时生效。",
+    "carpet.rule.legacyMinecartMovement.extra.0": "禁用 1.21.11 新增的 computeSpeed() 对矿车的调用，回退到 1.21.8 的移动插值逻辑。影响所有矿车类型，包括漏斗矿车。",
     "carpet.category.carpet_vpl_addition": "Carpet VPL Addition"
 }

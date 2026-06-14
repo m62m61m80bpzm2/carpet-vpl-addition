@@ -1,0 +1,49 @@
+WARNING: A restricted method in java.lang.System has been called
+WARNING: java.lang.System::load has been called by net.rubygrapefruit.platform.internal.NativeLibraryLoader in an unnamed module (file:/C:/Users/Administrator/.gradle/wrapper/dists/gradle-9.1.0-bin/d1rjxilk1k9mbz89ky5ijzx6t/gradle-9.1.0/lib/native-platform-0.22-milestone-28.jar)
+WARNING: Use --enable-native-access=ALL-UNNAMED to avoid a warning for callers in this module
+WARNING: Restricted methods will be blocked in a future release unless native access is enabled
+
+D:\Ddesketp\agent\carpet\src\main\java\carpetvpladdition\mixin\MinecartLegacyMixin.java:11: 閿欒: Mixin has no targets
+@Mixin(AbstractMinecart.class)
+^
+D:\Ddesketp\agent\carpet\src\main\java\carpetvpladdition\mixin\KelpBonemealMixin.java:20: 璀﹀憡: Unable to determine descriptor for @Inject target method
+    @Inject(method = "isValidBonemealTarget", at = @At("HEAD"), cancellable = true)
+    ^
+D:\Ddesketp\agent\carpet\src\main\java\carpetvpladdition\mixin\KelpBonemealMixin.java:27: 璀﹀憡: Unable to determine descriptor for @Inject target method
+    @Inject(method = "isBonemealSuccess", at = @At("HEAD"), cancellable = true)
+    ^
+D:\Ddesketp\agent\carpet\src\main\java\carpetvpladdition\mixin\MinecartLegacyMixin.java:7: 閿欒: 绋嬪簭鍖卬et.minecraft.world.entity.vehicle.minecart涓嶅瓨鍦?import net.minecraft.world.entity.vehicle.minecart.AbstractMinecart;
+                                                  ^
+D:\Ddesketp\agent\carpet\src\main\java\carpetvpladdition\mixin\MinecartLegacyMixin.java:11: 閿欒: 鎵句笉鍒扮鍙?@Mixin(AbstractMinecart.class)
+       ^
+  绗﹀彿: 绫?AbstractMinecart
+3 涓敊璇?
+2 涓鍛?
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':compileJava'.
+> Compilation failed; see the compiler output below.
+  D:\Ddesketp\agent\carpet\src\main\java\carpetvpladdition\mixin\KelpBonemealMixin.java:20: 璀﹀憡: Unable to determine descriptor for @Inject target method
+      @Inject(method = "isValidBonemealTarget", at = @At("HEAD"), cancellable = true)
+      ^
+  D:\Ddesketp\agent\carpet\src\main\java\carpetvpladdition\mixin\KelpBonemealMixin.java:27: 璀﹀憡: Unable to determine descriptor for @Inject target method
+      @Inject(method = "isBonemealSuccess", at = @At("HEAD"), cancellable = true)
+      ^
+  D:\Ddesketp\agent\carpet\src\main\java\carpetvpladdition\mixin\MinecartLegacyMixin.java:11: 閿欒: Mixin has no targets
+  @Mixin(AbstractMinecart.class)
+  ^
+  D:\Ddesketp\agent\carpet\src\main\java\carpetvpladdition\mixin\MinecartLegacyMixin.java:11: 閿欒: 鎵句笉鍒扮鍙?  @Mixin(AbstractMinecart.class)
+         ^
+    绗﹀彿: 绫?AbstractMinecart
+  D:\Ddesketp\agent\carpet\src\main\java\carpetvpladdition\mixin\MinecartLegacyMixin.java:7: 閿欒: 绋嬪簭鍖卬et.minecraft.world.entity.vehicle.minecart涓嶅瓨鍦?  import net.minecraft.world.entity.vehicle.minecart.AbstractMinecart;
+                                                    ^
+  3 涓敊璇?
+  2 涓鍛?
+
+* Try:
+> Check your code and dependencies to fix the compilation error(s)
+> Run with --scan to generate a Build Scan (Powered by Develocity).
+
+BUILD FAILED in 5s

@@ -10,10 +10,11 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.item.ItemEntity;
-import net.minecraft.world.entity.npc.Villager;
+import net.minecraft.world.entity.npc.villager.Villager;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.component.CustomData;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.item.component.TypedEntityData;
 import net.minecraft.world.level.storage.TagValueOutput;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -72,7 +73,7 @@ public abstract class VillagerReincarnationMixin {
             tag.remove("RestocksToday");
 
             ItemStack egg = new ItemStack(Items.VILLAGER_SPAWN_EGG);
-            egg.set(DataComponents.ENTITY_DATA, CustomData.of(tag));
+            egg.set(DataComponents.ENTITY_DATA, TypedEntityData.of(EntityType.VILLAGER, tag));
 
             ItemEntity itemEntity = new ItemEntity(
                 serverLevel,

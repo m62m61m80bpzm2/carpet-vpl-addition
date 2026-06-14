@@ -181,4 +181,9 @@ public class CarpetVPLAdditionSettings {
         categories = {CARPET_VPL_ADDITION, FEATURE, SURVIVAL}
     )
     public static boolean simulateOldLightSuppression = false;
+
+    @Rule(
+        categories = {CARPET_VPL_ADDITION, FEATURE, SURVIVAL}
+    )
+    public static boolean legacyMinecartMovement = false;
 }

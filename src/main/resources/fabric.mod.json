@@ -3,7 +3,7 @@
   "id": "${mod_id}",
   "version": "${version}",
   "name": "${mod_name}",
-  "description": "A Carpet extension addon for Minecraft 1.21.8",
+  "description": "A Carpet extension addon for Minecraft 1.21.11",
   "authors": [],
   "contact": {},
   "environment": "*",
