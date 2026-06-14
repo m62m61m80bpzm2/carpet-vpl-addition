@@ -1,20 +1,18 @@
 package carpetvpladdition.mixin;
 
-import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import carpetvpladdition.settings.CarpetVPLAdditionSettings;
 import net.minecraft.core.BlockPos;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.block.KelpBlock;
+import net.minecraft.world.level.block.GrowingPlantHeadBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Mixin(KelpBlock.class)
+@Mixin(GrowingPlantHeadBlock.class)
 public class KelpBonemealMixin {
 
     @Inject(method = "isValidBonemealTarget", at = @At("HEAD"), cancellable = true)
@@ -29,13 +27,5 @@ public class KelpBonemealMixin {
         if (CarpetVPLAdditionSettings.bedrockKelpBonemeal) {
             cir.setReturnValue(true);
         }
-    }
-
-    @ModifyReturnValue(method = "getBlocksToGrowWhenBonemealed", at = @At("RETURN"))
-    private int onGetBlocksToGrowWhenBonemealed(int original, RandomSource random) {
-        if (CarpetVPLAdditionSettings.bedrockKelpBonemeal) {
-            return 25;
-        }
-        return original;
     }
 }
