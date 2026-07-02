@@ -3,7 +3,7 @@
   "id": "${mod_id}",
   "version": "${version}",
   "name": "${mod_name}",
-  "description": "A Carpet extension addon for Minecraft 1.21.11",
+  "description": "A Carpet extension addon for Minecraft 1.21.x",
   "authors": [],
   "contact": {},
   "environment": "*",
@@ -17,9 +17,9 @@
   ],
   "depends": {
     "fabricloader": ">=${loader_version}",
-    "minecraft": "${minecraft_version}",
+    "minecraft": ">=1.21.0- & <1.21.12",
     "java": ">=25",
     "fabric-api": "*",
-    "carpet": ">=${carpet_dep_version}"
+    "carpet": ">=1.4.177"
   }
 }
