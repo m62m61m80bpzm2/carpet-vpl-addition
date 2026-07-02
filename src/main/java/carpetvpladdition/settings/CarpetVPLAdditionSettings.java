@@ -165,11 +165,6 @@ public class CarpetVPLAdditionSettings {
     @Rule(
         categories = {CARPET_VPL_ADDITION, FEATURE, SURVIVAL}
     )
-    public static boolean bedrockKelpBonemeal = false;
-
-    @Rule(
-        categories = {CARPET_VPL_ADDITION, FEATURE, SURVIVAL}
-    )
     public static boolean bedrockPortalZombiePigman = false;
 
     @Rule(
@@ -180,10 +175,27 @@ public class CarpetVPLAdditionSettings {
     @Rule(
         categories = {CARPET_VPL_ADDITION, FEATURE, SURVIVAL}
     )
-    public static boolean simulateOldLightSuppression = false;
+    public static boolean legacyMinecartMovement = false;
 
     @Rule(
         categories = {CARPET_VPL_ADDITION, FEATURE, SURVIVAL}
     )
-    public static boolean legacyMinecartMovement = false;
+    public static boolean protectImmatureCrops = false;
+
+    @Rule(
+        categories = {CARPET_VPL_ADDITION, FEATURE, SURVIVAL},
+        options = {"1", "2", "4", "8", "16"},
+        strict = false
+    )
+    public static String observerTickDelay = "2";
+
+    @Rule(
+        categories = {CARPET_VPL_ADDITION, FEATURE, SURVIVAL}
+    )
+    public static boolean disableSnow = false;
+
+    @Rule(
+        categories = {CARPET_VPL_ADDITION, FEATURE, SURVIVAL}
+    )
+    public static boolean disableKelpGrowth = false;
 }

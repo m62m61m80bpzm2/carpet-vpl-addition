@@ -22,9 +22,10 @@
     "PushableFurnaceMixin",
     "MinecartLegacyMixin",
     "EntityMinecartLegacyMixin",
-    "KelpBonemealMixin",
-    "KelpBonemealGrowthMixin",
-    "OldLightingEngineMixin"
+    "ImmatureCropProtectionMixin",
+    "ObserverTickControlMixin",
+    "NoSnowAccumulationMixin",
+    "NoKelpGrowthMixin"
   ],
   "injectors": {
     "defaultRequire": 1
