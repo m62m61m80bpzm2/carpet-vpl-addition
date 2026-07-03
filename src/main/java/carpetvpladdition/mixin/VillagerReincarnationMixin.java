@@ -1,8 +1,10 @@
 package carpetvpladdition.mixin;
 
 import carpetvpladdition.settings.CarpetVPLAdditionSettings;
+import carpetvpladdition.util.CompoundTagValueOutput;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtOps;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.ProblemReporter;
 import net.minecraft.world.damagesource.DamageSource;
@@ -15,7 +17,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.component.TypedEntityData;
-import net.minecraft.world.level.storage.TagValueOutput;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -42,7 +43,11 @@ public abstract class VillagerReincarnationMixin {
 
             self.getBrain().eraseMemory(MemoryModuleType.LAST_WORKED_AT_POI);
 
-            TagValueOutput output = TagValueOutput.createWithContext(ProblemReporter.DISCARDING, serverLevel.registryAccess());
+            CompoundTagValueOutput output = new CompoundTagValueOutput(
+                ProblemReporter.DISCARDING,
+                serverLevel.registryAccess().createSerializationContext(NbtOps.INSTANCE),
+                new CompoundTag()
+            );
             self.saveWithoutId(output);
             CompoundTag tag = output.buildResult();
             tag.putString("id", "minecraft:villager");
@@ -81,7 +86,7 @@ public abstract class VillagerReincarnationMixin {
                 egg
             );
             serverLevel.addFreshEntity(itemEntity);
-        } catch (Exception e) {
+        } catch (Throwable e) {
             System.err.println("[carpet-vpl-addition] VillagerReincarnation error: " + e.getMessage());
         }
     }
