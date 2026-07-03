@@ -34,8 +34,6 @@ public class VersionedMixinPlugin implements IMixinConfigPlugin {
 
     @Override
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
-        if (mixinClassName.endsWith("EntityMinecartLegacyMixin")) return isAtLeast1_21_11;
-        if (mixinClassName.endsWith("MinecartLegacyMixin")) return isAtLeast1_21_11;
         return true;
     }
 

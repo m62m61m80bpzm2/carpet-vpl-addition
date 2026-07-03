@@ -21,8 +21,6 @@
     "SugarcaneBonemealMixin",
     "PortalZombiePigmanMixin",
     "PushableFurnaceMixin",
-    "MinecartLegacyMixin",
-    "EntityMinecartLegacyMixin",
     "ImmatureCropProtectionMixin",
     "ObserverTickControlMixin",
     "NoSnowAccumulationMixin",
