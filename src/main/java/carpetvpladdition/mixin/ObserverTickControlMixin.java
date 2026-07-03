@@ -32,7 +32,8 @@ public class ObserverTickControlMixin {
     @ModifyArg(
         method = "startSignal",
         at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/ScheduledTickAccess;scheduleTick(Lnet/minecraft/core/BlockPos;Ljava/lang/Object;I)V"),
-        index = 2
+        index = 2,
+        require = 0
     )
     private int modifySignalDelay(int delay) {
         if (CarpetVPLAdditionSettings.observerTickDelay != null) {
