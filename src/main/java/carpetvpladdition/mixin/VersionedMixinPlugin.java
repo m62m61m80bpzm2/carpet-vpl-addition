@@ -10,6 +10,7 @@ import java.util.Set;
 
 public class VersionedMixinPlugin implements IMixinConfigPlugin {
 
+    private static boolean isAtLeast1_21_2 = false;
     private static boolean isAtLeast1_21_11 = false;
 
     @Override
@@ -18,16 +19,22 @@ public class VersionedMixinPlugin implements IMixinConfigPlugin {
             var minecraft = FabricLoader.getInstance().getModContainer("minecraft");
             if (minecraft.isPresent()) {
                 String version = minecraft.get().getMetadata().getVersion().getFriendlyString();
-                if (version.startsWith("1.21.11") || version.startsWith("1.21.")) {
-                    String[] parts = version.split("\\.");
-                    if (parts.length >= 3) {
-                        int minor = Integer.parseInt(parts[2].replaceAll("[^0-9].*", ""));
-                        isAtLeast1_21_11 = minor >= 11;
+                if (version.startsWith("1.21.") || version.startsWith("26")) {
+                    if (version.startsWith("26")) {
+                        isAtLeast1_21_2 = true;
+                        isAtLeast1_21_11 = true;
+                    } else {
+                        String[] parts = version.split("\\.");
+                        if (parts.length >= 3) {
+                            int minor = Integer.parseInt(parts[2].replaceAll("[^0-9].*", ""));
+                            isAtLeast1_21_2 = minor >= 2;
+                            isAtLeast1_21_11 = minor >= 11;
+                        }
                     }
                 }
-                if (version.startsWith("26")) isAtLeast1_21_11 = true;
             }
         } catch (Exception e) {
+            isAtLeast1_21_2 = false;
             isAtLeast1_21_11 = false;
         }
     }
@@ -39,12 +46,11 @@ public class VersionedMixinPlugin implements IMixinConfigPlugin {
             if (mixinClassName.equals("carpetvpladdition.mixin.RecipeManagerAccessor")) return false;
             if (mixinClassName.equals("carpetvpladdition.mixin.RecipeManagerMixin")) return false;
         }
-        // 刷线机修复（保护判断）在 1.21.2+ 才存在，低版本不需要此 mixin
-        if (isAtLeast1_21_11) {
-            // 1.21.11 以及更高版本上应用该 mixin
-        } else {
+        // 刷线机保护判断在 1.21.2+ 才存在，低于此版本不需此 mixin（漏洞原生存在）
+        if (!isAtLeast1_21_2) {
             if (mixinClassName.equals("carpetvpladdition.mixin.TripwireHookBlockStringDupeMixin")) return false;
         }
+        // 村民不涨价对所有版本生效，无版本门控
         return true;
     }
 
