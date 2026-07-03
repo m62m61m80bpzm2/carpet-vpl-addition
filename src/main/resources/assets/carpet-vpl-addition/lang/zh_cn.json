@@ -1,4 +1,10 @@
 {
+    "carpet-vpl-addition.rule.stringDupe": "刷线机",
+    "carpet-vpl-addition.rule.stringDupe.desc": "重新引入绊线钩刷线漏洞（MC-129055 / MC-59471），该漏洞在 1.21.2+ 中被 Mojang 修复",
+
+    "carpet-vpl-addition.rule.villagerNoPriceOnAttack": "攻击村民不涨价",
+    "carpet-vpl-addition.rule.villagerNoPriceOnAttack.desc": "禁止村民被攻击后涨价，同时阻止目击者村民涨价",
+
     "carpet.rule.maxPlayerHealth.name": "最大血量",
     "carpet.rule.maxPlayerHealth.desc": "设置所有玩家的最大生命值上限，需要退出重进存档后生效。支持20~1000之间的任意整数值，默认值: 20。",
     "carpet.rule.maxPlayerHealth.extra.0": "修改的是玩家基础属性 MAX_HEALTH 的基值。该值会在玩家登录/重生时自动应用。",
