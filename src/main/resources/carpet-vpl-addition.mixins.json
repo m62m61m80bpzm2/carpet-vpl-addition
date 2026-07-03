@@ -24,7 +24,9 @@
     "ImmatureCropProtectionMixin",
     "ObserverTickControlMixin",
     "NoSnowAccumulationMixin",
-    "NoKelpGrowthMixin"
+    "NoKelpGrowthMixin",
+    "TripwireHookBlockStringDupeMixin",
+    "VillagerNoPriceOnAttackMixin"
   ],
   "injectors": {
     "defaultRequire": 1

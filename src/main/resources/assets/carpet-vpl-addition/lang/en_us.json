@@ -1,4 +1,10 @@
 {
+    "carpet-vpl-addition.rule.stringDupe": "String Dupe",
+    "carpet-vpl-addition.rule.stringDupe.desc": "Reintroduces the tripwire string duplication exploit (MC-129055 / MC-59471), which was patched by Mojang in 1.21.2+",
+
+    "carpet-vpl-addition.rule.villagerNoPriceOnAttack": "Villager No Price On Attack",
+    "carpet-vpl-addition.rule.villagerNoPriceOnAttack.desc": "Prevents villagers from increasing prices when attacked. Affects both the attacked villager and witnesses",
+
     "carpet.rule.maxPlayerHealth.name": "Max Player Health",
     "carpet.rule.maxPlayerHealth.desc": "Set the max health for all players. Requires re-entering world to take effect. Supports values 20~1000. Default: 20.",
     "carpet.rule.maxPlayerHealth.extra.0": "Modifies the base value of MAX_HEALTH attribute. Applied on player login/respawn.",
