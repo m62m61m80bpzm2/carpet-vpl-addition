@@ -175,11 +175,6 @@ public class CarpetVPLAdditionSettings {
     @Rule(
         categories = {CARPET_VPL_ADDITION, FEATURE, SURVIVAL}
     )
-    public static boolean legacyMinecartMovement = false;
-
-    @Rule(
-        categories = {CARPET_VPL_ADDITION, FEATURE, SURVIVAL}
-    )
     public static boolean protectImmatureCrops = false;
 
     @Rule(
