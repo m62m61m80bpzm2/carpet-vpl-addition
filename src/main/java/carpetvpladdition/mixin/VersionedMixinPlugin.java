@@ -39,6 +39,12 @@ public class VersionedMixinPlugin implements IMixinConfigPlugin {
             if (mixinClassName.equals("carpetvpladdition.mixin.RecipeManagerAccessor")) return false;
             if (mixinClassName.equals("carpetvpladdition.mixin.RecipeManagerMixin")) return false;
         }
+        // 刷线机修复（保护判断）在 1.21.2+ 才存在，低版本不需要此 mixin
+        if (isAtLeast1_21_11) {
+            // 1.21.11 以及更高版本上应用该 mixin
+        } else {
+            if (mixinClassName.equals("carpetvpladdition.mixin.TripwireHookBlockStringDupeMixin")) return false;
+        }
         return true;
     }
 
