@@ -34,6 +34,11 @@ public class VersionedMixinPlugin implements IMixinConfigPlugin {
 
     @Override
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
+        // 以下 mixin 依赖 1.21.11+ 专属 API，低版本跳过
+        if (!isAtLeast1_21_11) {
+            if (mixinClassName.equals("carpetvpladdition.mixin.RecipeManagerAccessor")) return false;
+            if (mixinClassName.equals("carpetvpladdition.mixin.RecipeManagerMixin")) return false;
+        }
         return true;
     }
 

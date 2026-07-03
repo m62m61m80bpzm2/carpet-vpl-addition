@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(KelpBlock.class)
 public class NoKelpGrowthMixin {
 
-    @Inject(method = "randomTick", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "randomTick", at = @At("HEAD"), cancellable = true, require = 0)
     private void onRandomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random, CallbackInfo ci) {
         if (CarpetVPLAdditionSettings.disableKelpGrowth) {
             ci.cancel();
