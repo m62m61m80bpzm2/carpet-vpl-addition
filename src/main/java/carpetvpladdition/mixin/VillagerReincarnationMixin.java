@@ -2,7 +2,7 @@ package carpetvpladdition.mixin;
 
 import carpetvpladdition.settings.CarpetVPLAdditionSettings;
 import carpetvpladdition.util.CompoundTagValueOutput;
-import net.minecraft.core.component.DataComponents;
+import carpetvpladdition.util.SpawnEggHelper;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.server.level.ServerLevel;
@@ -11,12 +11,9 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
-import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.npc.villager.Villager;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.item.component.TypedEntityData;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -77,15 +74,7 @@ public abstract class VillagerReincarnationMixin {
             tag.remove("LastGossipDecay");
             tag.remove("RestocksToday");
 
-            ItemStack egg = new ItemStack(Items.VILLAGER_SPAWN_EGG);
-            egg.set(DataComponents.ENTITY_DATA, TypedEntityData.of(EntityType.VILLAGER, tag));
-
-            ItemEntity itemEntity = new ItemEntity(
-                serverLevel,
-                self.getX(), self.getY(), self.getZ(),
-                egg
-            );
-            serverLevel.addFreshEntity(itemEntity);
+            SpawnEggHelper.spawnVillagerEgg(self, serverLevel, tag);
         } catch (Throwable e) {
             System.err.println("[carpet-vpl-addition] VillagerReincarnation error: " + e.getMessage());
         }
