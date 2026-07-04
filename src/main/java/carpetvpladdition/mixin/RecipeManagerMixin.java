@@ -8,7 +8,7 @@ import com.mojang.serialization.JsonOps;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import org.spongepowered.asm.mixin.injection.At;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.item.crafting.Recipe;
@@ -23,7 +23,7 @@ import java.util.List;
 @Mixin(value = RecipeManager.class, priority = 16888)
 public abstract class RecipeManagerMixin {
     private static final Gson GSON = new Gson();
-    private static final Identifier TOTEM_ID = Identifier.parse("carpet-vpl-addition:totem_of_undying");
+    private static final ResourceLocation TOTEM_ID = ResourceLocation.parse("carpet-vpl-addition:totem_of_undying");
 
     private static final String TOTEM_RECIPE_JSON = """
         {
