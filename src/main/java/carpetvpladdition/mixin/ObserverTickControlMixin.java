@@ -11,6 +11,13 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 
+/**
+ * 侦测器触发延迟控制。
+ *
+ * 性能修复：
+ * 1. 使用缓存的 int 值 observerTickDelayCached，避免每次红石信号时 parseInt
+ * 2. 缓存值已在 syncNumericCaches() 中确保 >= 1，避免 delay=0 导致红石 tick 风暴
+ */
 @Mixin(ObserverBlock.class)
 public class ObserverTickControlMixin {
 
@@ -20,11 +27,8 @@ public class ObserverTickControlMixin {
         index = 2
     )
     private int modifyTickDelay(int delay) {
-        if (CarpetVPLAdditionSettings.observerTickDelay != null) {
-            try {
-                int customDelay = Integer.parseInt(CarpetVPLAdditionSettings.observerTickDelay);
-                if (customDelay > 0) return customDelay;
-            } catch (NumberFormatException ignored) {}
+        if (CarpetVPLAdditionSettings.observerTickDelayCached > 0) {
+            return CarpetVPLAdditionSettings.observerTickDelayCached;
         }
         return delay;
     }
@@ -36,11 +40,8 @@ public class ObserverTickControlMixin {
         require = 0
     )
     private int modifySignalDelay(int delay) {
-        if (CarpetVPLAdditionSettings.observerTickDelay != null) {
-            try {
-                int customDelay = Integer.parseInt(CarpetVPLAdditionSettings.observerTickDelay);
-                if (customDelay > 0) return customDelay;
-            } catch (NumberFormatException ignored) {}
+        if (CarpetVPLAdditionSettings.observerTickDelayCached > 0) {
+            return CarpetVPLAdditionSettings.observerTickDelayCached;
         }
         return delay;
     }

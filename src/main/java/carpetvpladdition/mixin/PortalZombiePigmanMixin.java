@@ -16,6 +16,12 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+/**
+ * 基岩版地狱门刷僵尸猪人。
+ *
+ * 修复：去掉 setPersistenceRequired()，避免实体不消失累积泄漏。
+ * 僵尸猪人应像自然生成的怪物一样可以被正常清除。
+ */
 @Mixin(PortalShape.class)
 public abstract class PortalZombiePigmanMixin {
     @Shadow @Final private Direction.Axis axis;
@@ -41,7 +47,7 @@ public abstract class PortalZombiePigmanMixin {
                 double px = cx + serverLevel.random.nextDouble() * 4 - 2;
                 double pz = cz + serverLevel.random.nextDouble() * 4 - 2;
                 pigman.setPos(px, cy + 1, pz);
-                pigman.setPersistenceRequired();
+                // 不设 setPersistenceRequired()，允许正常消失，避免实体泄漏
                 serverLevel.addFreshEntity(pigman);
             }
         }
