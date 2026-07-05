@@ -1,8 +1,7 @@
 {
-    "carpet.rule.stringDupe.name": "String Dupe",
-    "carpet.rule.stringDupe.desc": "Reintroduces the tripwire string duplication exploit (MC-129055 / MC-59471), which was patched by Mojang in 1.21.2+",
     "carpet-vpl-addition.rule.stringDupe": "String Dupe",
     "carpet-vpl-addition.rule.stringDupe.desc": "Reintroduces the tripwire string duplication exploit (MC-129055 / MC-59471), which was patched by Mojang in 1.21.2+",
+    "carpet-vpl-addition.rule.stringDupe.extra.0": "Bypasses the break in TripWireBlock.updateSource and the is(TRIPWIRE) check in TripWireHookBlock.calculateState, restoring the legacy tripwire duplication behavior. Requires string (tripwire) and only takes effect in 1.21.2+ (where the exploit was patched).",
 
     "carpet-vpl-addition.rule.villagerNoPriceOnAttack": "Villager No Price On Attack",
     "carpet-vpl-addition.rule.villagerNoPriceOnAttack.desc": "Prevents villagers from increasing prices when attacked. Affects both the attacked villager and witnesses",

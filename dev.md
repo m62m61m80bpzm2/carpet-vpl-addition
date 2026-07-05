@@ -1,7 +1,7 @@
 # Carpet VPL Addition - 开发文档
 
 ## 版本号
-当前版本：1.11.3（每次修改后 +1）
+当前版本：1.11.4（每次修改后 +1）
 
 ## 构建
 ```bash
@@ -97,3 +97,26 @@ Mojang 在 24w33a（1.21.2）修复了刷线漏洞，在 `TripWireHookBlock.calc
 
 ## 已知问题
 - 无
+
+## 兼容性测试记录（1.11.4）
+
+### 测试范围
+对 1.21.* 系列各版本进行兼容性评估，实际构建验证了 5 个关键版本。
+
+### 实际支持范围：1.21.6 ~ 1.21.10
+
+| MC 版本 | 构建结果 | 说明 |
+|---|---|---|
+| 1.21.0 | FAIL（17 错误） | ValueOutput/ScheduledTickAccess/EntitySpawnReason/RecipeMap 不存在 |
+| 1.21.4 | FAIL（11 错误） | ValueOutput 接口不存在（CompoundTagValueOutput 未被门控） |
+| 1.21.6 | PASS | ValueOutput 引入，所有门控断点满足 |
+| 1.21.8 | PASS | 当前构建目标 |
+| 1.21.11 | FAIL（16 错误） | Mojang mappings 大重构，Villager/ZombifiedPiglin/ThrownTrident/ResourceLocation 路径变化 |
+
+### 关键发现
+1. `fabric.mod.json` 声明 `minecraft >=1.21.0` 但实际只支持 1.21.6+
+2. `carpet >=1.4.177` 依赖与 1.21.0-1.21.5 矛盾（那些版本的 Carpet < 1.4.177）
+3. `CompoundTagValueOutput` 是工具类不是 Mixin，无法被 `VersionedMixinPlugin` 门控
+4. 1.21.11 需要大量适配工作（mappings 重构）
+
+详细报告见 `compatibility-report-1.21.x.md`
