@@ -26,7 +26,8 @@ public abstract class TripwireHookBlockStringDupeMixin {
             value = "INVOKE",
             target = "Lnet/minecraft/world/level/block/state/BlockState;is(Lnet/minecraft/world/level/block/Block;)Z",
             ordinal = 3
-        )
+        ),
+        require = 0
     )
     private static boolean onTripwireCheck(BlockState instance, Block block, Operation<Boolean> original) {
         if (CarpetVPLAdditionSettings.stringDupe) {
