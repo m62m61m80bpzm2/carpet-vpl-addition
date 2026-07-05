@@ -1,7 +1,7 @@
 # Carpet VPL Addition - 开发文档
 
 ## 版本号
-当前版本：1.11.4（每次修改后 +1）
+当前版本：1.11.5（每次修改后 +1）
 
 ## 构建
 ```bash
@@ -120,3 +120,20 @@ Mojang 在 24w33a（1.21.2）修复了刷线漏洞，在 `TripWireHookBlock.calc
 4. 1.21.11 需要大量适配工作（mappings 重构）
 
 详细报告见 `compatibility-report-1.21.x.md`
+
+## 修复记录（1.11.5）
+
+### 修复的问题
+1. **S-05**：`fabric.mod.json` 依赖声明矛盾 → 改为 `minecraft >=1.21.6 <1.21.11`，`carpet >=1.4.176`
+2. **S-01**：`CompoundTagValueOutput` 实现 `ValueOutput`（1.21.6+）→ 通过限制支持范围到 1.21.6+ 解决
+3. **S-04**：1.21.11 mappings 大重构（Villager→npc.villager、ZombifiedPiglin→monster.zombie、ThrownTrident→projectile.arrow、ResourceLocation→Identifier）→ 通过 `<1.21.11` 限制避免崩溃，真正适配需架构级重构（多版本构建或 intermediary mappings）
+4. **M-04**：`TripWireBlockStringDupeMixin` 未加入 `VersionedMixinPlugin` 门控 → 已补上 1.21.2+ 门控
+5. **M-03**：`TripwireHookBlockStringDupeMixin`/`TripWireBlockStringDupeMixin` 的 `ordinal` 偏移风险 → 加 `require = 0` 兜底
+
+### 1.21.11 适配说明
+1.21.11 改了 5 个核心类路径（见上），单一 jar 用 Mojang mappings 无法同时兼容 1.21.6-1.21.10 和 1.21.11。要支持 1.21.11 需要：
+- 方案 A：多版本构建（两个 jar，每个针对一组 mappings）
+- 方案 B：改用 intermediary mappings 开发（开发体验下降）
+- 方案 C：用 `@Mixin(targets=字符串)` + 反射（运行时性能损失，代码复杂）
+
+当前采取 `<1.21.11` 限制，避免玩家加载崩溃。

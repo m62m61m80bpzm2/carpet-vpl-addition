@@ -77,6 +77,8 @@ public class VersionedMixinPlugin implements IMixinConfigPlugin {
         // 刷线机保护判断在 1.21.2+ 才存在，低于此版本不需此 mixin（漏洞原生存在）
         if (!isAtLeast1_21_2) {
             if (mixinClassName.equals("carpetvpladdition.mixin.TripwireHookBlockStringDupeMixin")) return false;
+            // TripWireBlock.updateSource 的保护性 break 也是 1.21.2+ 修复的一部分
+            if (mixinClassName.equals("carpetvpladdition.mixin.TripWireBlockStringDupeMixin")) return false;
         }
 
         return true;
