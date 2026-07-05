@@ -3,10 +3,8 @@ package carpetvpladdition;
 import carpet.CarpetExtension;
 import carpet.CarpetServer;
 import carpetvpladdition.settings.CarpetVPLAdditionSettings;
-import carpetvpladdition.settings.CarpetVPLAdditionStringDupeSettings;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
@@ -22,49 +20,12 @@ public class CarpetVPLAdditionExtension implements CarpetExtension {
     // 翻译缓存，避免每次请求都重新读资源流
     private final Map<String, Map<String, String>> translationCache = new ConcurrentHashMap<>();
 
-    // 版本检测缓存
-    private static Boolean isAtLeast1_21_2 = null;
-
-    /**
-     * 检测当前 MC 版本是否 ≥1.21.2。
-     * 刷线机漏洞在 24w33a / 1.21.2 被修复，≥此版本才需要 stringDupe 规则。
-     */
-    private static boolean isVersionAtLeast1_21_2() {
-        if (isAtLeast1_21_2 != null) return isAtLeast1_21_2;
-        try {
-            var minecraft = FabricLoader.getInstance().getModContainer("minecraft");
-            if (minecraft.isPresent()) {
-                String version = minecraft.get().getMetadata().getVersion().getFriendlyString();
-                if (version.startsWith("26")) {
-                    isAtLeast1_21_2 = true;
-                    return true;
-                }
-                if (version.startsWith("1.21.")) {
-                    String[] parts = version.split("\\.");
-                    if (parts.length >= 3) {
-                        int minor = Integer.parseInt(parts[2].replaceAll("[^0-9].*", ""));
-                        isAtLeast1_21_2 = minor >= 2;
-                        return isAtLeast1_21_2;
-                    }
-                }
-            }
-        } catch (Exception ignored) {}
-        isAtLeast1_21_2 = false;
-        return false;
-    }
-
     @Override
     public void onGameStarted() {
         try {
             CarpetServer.settingsManager.parseSettingsClass(CarpetVPLAdditionSettings.class);
             // 初始化所有字符串规则的数值缓存
             CarpetVPLAdditionSettings.syncNumericCaches();
-
-            // 刷线机漏洞在 ≥1.21.2（24w33a）被修复，
-            // 仅在这些版本注册 stringDupe 规则（低于此版本漏洞天然存在，无需规则）
-            if (isVersionAtLeast1_21_2()) {
-                CarpetServer.settingsManager.parseSettingsClass(CarpetVPLAdditionStringDupeSettings.class);
-            }
         } catch (Exception e) {
             System.err.println("[carpet-vpl-addition] Failed to register settings: " + e.getMessage());
         }
