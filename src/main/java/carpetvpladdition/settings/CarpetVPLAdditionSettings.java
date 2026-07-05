@@ -258,5 +258,10 @@ public class CarpetVPLAdditionSettings {
     @Rule(
         categories = {CARPET_VPL_ADDITION, FEATURE, SURVIVAL}
     )
+    public static boolean stringDupe = false;
+
+    @Rule(
+        categories = {CARPET_VPL_ADDITION, FEATURE, SURVIVAL}
+    )
     public static boolean villagerNoPriceOnAttack = false;
 }
