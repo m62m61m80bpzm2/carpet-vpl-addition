@@ -1,7 +1,7 @@
 # Carpet VPL Addition - 开发文档
 
 ## 版本号
-当前版本：1.11.2（每次修改后 +1）
+当前版本：1.11.3（每次修改后 +1）
 
 ## 构建
 ```bash
@@ -38,7 +38,8 @@ src/main/java/carpetvpladdition/
 │   ├── StackableItemMixin.java       # 物品堆叠修改
 │   ├── SugarcaneBonemealMixin.java   # 甘蔗骨粉催熟
 │   ├── TridentVoidReturnMixin.java   # 三叉戟虚空返回
-│   ├── TripwireHookBlockStringDupeMixin.java # 刷线机
+│   ├── TripwireHookBlockStringDupeMixin.java # 刷线机（绕过 calculateState Mojang 修复）
+│   ├── TripWireBlockStringDupeMixin.java   # 刷线机（修复 updateSource 扫描断裂）
 │   ├── VillagerAttractionMixin.java  # 村民吸引
 │   ├── VillagerGolemMixin.java       # 村民傀儡
 │   ├── VillagerNoPriceOnAttackMixin.java # 攻击不涨价
@@ -73,6 +74,26 @@ src/main/java/carpetvpladdition/
 6. **PortalZombiePigmanMixin** — 去掉 `setPersistenceRequired()`
 7. **ObserverTickControlMixin** — 强制 delay >= 1
 8. **canHasTranslations** — ConcurrentHashMap 缓存
+
+## 刷线机（stringDupe）修复记录
+
+### 问题
+Mojang 在 24w33a（1.21.2）修复了刷线漏洞，在 `TripWireHookBlock.calculateState()` 中加了两道防护：
+1. **Mixin #1** — `TripwireHookBlockStringDupeMixin`：绕过 `calculateState()` 里的 `is(Blocks.TRIPWIRE) || is(Blocks.TRIPWIRE_HOOK)` 检查，使 setBlock 能对非线方块执行。
+
+2. **Mixin #2** — `TripWireBlockStringDupeMixin`：绕过 `updateSource()` 中的连通性 break。  
+   原版扫描逻辑在遇到非线方块（包括被水冲掉后的空气/水）时立即 break，导致第二次刷线时找不到线钩，`calculateState` 不被触发。  
+   本 mixin 在 `stringDupe` 开启时让 `blockState.is(this)` 始终返回 true，使扫描能跨越缺口直达线钩。
+
+### 为什么"用一次就坏"
+- 第一次刷线：水流冲断所有线 → `updateSource` 扫描 → 遇到缺口 break → 找不到钩 → `calculateState` 不被触发
+- `calculateState` 如果被触发（如定时 tick），`bl3 == bl5 == false`（ATTACHED 已为 false）→ fix area 被跳过
+- 结果是第二次刷线后线钩不会再把线放回去
+
+### 修复方式
+两个 mixin 配合使用：
+1. `TripwireHookBlockStringDupeMixin` — 在 `calculateState` 中绕过 Mojang 的类型检查
+2. `TripWireBlockStringDupeMixin` — 在 `updateSource` 中绕过连通性 break，确保总是能找到线钩
 
 ## 已知问题
 - 无
