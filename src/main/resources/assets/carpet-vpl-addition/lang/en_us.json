@@ -1,4 +1,6 @@
 {
+    "carpet.rule.stringDupe.name": "String Dupe",
+    "carpet.rule.stringDupe.desc": "Reintroduces the tripwire string duplication exploit (MC-129055 / MC-59471), which was patched by Mojang in 1.21.2+",
     "carpet-vpl-addition.rule.stringDupe": "String Dupe",
     "carpet-vpl-addition.rule.stringDupe.desc": "Reintroduces the tripwire string duplication exploit (MC-129055 / MC-59471), which was patched by Mojang in 1.21.2+",
 

@@ -1,4 +1,6 @@
 {
+    "carpet.rule.stringDupe.name": "刷线机",
+    "carpet.rule.stringDupe.desc": "重新引入绊线钩刷线漏洞（MC-129055 / MC-59471），该漏洞在 1.21.2+ 中被 Mojang 修复",
     "carpet-vpl-addition.rule.stringDupe": "刷线机",
     "carpet-vpl-addition.rule.stringDupe.desc": "重新引入绊线钩刷线漏洞（MC-129055 / MC-59471），该漏洞在 1.21.2+ 中被 Mojang 修复",
 

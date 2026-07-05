@@ -2,7 +2,7 @@ package carpetvpladdition.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import carpetvpladdition.settings.CarpetVPLAdditionStringDupeSettings;
+import carpetvpladdition.settings.CarpetVPLAdditionSettings;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.TripWireHookBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -24,12 +24,12 @@ public abstract class TripwireHookBlockStringDupeMixin {
         method = "calculateState",
         at = @At(
             value = "INVOKE",
-            target = "Lnet/minecraft/world/level/block/state/BlockState;is(Lnet/minecraft/world/level/block/Block;)Z",
+            target = "Lnet/minecraft/world/level/block/state/BlockState;is(Ljava/lang/Object;)Z",
             ordinal = 3
         )
     )
-    private static boolean onTripwireCheck(BlockState instance, Block block, Operation<Boolean> original) {
-        if (CarpetVPLAdditionStringDupeSettings.stringDupe) {
+    private static boolean onTripwireCheck(BlockState instance, Object block, Operation<Boolean> original) {
+        if (CarpetVPLAdditionSettings.stringDupe) {
             return true;
         }
         return original.call(instance, block);
