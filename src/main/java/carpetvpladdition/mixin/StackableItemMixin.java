@@ -13,10 +13,22 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+/**
+ * 修改物品最大堆叠数。
+ *
+ * 性能优化（解决 MSPT 突然飙升的主因）：
+ * 1. 如果所有堆叠规则都关闭，且漏斗矿车堆叠数为1，则直接返回，不侵入热路径
+ * 2. hopperMinecartStackSize 使用缓存 int 值，避免运行时反复 Integer.parseInt
+ */
 @Mixin(ItemStack.class)
 public abstract class StackableItemMixin {
     @Inject(method = "getMaxStackSize", at = @At("HEAD"), cancellable = true)
     private void modifyMaxStackSize(CallbackInfoReturnable<Integer> cir) {
+        // 快速跳过：没有任何堆叠规则开启时直接返回，不侵入最热路径
+        if (!anyStackableEnabled() && CarpetVPLAdditionSettings.hopperMinecartStackSizeCached <= 1) {
+            return;
+        }
+
         ItemStack self = (ItemStack) (Object) this;
         Item item = self.getItem();
 
@@ -89,13 +101,25 @@ public abstract class StackableItemMixin {
             return;
         }
 
-        if (self.is(Items.HOPPER_MINECART)) {
-            try {
-                int size = Math.min(Integer.parseInt(CarpetVPLAdditionSettings.hopperMinecartStackSize), 99);
-                if (size > 1) {
-                    cir.setReturnValue(size);
-                }
-            } catch (NumberFormatException ignored) {}
+        // 使用缓存的 int 值，避免 parseInt
+        if (self.is(Items.HOPPER_MINECART) && CarpetVPLAdditionSettings.hopperMinecartStackSizeCached > 1) {
+            cir.setReturnValue(CarpetVPLAdditionSettings.hopperMinecartStackSizeCached);
         }
+    }
+
+    private static boolean anyStackableEnabled() {
+        return CarpetVPLAdditionSettings.stackableTotem
+            || CarpetVPLAdditionSettings.stackableLavaBucket
+            || CarpetVPLAdditionSettings.stackableBucket
+            || CarpetVPLAdditionSettings.stackableGlassBottle
+            || CarpetVPLAdditionSettings.stackableWaterBucket
+            || CarpetVPLAdditionSettings.stackableMilkBucket
+            || CarpetVPLAdditionSettings.stackablePowderSnowBucket
+            || CarpetVPLAdditionSettings.stackableEnderPearl
+            || CarpetVPLAdditionSettings.stackableMusicDisc
+            || CarpetVPLAdditionSettings.stackableSign
+            || CarpetVPLAdditionSettings.stackablePotion
+            || CarpetVPLAdditionSettings.stackableStew
+            || CarpetVPLAdditionSettings.stackableCake;
     }
 }

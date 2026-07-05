@@ -6,6 +6,11 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 
+/**
+ * 修改最大保湿度。
+ *
+ * 性能修复：使用缓存的 maxSaturationCached，避免每次吃东西时 parseInt。
+ */
 @Mixin(FoodData.class)
 public abstract class FoodDataMixin {
     @ModifyArg(
@@ -14,10 +19,6 @@ public abstract class FoodDataMixin {
         index = 2
     )
     private int modifyFoodLevelCap(int original) {
-        try {
-            return Integer.parseInt(CarpetVPLAdditionSettings.maxSaturation);
-        } catch (NumberFormatException e) {
-            return 20;
-        }
+        return CarpetVPLAdditionSettings.maxSaturationCached;
     }
 }
