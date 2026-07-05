@@ -24,11 +24,11 @@ public abstract class TripwireHookBlockStringDupeMixin {
         method = "calculateState",
         at = @At(
             value = "INVOKE",
-            target = "Lnet/minecraft/world/level/block/state/BlockState;is(Ljava/lang/Object;)Z",
+            target = "Lnet/minecraft/world/level/block/state/BlockState;is(Lnet/minecraft/world/level/block/Block;)Z",
             ordinal = 3
         )
     )
-    private static boolean onTripwireCheck(BlockState instance, Object block, Operation<Boolean> original) {
+    private static boolean onTripwireCheck(BlockState instance, Block block, Operation<Boolean> original) {
         if (CarpetVPLAdditionSettings.stringDupe) {
             return true;
         }
