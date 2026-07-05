@@ -1,7 +1,7 @@
 # Carpet VPL Addition - 开发文档
 
 ## 版本号
-当前版本：1.10.2（每次修改后 +1）
+当前版本：1.11.0（每次修改后 +1）
 
 ## 构建
 ```bash
@@ -23,7 +23,7 @@ src/main/java/carpetvpladdition/
 │   ├── VersionedMixinPlugin.java     # 版本门控插件
 │   ├── FastLeafDecayMixin.java       # 快速树叶腐烂
 │   ├── FixedXpPerLevelMixin.java     # 固定升级经验
-│   ├── FoodDataMixin.java            # 最大保湿度
+│   ├── FoodDataMixin.java            # 最大饱食度
 │   ├── FurnaceXpControllerMixin.java # 熔炉经验倍率
 │   ├── ImmatureCropProtectionMixin.java # 保护未成熟农作物
 │   ├── LivingEntityMixin.java        # 最大氧气值

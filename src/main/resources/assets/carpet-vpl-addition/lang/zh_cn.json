@@ -35,7 +35,7 @@
     "carpet.rule.maxArmor.name": "最大护甲值",
     "carpet.rule.maxArmor.desc": "设置所有玩家的基础护甲值，需要退出重进存档后生效。默认值: 0。",
     "carpet.rule.maxArmor.extra.0": "修改的是玩家基础属性 ARMOR 的基值，每次玩家登录/重生时自动应用。护甲值影响伤害减免。",
-    "carpet.rule.maxSaturation.name": "最大保湿度",
+    "carpet.rule.maxSaturation.name": "最大饱食度",
     "carpet.rule.maxSaturation.desc": "设置所有玩家的最大食物值上限（饥饿值条上限），需要退出重进存档后生效。默认值: 20。",
     "carpet.rule.maxSaturation.extra.0": "修改食物值上限后，玩家可以吃更多食物将饥饿值填满至上限。超过20的数值不会在饥饿条上完全显示，但实际存储有效。",
     "carpet.rule.stackableMusicDisc.name": "可堆叠唱片",

@@ -2,7 +2,7 @@ package carpetvpladdition.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import carpetvpladdition.settings.CarpetVPLAdditionSettings;
+import carpetvpladdition.settings.CarpetVPLAdditionStringDupeSettings;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.TripWireHookBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -29,8 +29,7 @@ public abstract class TripwireHookBlockStringDupeMixin {
         )
     )
     private static boolean onTripwireCheck(BlockState instance, Block block, Operation<Boolean> original) {
-        // 规则开启时，让保护判断通过，重现复制漏洞
-        if (CarpetVPLAdditionSettings.stringDupe) {
+        if (CarpetVPLAdditionStringDupeSettings.stringDupe) {
             return true;
         }
         return original.call(instance, block);

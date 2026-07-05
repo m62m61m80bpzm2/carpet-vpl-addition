@@ -7,7 +7,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 
 /**
- * 修改最大保湿度。
+ * 修改最大饱食度。
  *
  * 性能修复：使用缓存的 maxSaturationCached，避免每次吃东西时 parseInt。
  */
