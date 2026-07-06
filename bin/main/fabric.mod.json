@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "id": "${mod_id}",
+  "version": "${version}",
+  "name": "${mod_name}",
+  "description": "A Carpet extension addon for Minecraft 1.21.x",
+  "authors": [],
+  "contact": {},
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "carpetvpladdition.CarpetVPLAdditionMod"
+    ]
+  },
+  "mixins": [
+    "carpet-vpl-addition.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "minecraft": ">=1.21.6 <1.21.11",
+    "java": ">=25",
+    "fabric-api": "*",
+    "carpet": ">=1.4.176"
+  }
+}
