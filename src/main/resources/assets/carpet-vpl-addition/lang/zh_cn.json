@@ -108,5 +108,11 @@
     "carpet.rule.disableKelpGrowth.name": "禁止海带生长",
     "carpet.rule.disableKelpGrowth.desc": "阻止海带自然生长到超过其当前高度。调整后即时生效。",
     "carpet.rule.disableKelpGrowth.extra.0": "拦截海带的随机刻生长，使其停止向上自然延伸。不影响已存在的海带和手动放置/骨粉催熟。",
+    "carpet.rule.cactusGrowthMultiplier.name": "仙人掌生长速度倍率",
+    "carpet.rule.cactusGrowthMultiplier.desc": "设置仙人掌的随机生长倍率。调整后即时生效。",
+    "carpet.rule.cactusGrowthMultiplier.extra.0": "倍率作用于仙人掌随机生长刻的发生概率与AGE增长速率。倍率2.0=每节仙人掌每随机刻翻倍概率；倍率16.0=每次随机刻几乎必长一节。1.0恢复原版。",
+    "carpet.rule.cactusBoneMeal.name": "骨粉催熟仙人掌",
+    "carpet.rule.cactusBoneMeal.desc": "允许对仙人掌使用骨粉催熟。调整后即时生效。",
+    "carpet.rule.cactusBoneMeal.extra.0": "使用骨粉后强制让仙人掌长高一节（无视AGE，类似基岩版行为）。总高度达到3节时无法继续催熟。",
     "carpet.category.carpet_vpl_addition": "Carpet VPL Addition"
 }

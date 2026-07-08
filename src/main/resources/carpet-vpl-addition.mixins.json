@@ -27,7 +27,9 @@
     "NoKelpGrowthMixin",
     "TripwireHookBlockStringDupeMixin",
     "TripWireBlockStringDupeMixin",
-    "VillagerNoPriceOnAttackMixin"
+    "VillagerNoPriceOnAttackMixin",
+    "CactusGrowthMixin",
+    "CactusBonemealMixin"
   ],
   "injectors": {
     "defaultRequire": 1

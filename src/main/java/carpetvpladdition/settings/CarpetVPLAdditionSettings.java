@@ -21,6 +21,7 @@ public class CarpetVPLAdditionSettings {
     public static int maxPlayerHealthCached = 20;
     public static double playerAttackDamageCached = 2.0;
     public static double maxArmorCached = 0.0;
+    public static float cactusGrowthMultiplierCached = 1.0f;
 
     /** 将所有字符串规则解析到缓存字段 */
     public static void syncNumericCaches() {
@@ -47,6 +48,9 @@ public class CarpetVPLAdditionSettings {
 
         try { maxArmorCached = Double.parseDouble(maxArmor); }
         catch (NumberFormatException e) { maxArmorCached = 0.0; }
+
+        try { cactusGrowthMultiplierCached = Float.parseFloat(cactusGrowthMultiplier); }
+        catch (NumberFormatException e) { cactusGrowthMultiplierCached = 1.0f; }
     }
 
     // ========== 通用验证器：规则变更时刷新缓存 ==========
@@ -264,4 +268,17 @@ public class CarpetVPLAdditionSettings {
         categories = {CARPET_VPL_ADDITION, FEATURE, SURVIVAL}
     )
     public static boolean villagerNoPriceOnAttack = false;
+
+    @Rule(
+        categories = {CARPET_VPL_ADDITION, FEATURE, SURVIVAL},
+        options = {"1.0", "2.0", "4.0", "8.0", "16.0"},
+        strict = false,
+        validators = CacheRefreshValidator.class
+    )
+    public static String cactusGrowthMultiplier = "1.0";
+
+    @Rule(
+        categories = {CARPET_VPL_ADDITION, FEATURE, SURVIVAL}
+    )
+    public static boolean cactusBoneMeal = false;
 }
