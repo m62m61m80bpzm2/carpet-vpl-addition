@@ -108,5 +108,11 @@
     "carpet.rule.disableKelpGrowth.name": "Disable Kelp Growth",
     "carpet.rule.disableKelpGrowth.desc": "Prevents kelp from growing naturally beyond its current height. Takes effect immediately.",
     "carpet.rule.disableKelpGrowth.extra.0": "Intercepts kelp's random tick growth, stopping upward natural extension. Does not affect existing kelp or manual placement/bonemeal.",
+    "carpet.rule.cactusGrowthMultiplier.name": "Cactus Growth Multiplier",
+    "carpet.rule.cactusGrowthMultiplier.desc": "Sets the random growth multiplier for cactus. Takes effect immediately.",
+    "carpet.rule.cactusGrowthMultiplier.extra.0": "Multiplies the random tick growth chance and AGE increment rate. 2.0 = double growth chance; 16.0 = almost always grow one block per random tick. 1.0 = vanilla.",
+    "carpet.rule.cactusBoneMeal.name": "Bonemeal Cactus",
+    "carpet.rule.cactusBoneMeal.desc": "Allows using bone meal on cactus to force growth. Takes effect immediately.",
+    "carpet.rule.cactusBoneMeal.extra.0": "Bone meal forces cactus to grow one block (ignoring AGE, like Bedrock Edition). Cannot grow when total height reaches 3.",
     "carpet.category.carpet_vpl_addition": "Carpet VPL Addition"
 }
