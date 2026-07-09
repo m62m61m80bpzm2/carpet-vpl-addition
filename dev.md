@@ -137,3 +137,22 @@ Mojang 在 24w33a（1.21.2）修复了刷线漏洞，在 `TripWireHookBlock.calc
 - 方案 C：用 `@Mixin(targets=字符串)` + 反射（运行时性能损失，代码复杂）
 
 当前采取 `<1.21.11` 限制，避免玩家加载崩溃。
+
+## 修复记录（1.12.3）— 刷线机“刷一次就坏”
+
+### 根因
+Mojang 在 24w33a / 1.21.2 对 `TripWireHookBlock.calculateState()` 做了两处修复，
+之前 1.11.3/1.11.4/1.11.5 加的两个 mixin 只解决了**第一次**，无法持续：
+
+1. fix area 循环类型守卫 `is(TRIPWIRE) || is(TRIPWIRE_HOOK)` —— 已由 `TripwireHookBlockStringDupeMixin`（ordinal 3）绕过。
+2. fix area 外层条件 `if (bl3 != bl5)` —— 这是“刷一次就坏”的真正原因。
+   - `bl3` = 线钩**旧的** ATTACHED；`bl5` = 本次扫描算出的**新的** ATTACHED。
+   - 第一次：bl3=false ≠ bl5=true → 进入 fix area，被冲掉的线被重新放置（成功）。
+   - 之后：线钩 ATTACHED 已为 true，bl3==bl5 → fix area 被跳过，被冲掉的线不再回放 → 断。
+
+### 修复
+在 `TripwireHookBlockStringDupeMixin` 中新增对 ATTACHED 读取的绕过（`getOptionalValue(ATTACHED)` ordinal 1），
+当 `stringDupe` 开启时恒返回 `Optional.of(false)`，使 bl3 恒为 false。
+于是 `bl3 != bl5` 在 bl5=true 时恒为真，fix area 每次都执行，重新放置被水冲掉的线。
+
+三个 mixin 协同：`TripwireHookBlockStringDupeMixin`（类型守卫 + bl3）+ `TripWireBlockStringDupeMixin`（updateSource 连通性）。
