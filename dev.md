@@ -1,7 +1,7 @@
 # Carpet VPL Addition - 开发文档
 
 ## 版本号
-当前版本：1.11.5（每次修改后 +1）
+当前版本：1.13.6（每次修改后 +1）
 
 ## 构建
 ```bash
@@ -97,6 +97,17 @@ Mojang 在 24w33a（1.21.2）修复了刷线漏洞，在 `TripWireHookBlock.calc
 
 ## 已知问题
 - 无
+
+## 修复记录（1.13.6）— 26.2 仙人掌规则无效果
+
+### 根因
+`CactusGrowthMixin` 自定义了一个 `canCactusSurvive` 方法复制了生存检查逻辑，
+但硬编码了 `BlockTags.SAND`，而 26.2 的 `CactusBlock.canSurvive` 已改用 `BlockTags.SUPPORTS_CACTUS`。
+导致所有仙人掌生长判定都失败（花/长高/AGE 增量均被跳过），`cactusGrowthMultiplier` 和 `cactusBoneMeal` 看起来"无效"。
+
+### 修复
+移除自定义 `canCactusSurvive` + `asCactus()`，改用 `@Shadow` 声明 `canSurvive` 和 `defaultBlockState`，
+直接调用目标类原方法，自动匹配当前 MC 版本的生存逻辑。
 
 ## 兼容性测试记录（1.11.4）
 
