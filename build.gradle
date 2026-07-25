@@ -1,5 +1,5 @@
 plugins {
-    id 'fabric-loom' version '1.17.11'
+    id 'net.fabricmc.fabric-loom' version '1.17.11'
     id 'maven-publish'
 }
 
@@ -14,11 +14,10 @@ repositories {
 
 dependencies {
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
-    mappings loom.officialMojangMappings()
-    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-    modImplementation "carpet:fabric-carpet:${project.carpet_version}"
-    include(annotationProcessor(modImplementation("io.github.llamalad7:mixinextras-fabric:0.4.1")))
+    implementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+    implementation "carpet:fabric-carpet:${project.carpet_version}"
+    include(implementation(annotationProcessor("io.github.llamalad7:mixinextras-fabric:0.4.1")))
 }
 
 java {

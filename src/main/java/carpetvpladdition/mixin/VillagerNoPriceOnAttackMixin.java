@@ -3,7 +3,7 @@ package carpetvpladdition.mixin;
 import carpetvpladdition.settings.CarpetVPLAdditionSettings;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.ai.village.ReputationEventType;
-import net.minecraft.world.entity.npc.Villager;
+import net.minecraft.world.entity.npc.villager.Villager;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;

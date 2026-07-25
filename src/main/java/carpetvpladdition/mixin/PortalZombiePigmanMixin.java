@@ -4,9 +4,9 @@ import carpetvpladdition.settings.CarpetVPLAdditionSettings;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.EntitySpawnReason;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.monster.ZombifiedPiglin;
+import net.minecraft.world.entity.monster.zombie.ZombifiedPiglin;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.portal.PortalShape;
 import org.spongepowered.asm.mixin.Final;
@@ -34,18 +34,18 @@ public abstract class PortalZombiePigmanMixin {
         if (!CarpetVPLAdditionSettings.bedrockPortalZombiePigman) return;
         if (!(level instanceof ServerLevel serverLevel)) return;
 
-        if (serverLevel.random.nextFloat() >= 0.1f) return;
+        if (serverLevel.getRandom().nextFloat() >= 0.1f) return;
 
         int cx = bottomLeft.getX() + width / 2;
         int cy = bottomLeft.getY();
         int cz = bottomLeft.getZ();
-        int count = 1 + serverLevel.random.nextInt(3);
+        int count = 1 + serverLevel.getRandom().nextInt(3);
 
         for (int i = 0; i < count; i++) {
-            ZombifiedPiglin pigman = EntityType.ZOMBIFIED_PIGLIN.create(serverLevel, EntitySpawnReason.TRIGGERED);
+            ZombifiedPiglin pigman = EntityTypes.ZOMBIFIED_PIGLIN.create(serverLevel, EntitySpawnReason.TRIGGERED);
             if (pigman != null) {
-                double px = cx + serverLevel.random.nextDouble() * 4 - 2;
-                double pz = cz + serverLevel.random.nextDouble() * 4 - 2;
+                double px = cx + serverLevel.getRandom().nextDouble() * 4 - 2;
+                double pz = cz + serverLevel.getRandom().nextDouble() * 4 - 2;
                 pigman.setPos(px, cy + 1, pz);
                 // 不设 setPersistenceRequired()，允许正常消失，避免实体泄漏
                 serverLevel.addFreshEntity(pigman);

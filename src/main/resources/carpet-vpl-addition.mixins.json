@@ -2,8 +2,7 @@
   "required": true,
   "minVersion": "0.8",
   "package": "carpetvpladdition.mixin",
-  "plugin": "carpetvpladdition.mixin.VersionedMixinPlugin",
-  "compatibilityLevel": "JAVA_21",
+  "compatibilityLevel": "JAVA_25",
   "mixins": [
     "RecipeManagerAccessor",
     "RecipeManagerMixin",
