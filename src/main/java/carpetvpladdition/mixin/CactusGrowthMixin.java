@@ -18,8 +18,9 @@ public abstract class CactusGrowthMixin {
     @Shadow
     protected boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) { throw new AssertionError(); }
 
-    @Shadow
-    public abstract BlockState defaultBlockState();
+    private CactusBlock asCactus() {
+        return (CactusBlock) (Object) this;
+    }
 
     /**
      * 加速仙人掌生长：倍率作用于随机刻的发生概率与 AGE 增长速率。
@@ -41,13 +42,13 @@ public abstract class CactusGrowthMixin {
                     return;
                 }
             }
-            if (age == 8 && this.canSurvive(this.defaultBlockState(), serverLevel, blockPos.above())) {
+            if (age == 8 && this.canSurvive(this.asCactus().defaultBlockState(), serverLevel, blockPos.above())) {
                 double d = i >= 3 ? 0.25 : 0.1;
                 if (randomSource.nextDouble() <= d) {
                     serverLevel.setBlockAndUpdate(above, Blocks.CACTUS_FLOWER.defaultBlockState());
                 }
             } else if (age == 15 && i < 3) {
-                serverLevel.setBlockAndUpdate(above, this.defaultBlockState());
+                serverLevel.setBlockAndUpdate(above, this.asCactus().defaultBlockState());
                 BlockState newState = blockState.setValue(CactusBlock.AGE, 0);
                 serverLevel.setBlock(blockPos, newState, 260);
                 serverLevel.neighborChanged(newState, above, (CactusBlock) (Object) this, null, false);
@@ -70,14 +71,14 @@ public abstract class CactusGrowthMixin {
                 return;
             }
         }
-        if (age == 8 && this.canSurvive(this.defaultBlockState(), serverLevel, blockPos.above())) {
+        if (age == 8 && this.canSurvive(this.asCactus().defaultBlockState(), serverLevel, blockPos.above())) {
             double baseChance = i >= 3 ? 0.25 : 0.1;
             double chance = Math.min(1.0, baseChance * multiplier);
             if (randomSource.nextDouble() <= chance) {
                 serverLevel.setBlockAndUpdate(above, Blocks.CACTUS_FLOWER.defaultBlockState());
             }
         } else if (age == 15 && i < 3) {
-            serverLevel.setBlockAndUpdate(above, this.defaultBlockState());
+            serverLevel.setBlockAndUpdate(above, this.asCactus().defaultBlockState());
             BlockState newState = blockState.setValue(CactusBlock.AGE, 0);
             serverLevel.setBlock(blockPos, newState, 260);
             serverLevel.neighborChanged(newState, above, (CactusBlock) (Object) this, null, false);
