@@ -3,6 +3,7 @@ package carpetvpladdition.mixin;
 import carpetvpladdition.settings.CarpetVPLAdditionSettings;
 import net.minecraft.world.item.HangingSignItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemInstance;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.core.component.DataComponents;
@@ -16,19 +17,23 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 /**
  * 修改物品最大堆叠数。
  *
+ * 26.2 API变更：getMaxStackSize() 从 ItemStack 移动到 ItemInstance 接口的 default 方法。
+ * 因此 @Mixin 目标改为 ItemInstance，运行时 this 仍然是 ItemStack。
+ *
  * 性能优化（解决 MSPT 突然飙升的主因）：
  * 1. 如果所有堆叠规则都关闭，且漏斗矿车堆叠数为1，则直接返回，不侵入热路径
  * 2. hopperMinecartStackSize 使用缓存 int 值，避免运行时反复 Integer.parseInt
  */
-@Mixin(ItemStack.class)
+@Mixin(ItemInstance.class)
 public abstract class StackableItemMixin {
-    @Inject(method = "Lnet/minecraft/world/item/ItemInstance;getMaxStackSize()I", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "getMaxStackSize", at = @At("HEAD"), cancellable = true)
     private void modifyMaxStackSize(CallbackInfoReturnable<Integer> cir) {
         // 快速跳过：没有任何堆叠规则开启时直接返回，不侵入最热路径
         if (!anyStackableEnabled() && CarpetVPLAdditionSettings.hopperMinecartStackSizeCached <= 1) {
             return;
         }
 
+        // 运行时 this 一定是 ItemStack（ItemInstance 的唯一实现类）
         ItemStack self = (ItemStack) (Object) this;
         Item item = self.getItem();
 
