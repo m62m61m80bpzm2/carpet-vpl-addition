@@ -18,7 +18,6 @@ public class VersionedMixinPlugin implements IMixinConfigPlugin {
 
     private static boolean isAtLeast1_21_2 = false;
     private static boolean isAtLeast1_21_6 = false;
-    private static boolean isAtLeast1_21_11 = false;
 
     @Override
     public void onLoad(String mixinPackage) {
@@ -31,14 +30,12 @@ public class VersionedMixinPlugin implements IMixinConfigPlugin {
                         // 26.x (Spring to Life) 包含所有 1.21.x 的 API
                         isAtLeast1_21_2 = true;
                         isAtLeast1_21_6 = true;
-                        isAtLeast1_21_11 = true;
                     } else {
                         String[] parts = version.split("\\.");
                         if (parts.length >= 3) {
                             int minor = Integer.parseInt(parts[2].replaceAll("[^0-9].*", ""));
                             isAtLeast1_21_2 = minor >= 2;
                             isAtLeast1_21_6 = minor >= 6;
-                            isAtLeast1_21_11 = minor >= 11;
                         }
                     }
                 }
@@ -46,15 +43,14 @@ public class VersionedMixinPlugin implements IMixinConfigPlugin {
         } catch (Exception e) {
             isAtLeast1_21_2 = false;
             isAtLeast1_21_6 = false;
-            isAtLeast1_21_11 = false;
         }
     }
 
     @Override
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
-        // === 1.21.11+ 专属 ===
-        // RecipeManagerAccessor 和 RecipeManagerMixin 需要 1.21.11+ 的 RecipeManager API
-        if (!isAtLeast1_21_11) {
+        // === 1.21.2+ 专属 ===
+        // RecipeMap API 从 1.21.2 开始引入，RecipeManagerAccessor 和 RecipeManagerMixin 依赖它
+        if (!isAtLeast1_21_2) {
             if (mixinClassName.equals("carpetvpladdition.mixin.RecipeManagerAccessor")) return false;
             if (mixinClassName.equals("carpetvpladdition.mixin.RecipeManagerMixin")) return false;
         }
