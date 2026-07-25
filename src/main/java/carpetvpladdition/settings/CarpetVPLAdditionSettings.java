@@ -3,7 +3,10 @@ package carpetvpladdition.settings;
 import carpet.api.settings.Rule;
 import carpet.api.settings.CarpetRule;
 import carpet.api.settings.Validator;
+import carpetvpladdition.CarpetVPLAdditionExtension;
 import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.level.ServerPlayer;
 
 import static carpet.api.settings.RuleCategory.FEATURE;
 import static carpet.api.settings.RuleCategory.SURVIVAL;
@@ -62,13 +65,31 @@ public class CarpetVPLAdditionSettings {
         }
     }
 
+    /** 属性规则变更验证器：刷新缓存 + 即时应用到所有在线玩家 */
+    public static class AttributeRefreshValidator extends Validator<String> {
+        @Override
+        public String validate(CommandSourceStack source, CarpetRule<String> rule, String newValue, String userInput) {
+            syncNumericCaches();
+            // 即时重新应用属性到所有在线玩家
+            if (source != null) {
+                MinecraftServer server = source.getServer();
+                if (server != null) {
+                    for (ServerPlayer player : server.getPlayerList().getPlayers()) {
+                        CarpetVPLAdditionExtension.applyAttributes(player);
+                    }
+                }
+            }
+            return newValue;
+        }
+    }
+
     // ========== 规则定义 ==========
 
     @Rule(
         categories = {CARPET_VPL_ADDITION, FEATURE, SURVIVAL},
         options = {"20", "40", "60", "80", "100", "200", "500", "1000"},
         strict = false,
-        validators = CacheRefreshValidator.class
+        validators = AttributeRefreshValidator.class
     )
     public static String maxPlayerHealth = "20";
 
@@ -76,7 +97,7 @@ public class CarpetVPLAdditionSettings {
         categories = {CARPET_VPL_ADDITION, FEATURE, SURVIVAL},
         options = {"2.0", "4.0", "6.0", "10.0", "20.0", "50.0"},
         strict = false,
-        validators = CacheRefreshValidator.class
+        validators = AttributeRefreshValidator.class
     )
     public static String playerAttackDamage = "2.0";
 
@@ -123,7 +144,7 @@ public class CarpetVPLAdditionSettings {
         categories = {CARPET_VPL_ADDITION, FEATURE, SURVIVAL},
         options = {"0", "10", "20", "30"},
         strict = false,
-        validators = CacheRefreshValidator.class
+        validators = AttributeRefreshValidator.class
     )
     public static String maxArmor = "0";
 
