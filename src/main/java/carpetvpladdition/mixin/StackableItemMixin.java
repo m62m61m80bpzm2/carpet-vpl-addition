@@ -22,7 +22,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
  */
 @Mixin(ItemStack.class)
 public abstract class StackableItemMixin {
-    @Inject(method = "getMaxStackSize", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "Lnet/minecraft/world/item/ItemInstance;getMaxStackSize()I", at = @At("HEAD"), cancellable = true)
     private void modifyMaxStackSize(CallbackInfoReturnable<Integer> cir) {
         // 快速跳过：没有任何堆叠规则开启时直接返回，不侵入最热路径
         if (!anyStackableEnabled() && CarpetVPLAdditionSettings.hopperMinecartStackSizeCached <= 1) {
