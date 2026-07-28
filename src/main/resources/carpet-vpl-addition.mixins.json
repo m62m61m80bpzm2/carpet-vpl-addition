@@ -28,7 +28,8 @@
     "TripWireBlockStringDupeMixin",
     "VillagerNoPriceOnAttackMixin",
     "CactusGrowthMixin",
-    "CactusBonemealMixin"
+    "CactusBonemealMixin",
+    "PickBlockNbtMixin"
   ],
   "injectors": {
     "defaultRequire": 1

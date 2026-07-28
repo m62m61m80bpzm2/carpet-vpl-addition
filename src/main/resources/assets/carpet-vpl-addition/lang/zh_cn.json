@@ -114,5 +114,8 @@
     "carpet.rule.cactusBoneMeal.name": "骨粉催熟仙人掌",
     "carpet.rule.cactusBoneMeal.desc": "允许对仙人掌使用骨粉催熟。调整后即时生效。",
     "carpet.rule.cactusBoneMeal.extra.0": "使用骨粉后强制让仙人掌长高一节（无视AGE，类似基岩版行为）。总高度达到3节时无法继续催熟。",
+    "carpet.rule.pickBlockNbt.name": "修复中键复制方块 NBT",
+    "carpet.rule.pickBlockNbt.desc": "修复 26.2 中 Ctrl+中键无法复制方块 NBT（如箱子内容）的问题。即时生效。",
+    "carpet.rule.pickBlockNbt.extra.0": "在 handlePickItemFromBlock 中强制 includeData=true，恢复 1.21.8/1.21.11 的创造模式复制方块 NBT 行为。",
     "carpet.category.carpet_vpl_addition": "Carpet VPL Addition"
 }

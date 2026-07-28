@@ -302,4 +302,9 @@ public class CarpetVPLAdditionSettings {
         categories = {CARPET_VPL_ADDITION, FEATURE, SURVIVAL}
     )
     public static boolean cactusBoneMeal = false;
+
+    @Rule(
+        categories = {CARPET_VPL_ADDITION, FEATURE}
+    )
+    public static boolean pickBlockNbt = true;
 }
