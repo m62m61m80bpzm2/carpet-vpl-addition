@@ -1,7 +1,7 @@
 # Carpet VPL Addition - 开发文档
 
 ## 版本号
-当前版本：1.13.7（每次修改后 +1）
+当前版本：1.14.0（每次修改后 +1）
 
 ## 构建
 ```bash
@@ -97,6 +97,14 @@ Mojang 在 24w33a（1.21.2）修复了刷线漏洞，在 `TripWireHookBlock.calc
 
 ## 已知问题
 - 无
+
+## 修复记录（1.14.0）— 26.2 Ctrl+中键复制方块 NBT 失效
+
+### 根因
+26.2 客户端可能不再发送 `includeData=true` 给服务器，导致创造模式 Ctrl+中键无法复制方块 NBT。
+
+### 修复
+通过 `@Redirect` 拦截 `ServerboundPickItemFromBlockPacket#includeData()` 调用，当 `pickBlockNbt` 规则开启时强制返回 `true`，使条件 `hasInfiniteMaterials() && true = hasInfiniteMaterials()`，恢复创造模式复制 NBT 行为。
 
 ## 修复记录（1.13.6）— 26.2 仙人掌规则无效果
 

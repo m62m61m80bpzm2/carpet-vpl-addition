@@ -114,5 +114,8 @@
     "carpet.rule.cactusBoneMeal.name": "Bonemeal Cactus",
     "carpet.rule.cactusBoneMeal.desc": "Allows using bone meal on cactus to force growth. Takes effect immediately.",
     "carpet.rule.cactusBoneMeal.extra.0": "Bone meal forces cactus to grow one block (ignoring AGE, like Bedrock Edition). Cannot grow when total height reaches 3.",
+    "carpet.rule.pickBlockNbt.name": "Pick Block NBT Fix",
+    "carpet.rule.pickBlockNbt.desc": "Fixes Ctrl+Middle Click not copying block NBT data (e.g. chest contents) in Creative mode for MC 26.2. Takes effect immediately.",
+    "carpet.rule.pickBlockNbt.extra.0": "Forces includeData=true in handlePickItemFromBlock when player has infinite materials, restoring the vanilla behavior from 1.21.8/1.21.11.",
     "carpet.category.carpet_vpl_addition": "Carpet VPL Addition"
 }
