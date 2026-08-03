@@ -1,7 +1,24 @@
+# Gradle
 .gradle/
 build/
-bin/
+
+# IDE
 .idea/
 *.iml
+.trae/
 out/
+.vscode/
+*.class
+
+# Compiled output
+bin/
+
+# Build logs
+build-*.txt
+compatibility-report-*.md
+
+# macOS
 .DS_Store
+
+# 111 文件夹中的 jar
+111/

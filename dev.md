@@ -43,7 +43,10 @@ src/main/java/carpetvpladdition/
 │   ├── VillagerAttractionMixin.java  # 村民吸引
 │   ├── VillagerGolemMixin.java       # 村民傀儡
 │   ├── VillagerNoPriceOnAttackMixin.java # 攻击不涨价
-│   └── VillagerReincarnationMixin.java # 转世村民
+│   ├── VillagerReincarnationMixin.java # 转世村民
+│   ├── CactusGrowthMixin.java        # 仙人掌生长速度倍率
+│   ├── CactusBonemealMixin.java      # 仙人掌骨粉催熟
+│   └── PickBlockNbtMixin.java        # 中键复制方块 NBT 修复
 ├── settings/
 │   ├── CarpetVPLAdditionSettings.java # 规则定义 + 数值缓存
 │   └── RecipeRuleObserver.java       # 配方规则验证器
