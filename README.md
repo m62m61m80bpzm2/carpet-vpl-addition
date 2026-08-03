@@ -1,57 +1,53 @@
 # Carpet VPL Addition
 
-一个基于 [fabric-carpet](https://github.com/gnembon/fabric-carpet) 的 [Fabric](https://fabricmc.net/) 服务端 Mod，为原版 Carpet 添加大量自定义游戏规则（Rules）。
+一个基于 `fabric-carpet` 的 Fabric 服务端 Mod，为原版 Carpet 添加大量自定义游戏规则（Rules）。
 
-- 目标版本：**Minecraft 26.2**
-- 当前版本：**1.14.0**
-- 技术栈：Fabric Loader 0.19.3 + Fabric API 0.154.2+26.2 + fabric-loom + Mojang mappings + Java 25
+- 目标游戏版本：**Minecraft 26.2**
+- 当前 Mod 版本：**1.14.0**
+- 支持语言：简体中文 / English
 
-## 功能概览
+本文件是**给玩家使用的说明**（怎么装、有哪些规则）。
+如果你想修改这个 Mod 源码 / 参与开发，请看文档 → [dev.md](./dev.md)（开发文档）。
 
-共 **39** 条规则，涵盖：
-- 🧟 生存便利（村民、实体磨制、刷怪、随机数）
-- 🛠 物品堆叠修改
-- 🌱 农作物 / 方块生长控制
-- ⚙️ 红石与机制修正
-- 🐛 原版漏洞修复（刷线机、中键复制 NBT）
+---
+
+## 目录
+
+- [环境依赖](#环境依赖)
+- [安装](#安装)
+- [使用](#使用)
+- [规则列表](#规则列表)
+- [常见问题](#常见问题)
 
 ## 环境依赖
 
-| 依赖 | 版本 |
+| 依赖 | 版本要求 |
 |---|---|
 | Minecraft | `>=26.2 <26.3` |
-| Fabric Loader | `>=0.19.3` |
 | Java | `>=25` |
-| Fabric API | `*` |
+| Fabric Loader | `>=0.19.3` |
+| Fabric API | 任意 |
 | Carpet | `>=26.2` |
-
-## 构建
-
-```bash
-./gradlew build
-```
-
-产物位于 `build/libs/`：
-- `[vpl26.2]carpet-vpl-addition-<version>.jar` — 发布用 jar
-- `[vpl26.2]carpet-vpl-addition-<version>-sources.jar` — 源码 jar
 
 ## 安装
 
-1. 安装 [Fabric Loader](https://fabricmc.net/use/installer/)（0.19.3+）
-2. 将以下 Mod 放入 `mods/` 文件夹：
+1. 安装 [Fabric Loader](https://fabricmc.net/use/installer/)（0.19.3+）。
+2. 将以下 Mod 放入 `.minecraft/mods/` 文件夹：
    - Carpet（26.2 版本）
    - Fabric API
-   - **Carpet VPL Addition**
-3. 启动游戏
+   - **`[vpl26.2]carpet-vpl-addition-<version>.jar`**
+3. 启动游戏即可。
 
 ## 使用
 
-所有规则通过 Carpet 的 `/carpet` 命令查看与修改：
+所有规则都通过 Carpet 自带的 `/carpet` 命令来查看和设置：
 
 ```
-/carpet list carpet_vpl_addition   查看本 Mod 全部规则
-/carpet name <value>               设置某个规则的值
+/carpet list carpet_vpl_addition     查看本 Mod 的全部规则及当前值
+/carpet <规则名> <值>                 设置某个规则（例如 /carpet cactusBoneMeal true）
 ```
+
+部分规则设置后**立即生效**；标注“需要重进世界生效”的属性类规则，设置后重进存档即可。
 
 ## 规则列表
 
@@ -127,12 +123,8 @@
 | 规则 | 类型 | 默认值 | 说明 |
 |---|---|---|---|
 | `stringDupe` | 布尔 | false | 重新引入刷线机漏洞 |
-| `pickBlockNbt` | 布尔 | true | 修复 Ctrl+中键复制方块 NBT |
+| `pickBlockNbt` | 布尔 | true | 修复 Ctrl+中键复制方块 NBT（26.2） |
 
 ## 已知问题
 
 - 无
-
-## 开发文档
-
-详见 [dev.md](./dev.md)。
