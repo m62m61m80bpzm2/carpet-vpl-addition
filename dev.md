@@ -17,7 +17,7 @@
 
 ## 版本号
 
-- 当前版本：**1.14.0**
+- 当前版本：**1.14.1**
 - 规则：**每次修改后版本号 +1**（如 1.14.0 → 1.14.1）。
 - git 提交信息 = 当前版本号。
 
@@ -58,7 +58,7 @@ minecraft_version=26.2
 loader_version=0.19.3
 fabric_version=0.154.2+26.2
 carpet_version=26.2+v260616
-mod_version=1.14.0
+mod_version=1.14.1
 archives_base_name=[vpl26.2]carpet-vpl-addition
 ```
 
@@ -173,6 +173,10 @@ src/main/java/carpetvpladdition/
 8. **canHasTranslations**：ConcurrentHashMap 缓存翻译。
 
 ## 修复记录（变更日志）
+
+### 1.14.1 — 默认启用 pickBlockNbt
+
+- `pickBlockNbt` 规则默认改为 `true`，装上即自动生效，无需手动开启。
 
 ### 1.14.0 — 26.2 Ctrl+中键复制方块 NBT 失效
 
