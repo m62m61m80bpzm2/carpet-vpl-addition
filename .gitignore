@@ -20,5 +20,8 @@ compatibility-report-*.md
 # macOS
 .DS_Store
 
-# 111 文件夹中的 jar
+# JAR files
+*.jar
+
+# 111 文件夹
 111/
