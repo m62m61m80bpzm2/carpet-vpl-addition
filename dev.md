@@ -186,6 +186,7 @@ src/main/java/carpetvpladdition/
   - `EntityTypes` → `EntityType`（PortalZombiePigmanMixin / VillagerGolemMixin / SpawnEggHelper）。
   - `StackableItemMixin` 从 `implements ItemInstance`（26.2 专属）改回 `@Inject getMaxStackSize`（兼容 1.21.11），加 `require = 0` 兜底（26.2 上若 ItemStack 无该方法则静默降级）。
 - **依赖**：carpet `>=1.4.194`，fabricloader `>=0.17.3`，java `>=21`。
+- jar 命名规范：产物名 = `[vpl-<version>-for-<支持范围>]carpet-addition-<version>.jar`（如 `[vpl-1.14.2-for-1.21.11-26.2]carpet-addition-1.14.2.jar`）。
 
 ### 1.14.1 — 默认启用 pickBlockNbt
 

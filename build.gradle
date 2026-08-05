@@ -1,3 +1,4 @@
+import org.gradle.api.tasks.bundling.AbstractArchiveTask
 plugins {
     id 'fabric-loom' version '1.17.11'
     id 'maven-publish'
@@ -6,6 +7,13 @@ plugins {
 version = project.mod_version
 group = project.maven_group
 base.archivesName = project.archives_base_name
+
+// jar name rule: [vpl-<version>-for-<mc support range>]carpet-addition-<version>.jar
+tasks.withType(AbstractArchiveTask).configureEach {
+    def classifier = archiveClassifier.orNull
+    def suffix = (classifier == null || classifier.isEmpty()) ? '' : "-${classifier}"
+    archiveFileName = "[vpl-${project.version}-for-${project.mc_support_range}]carpet-addition-${project.version}${suffix}.${archiveExtension.get()}"
+}
 
 repositories {
     maven { url 'https://masa.dy.fi/maven' }
