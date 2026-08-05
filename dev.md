@@ -146,6 +146,7 @@ Mojang 在 24w33a（1.21.2）修复了刷线漏洞，在 `TripWireHookBlock.calc
 - 多版本优化：实际构建验证 **1.21.6 / 1.21.7 / 1.21.8 / 1.21.9 / 1.21.10** 全部通过（之前 1.21.7/1.21.9/1.21.10 仅为推断）。
 - **SpawnEggHelper** 兼容修复：1.21.9 起 `DataComponents.ENTITY_DATA` 类型从 `CustomData` 变为 `TypedEntityData<EntityType<?>>`，改为运行时检测 + 反射设置，保证一个 jar 通吃 1.21.6~1.21.10。
 - 支持范围不变：`minecraft >=1.21.6 <1.21.11`。
+- jar 命名规范：产物名 = `[vpl-<version>-for-<支持范围>]carpet-addition-<version>.jar`（如 `[vpl-1.14.2-for-1.21.6-1.21.10]carpet-addition-1.14.2.jar`）。
 
 ## 修复记录（1.14.1）
 ## 修复记录（1.14.1）
