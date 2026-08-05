@@ -5,3 +5,5 @@ bin/
 *.iml
 out/
 .DS_Store
+opencode.json
+AGENTS.md

@@ -143,7 +143,9 @@ Mojang 在 24w33a（1.21.2）修复了刷线漏洞，在 `TripWireHookBlock.calc
 ## 修复记录（1.14.1）
 
 ### 说明
-- 仅将版本号从 1.13.5 提升至 **1.14.1**，与 26.2 分支版本号保持同步。
+- 版本号从 1.13.5 提升至 **1.14.1**，与 26.2 分支版本号保持同步，并移植 26.2 分支的功能更新：
+  1. **AttributeRefreshValidator**（26.2 1.13.5）：`maxPlayerHealth` / `playerAttackDamage` / `maxArmor` 规则变更时即时应用到所有在线玩家，无需重进服务器。
+  2. **CactusGrowthMixin** 改用 `@Shadow canSurvive`（26.2 1.13.6）：复用原版生存判定，替代手写 `canCactusSurvive`，避免判定逻辑漂移。
 - **未包含** 26.2 分支的 Ctrl+中键 NBT 修复（`PickBlockNbtMixin` / `pickBlockNbt` 规则），1.21.8 分支不添加。
 - 本分支所有代码由 **AI 生成**。
 
