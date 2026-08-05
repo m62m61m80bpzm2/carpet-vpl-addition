@@ -10,8 +10,8 @@ base.archivesName = project.archives_base_name
 
 // jar name rule: [vpl-<version>-for-<mc support range>]carpet-addition-<version>.jar
 tasks.withType(AbstractArchiveTask).configureEach {
-    def classifier = archiveClassifier.orNull
-    def suffix = (classifier == null || classifier.isEmpty()) ? '' : "-${classifier}"
+    if (name != 'remapJar' && name != 'remapSourcesJar') return
+    def suffix = (name == 'remapSourcesJar') ? '-sources' : ''
     archiveFileName = "[vpl-${project.version}-for-${project.mc_support_range}]carpet-addition-${project.version}${suffix}.${archiveExtension.get()}"
 }
 
