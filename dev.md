@@ -17,7 +17,7 @@
 
 ## 版本号
 
-- 当前版本：**1.14.1**
+- 当前版本：**1.14.2**
 - 规则：**每次修改后版本号 +1**（如 1.14.0 → 1.14.1）。
 - git 提交信息 = 当前版本号。
 
@@ -173,6 +173,19 @@ src/main/java/carpetvpladdition/
 8. **canHasTranslations**：ConcurrentHashMap 缓存翻译。
 
 ## 修复记录（变更日志）
+
+### 1.14.2 — 兼容 1.21.11+（多版本支持）
+
+- **目标变更**：26.2 分支从“仅 26.2”改为同时支持 **1.21.11 ~ 26.2**（fabric.mod.json 声明 `minecraft >=1.21.11 <26.3`）。
+- **构建目标**：编译目标从 26.2 改为 **1.21.11**（1.21.11 的 mappings 重构方向与 26.2 一致，intermediary 名在 1.21.11~26.2 间稳定，产物可跨版本运行）。
+- **修复 build.gradle 关键问题**：
+  1. 插件 ID `net.fabricmc.fabric-loom` → `fabric-loom`（前者解析异常，导致 `Cannot use Mojang mappings in a non-obfuscated environment` 与 Carpet access widener 报错）。
+  2. `implementation` → `modImplementation`，补回 `mappings loom.officialMojangMappings()`。
+  3. Java 25 → Java 21（1.21.11 运行要求）。
+- **API 适配（1.21.11 尚无 26.2 新 API）**：
+  - `EntityTypes` → `EntityType`（PortalZombiePigmanMixin / VillagerGolemMixin / SpawnEggHelper）。
+  - `StackableItemMixin` 从 `implements ItemInstance`（26.2 专属）改回 `@Inject getMaxStackSize`（兼容 1.21.11），加 `require = 0` 兜底（26.2 上若 ItemStack 无该方法则静默降级）。
+- **依赖**：carpet `>=1.4.194`，fabricloader `>=0.17.3`，java `>=21`。
 
 ### 1.14.1 — 默认启用 pickBlockNbt
 
