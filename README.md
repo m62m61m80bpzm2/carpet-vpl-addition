@@ -3,7 +3,7 @@
 一个基于 `fabric-carpet` 的 Fabric 服务端 Mod，为原版 Carpet 添加大量自定义游戏规则（Rules）。
 
 * 目标游戏版本：**Minecraft 26.2 ~ 26.3**
-* 当前 Mod 版本：**b1.14.3.1**（测试版）
+* 当前 Mod 版本：**b1.14.3.2**（测试版）
 * 支持语言：简体中文 / English
 
 本文件是**给玩家使用的说明**（怎么装、有哪些规则）。
@@ -36,7 +36,7 @@
 
    * Carpet（26.2+ 版本）
    * Fabric API
-   * **`[vpl-b1.14.3.1-for-26.2-26.3]carpet-addition-b1.14.3.1.jar`**
+   * **`[vpl-b1.14.3.2-for-26.2-26.3]carpet-addition-b1.14.3.2.jar`**
 3. 启动游戏即可。
 
 ## 使用
@@ -119,6 +119,7 @@
 |`bedrockPushableFurnace`|布尔|false|熔炉可被活塞推动|
 |`tridentVoidReturn`|布尔|false|忠诚三叉戟虚空返回|
 |`beaconUnifiedPPUpdate`|布尔|false|信标统一PP更新（20GT）|
+|`noZombieHorseSpawn`|布尔|false|禁止僵尸马自然生成|
 
 ### 修复
 

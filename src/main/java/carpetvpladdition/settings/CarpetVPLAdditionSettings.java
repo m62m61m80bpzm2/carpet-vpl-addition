@@ -312,4 +312,9 @@ public class CarpetVPLAdditionSettings {
         categories = {CARPET_VPL_ADDITION, FEATURE, SURVIVAL}
     )
     public static boolean beaconUnifiedPPUpdate = false;
+
+    @Rule(
+        categories = {CARPET_VPL_ADDITION, FEATURE, SURVIVAL}
+    )
+    public static boolean noZombieHorseSpawn = false;
 }

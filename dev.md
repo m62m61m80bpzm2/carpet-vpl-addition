@@ -17,7 +17,7 @@
 
 ## 版本号
 
-- 当前版本：**b1.14.3.1**（测试版）
+- 当前版本：**b1.14.3.2**（测试版）
 - 规则：**测试版本号前加 b 前缀**（如 1.14.2 之后的测试版 = b1.14.3.1，用户测试通过后去掉 b 转正式版）。
 - git 提交信息 = 当前版本号。
 
@@ -41,8 +41,8 @@
 ```
 
 产物位于 `build/libs/`：
-- `[vpl-b1.14.3.1-for-26.2-26.3]carpet-addition-b1.14.3.1.jar` — 发布用 jar（直接以 Mojang 官方命名编译，无需 remap）
-- `[vpl-b1.14.3.1-for-26.2-26.3]carpet-addition-b1.14.3.1-sources.jar` — 源码 jar
+- `[vpl-b1.14.3.2-for-26.2-26.3]carpet-addition-b1.14.3.2.jar` — 发布用 jar（直接以 Mojang 官方命名编译，无需 remap）
+- `[vpl-b1.14.3.2-for-26.2-26.3]carpet-addition-b1.14.3.2-sources.jar` — 源码 jar
 
 > 注意：若出现“卡住不动”的假死，通常是上次超时被杀掉的 Gradle daemon 遗留了 Loom 缓存锁。
 > 用 `--no-daemon` 构建，或先执行 `./gradlew --stop` 清理。
@@ -58,7 +58,7 @@ minecraft_version=26.2
 loader_version=0.19.3
 fabric_version=0.154.2+26.2
 carpet_version=26.2+v260616
-mod_version=b1.14.3.1
+mod_version=b1.14.3.2
 mc_support_range=26.2-26.3
 archives_base_name=[vpl26.2]carpet-vpl-addition
 ```
@@ -181,6 +181,14 @@ src/main/java/carpetvpladdition/
 8. **canHasTranslations**：ConcurrentHashMap 缓存翻译。
 
 ## 修复记录（变更日志）
+
+### b1.14.3.2 — 新增禁止僵尸马生成规则（测试版）
+
+- **新增规则 `noZombieHorseSpawn`**（默认关闭）：阻止僵尸马在夜间作为怪物自然生成。
+- **实现**：`ZombieHorseSpawnMixin` 注入 `ZombieHorse.finalizeSpawn` HEAD，当规则开启且 `spawnReason == EntitySpawnReason.NATURAL` 时返回 null 拦截生成。
+- **只拦截自然生成**：刷怪蛋 / 指令 / 繁殖等其他生成路径不受影响。
+- **备注**：26.2 已移除“马被雷劈变僵尸马”机制（Horse 无 thunderHit 重写），僵尸马仅剩自然生成 + 刷怪蛋/指令/繁殖来源。
+- 版本号：b1.14.3.1 → b1.14.3.2。
 
 ### b1.14.3.1 — 新增信标统一 PP 更新规则 + 修正 26.2 构建（测试版）
 
