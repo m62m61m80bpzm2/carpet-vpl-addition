@@ -1,6 +1,6 @@
 import org.gradle.api.tasks.bundling.AbstractArchiveTask
 plugins {
-    id 'fabric-loom' version '1.17.11'
+    id 'net.fabricmc.fabric-loom' version '1.17-SNAPSHOT'
     id 'maven-publish'
 }
 
@@ -10,8 +10,8 @@ base.archivesName = project.archives_base_name
 
 // jar name rule: [vpl-<version>-for-<mc support range>]carpet-addition-<version>.jar
 tasks.withType(AbstractArchiveTask).configureEach {
-    if (name != 'remapJar' && name != 'remapSourcesJar') return
-    def suffix = (name == 'remapSourcesJar') ? '-sources' : ''
+    if (name != 'jar' && name != 'sourcesJar') return
+    def suffix = (name == 'sourcesJar') ? '-sources' : ''
     archiveFileName = "[vpl-${project.version}-for-${project.mc_support_range}]carpet-addition-${project.version}${suffix}.${archiveExtension.get()}"
 }
 
@@ -23,21 +23,20 @@ repositories {
 
 dependencies {
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
-    mappings loom.officialMojangMappings()
-    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-    modImplementation "carpet:fabric-carpet:${project.carpet_version}"
-    include(annotationProcessor(modImplementation("io.github.llamalad7:mixinextras-fabric:0.4.1")))
+    implementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+    implementation "carpet:fabric-carpet:${project.carpet_version}"
+    include(annotationProcessor("io.github.llamalad7:mixinextras-fabric:0.4.1"))
 }
 
 java {
     withSourcesJar()
-    sourceCompatibility = JavaVersion.VERSION_21
-    targetCompatibility = JavaVersion.VERSION_21
+    sourceCompatibility = JavaVersion.VERSION_25
+    targetCompatibility = JavaVersion.VERSION_25
 }
 
 tasks.withType(JavaCompile).configureEach {
-    it.options.release = 21
+    it.options.release = 25
 }
 
 processResources {

@@ -117,5 +117,8 @@
     "carpet.rule.pickBlockNbt.name": "Pick Block NBT Fix",
     "carpet.rule.pickBlockNbt.desc": "Fixes Ctrl+Middle Click not copying block NBT data (e.g. chest contents) in Creative mode for MC 26.2. Takes effect immediately.",
     "carpet.rule.pickBlockNbt.extra.0": "Forces includeData=true in handlePickItemFromBlock when player has infinite materials, restoring the vanilla behavior from 1.21.8/1.21.11.",
+    "carpet.rule.beaconUnifiedPPUpdate.name": "Beacon Unified PP Update",
+    "carpet.rule.beaconUnifiedPPUpdate.desc": "Every 20 game ticks, sends a unified block update to all beacons sitting directly on shallow-layer lapis ore (minecraft:lapis_ore). All qualifying beacons are updated at the same server-tick-end phase with consistent micro-timing.",
+    "carpet.rule.beaconUnifiedPPUpdate.extra.0": "Shallow lapis ore = the stone variant (lapis_ore), not deepslate_lapis_ore. Fire phase: server tick end (END_SERVER_TICK, after all dimensions finish ticking). Each fire logs the phase, tick number and updated beacon count to the server console for timing verification.",
     "carpet.category.carpet_vpl_addition": "Carpet VPL Addition"
 }

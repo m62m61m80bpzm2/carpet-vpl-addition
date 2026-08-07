@@ -3,7 +3,7 @@
 一个基于 `fabric-carpet` 的 Fabric 服务端 Mod，为原版 Carpet 添加大量自定义游戏规则（Rules）。
 
 * 目标游戏版本：**Minecraft 26.2**
-* 当前 Mod 版本：**1.14.0**
+* 当前 Mod 版本：**b1.14.3.1**（测试版）
 * 支持语言：简体中文 / English
 
 本文件是**给玩家使用的说明**（怎么装、有哪些规则）。
@@ -17,7 +17,7 @@
 * [安装](#安装)
 * [使用](#使用)
 * [规则列表](#规则列表)
-* [常见问题](#常见问题)
+* [已知问题](#已知问题)
 
 ## 环境依赖
 
@@ -34,9 +34,9 @@
 1. 安装 [Fabric Loader](https://fabricmc.net/use/installer/)（0.19.3+）。
 2. 将以下 Mod 放入 `.minecraft/mods/` 文件夹：
 
-   * Carpet（26.2 版本）
+   * Carpet（26.2+ 版本）
    * Fabric API
-   * **`\[vpl26.2]carpet-vpl-addition-<version>.jar`**
+   * **`[vpl-b1.14.3.1-for-26.2]carpet-addition-b1.14.3.1.jar`**
 3. 启动游戏即可。
 
 ## 使用
@@ -44,7 +44,7 @@
 所有规则都通过 Carpet 自带的 `/carpet` 命令来查看和设置：
 
 ```
-/carpet list carpet\_vpl\_addition     查看本 Mod 的全部规则及当前值
+/carpet list carpet-vpl-addition     查看本 Mod 的全部规则及当前值
 /carpet <规则名> <值>                 设置某个规则（例如 /carpet cactusBoneMeal true）
 ```
 
@@ -118,6 +118,7 @@
 |`observerTickDelay`|数值|2|侦测器触发延迟|
 |`bedrockPushableFurnace`|布尔|false|熔炉可被活塞推动|
 |`tridentVoidReturn`|布尔|false|忠诚三叉戟虚空返回|
+|`beaconUnifiedPPUpdate`|布尔|false|信标统一PP更新（20GT）|
 
 ### 修复
 

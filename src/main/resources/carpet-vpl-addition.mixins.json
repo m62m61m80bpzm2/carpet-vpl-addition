@@ -2,7 +2,8 @@
   "required": true,
   "minVersion": "0.8",
   "package": "carpetvpladdition.mixin",
-  "compatibilityLevel": "JAVA_21",
+  "plugin": "carpetvpladdition.mixin.VersionedMixinPlugin",
+  "compatibilityLevel": "JAVA_25",
   "mixins": [
     "RecipeManagerAccessor",
     "RecipeManagerMixin",
@@ -29,7 +30,8 @@
     "VillagerNoPriceOnAttackMixin",
     "CactusGrowthMixin",
     "CactusBonemealMixin",
-    "PickBlockNbtMixin"
+    "PickBlockNbtMixin",
+    "BeaconBlockEntityTrackerMixin"
   ],
   "injectors": {
     "defaultRequire": 1

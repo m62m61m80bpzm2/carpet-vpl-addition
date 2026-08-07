@@ -3,6 +3,7 @@ package carpetvpladdition;
 import carpet.CarpetExtension;
 import carpet.CarpetServer;
 import carpetvpladdition.settings.CarpetVPLAdditionSettings;
+import carpetvpladdition.util.BeaconPPUpdateManager;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import net.minecraft.server.level.ServerPlayer;
@@ -26,6 +27,8 @@ public class CarpetVPLAdditionExtension implements CarpetExtension {
             CarpetServer.settingsManager.parseSettingsClass(CarpetVPLAdditionSettings.class);
             // 初始化所有字符串规则的数值缓存
             CarpetVPLAdditionSettings.syncNumericCaches();
+            // 注册信标统一 PP 更新：信标追踪 + 每 20GT 统一触发（规则 beaconUnifiedPPUpdate）
+            BeaconPPUpdateManager.register();
         } catch (Exception e) {
             System.err.println("[carpet-vpl-addition] Failed to register settings: " + e.getMessage());
         }

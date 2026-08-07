@@ -17,21 +17,21 @@
 
 ## 版本号
 
-- 当前版本：**1.14.2**
-- 规则：**每次修改后版本号 +1**（如 1.14.0 → 1.14.1）。
+- 当前版本：**b1.14.3.1**（测试版）
+- 规则：**测试版本号前加 b 前缀**（如 1.14.2 之后的测试版 = b1.14.3.1，用户测试通过后去掉 b 转正式版）。
 - git 提交信息 = 当前版本号。
 
 ## 技术栈与环境
 
 | 项目 | 版本 |
 |---|---|
-| Minecraft | 26.2 |
+| Minecraft | 26.2（非混淆版，产物仅支持 26.2） |
 | Java（运行/编译） | 25 |
 | Fabric Loader | 0.19.3 |
 | Fabric API | 0.154.2+26.2 |
 | Carpet | 26.2+v260616 |
-| fabric-loom | 1.17.11 |
-| mappings | Mojang official |
+| fabric-loom | 1.17-SNAPSHOT（官方 ID `net.fabricmc.fabric-loom`） |
+| mappings | 无（26.x 为非混淆版本，直接使用 Mojang 官方命名，无需任何 mappings） |
 | Gradle | 9.5.1（wrapper） |
 
 ## 构建与发布
@@ -41,8 +41,8 @@
 ```
 
 产物位于 `build/libs/`：
-- `[vpl26.2]carpet-vpl-addition-<version>.jar` — 发布用 jar（已 remap 到 intermediary）
-- `[vpl26.2]carpet-vpl-addition-<version>-sources.jar` — 源码 jar
+- `[vpl-b1.14.3.1-for-26.2]carpet-addition-b1.14.3.1.jar` — 发布用 jar（直接以 Mojang 官方命名编译，无需 remap）
+- `[vpl-b1.14.3.1-for-26.2]carpet-addition-b1.14.3.1-sources.jar` — 源码 jar
 
 > 注意：若出现“卡住不动”的假死，通常是上次超时被杀掉的 Gradle daemon 遗留了 Loom 缓存锁。
 > 用 `--no-daemon` 构建，或先执行 `./gradlew --stop` 清理。
@@ -58,14 +58,20 @@ minecraft_version=26.2
 loader_version=0.19.3
 fabric_version=0.154.2+26.2
 carpet_version=26.2+v260616
-mod_version=1.14.1
+mod_version=b1.14.3.1
+mc_support_range=26.2
 archives_base_name=[vpl26.2]carpet-vpl-addition
 ```
 
 ```groovy
-// build.gradle
-sourceCompatibility = JavaVersion.VERSION_21
-it.options.release = 21      // 即使目标 MC 用 Java 25，我们也以 Java 21 字节码编译
+// build.gradle（26.x 非混淆版要点）
+plugins {
+    id 'net.fabricmc.fabric-loom' version '1.17-SNAPSHOT'   // 非混淆版用官方完整 ID
+    id 'maven-publish'
+}
+// 无需 mappings 声明、无需 modImplementation（非混淆版没有 mod* DSL，用 implementation）
+sourceCompatibility = JavaVersion.VERSION_25
+it.options.release = 25
 ```
 
 ### 依赖声明（fabric.mod.json）
@@ -112,13 +118,15 @@ src/main/java/carpetvpladdition/
 │   ├── CactusGrowthMixin.java            # 仙人掌生长速度倍率
 │   ├── CactusBonemealMixin.java         # 仙人掌骨粉催熟
 │   ├── PickBlockNbtMixin.java            # 中键复制方块 NBT 修复
+│   ├── BeaconBlockEntityTrackerMixin.java # 信标追踪（setLevel 注入）
 │   └── RecipeManagerAccessor/RecipeManagerMixin.java # 不死图腾配方
 ├── settings/
 │   ├── CarpetVPLAdditionSettings.java    # 规则定义 + 数值缓存
 │   └── RecipeRuleObserver.java           # 配方规则验证器
 └── util/
     ├── CompoundTagValueOutput.java   # NBT 输出工具
-    └── SpawnEggHelper.java           # 刷怪蛋工具
+    ├── SpawnEggHelper.java           # 刷怪蛋工具
+    └── BeaconPPUpdateManager.java    # 信标统一PP更新（20GT脉冲）
 ```
 
 ## 规则注册机制
@@ -155,11 +163,11 @@ src/main/java/carpetvpladdition/
 |---|---|
 | 1.21.0-1.21.1 | 禁用 VillagerGolem / PortalZombiePigman / Tripwire 系列（依赖 EntitySpawnReason 等） |
 | 1.21.2-1.21.5 | 禁用 VillagerReincarnation |
-| 1.21.6-1.21.10 | 全部启用 |
-| 1.21.11 | **不受支持**（Mojang mappings 大重构，见下文） |
-| 26.x | 全部启用 |
+| 1.21.6-1.21.10 | 全部启用（由分支 1.21.6-1.21.10 维护，intermediary 编译） |
+| 1.21.11 | 全部启用（由分支 1.21.6-1.21.10 维护，intermediary 编译） |
+| 26.x | 全部启用（本分支 1.21.11-26.2 维护，26.2 非混淆直编） |
 
-> 当前正式构建目标为 **26.2**；其余版本仅在本分支的历史中存在。
+> **重要**：26.x 是非混淆版本（无 intermediary 映射，日志会提示 `Mappings not present!`），必须用按 26.2 直接编译的 jar；intermediary 编译的 jar 在 26.2 上 mixin 目标全部失效（`class_XXXX` 找不到）+ Carpet API 签名不匹配（`AbstractMethodError`）。因此 1.21.11 与 26.2 **无法共用一个 jar**，本分支（1.21.11-26.2）实际以 **26.2** 为编译目标，仅支持 26.2；1.21.6 ~ 1.21.11 由分支 1.21.6-1.21.10 维护。
 
 ## 性能优化
 
@@ -174,19 +182,37 @@ src/main/java/carpetvpladdition/
 
 ## 修复记录（变更日志）
 
-### 1.14.2 — 兼容 1.21.11+（多版本支持）
+### b1.14.3.1 — 新增信标统一 PP 更新规则 + 修正 26.2 构建（测试版）
+
+- **新增规则 `beaconUnifiedPPUpdate`**（默认关闭）：每隔 20 游戏刻，向所有正下方为浅层青金石原矿（minecraft:lapis_ore，非深板岩）的信标统一发出一次方块更新。
+- **统一时机**：触发阶段为服务器 tick 末尾（ServerTickEvents.END_SERVER_TICK，所有维度 tick 完成后），所有信标在同一时刻、同一阶段被更新，与所在位置无关。
+- **微时序**：追踪集合按坐标排序（TreeSet），每次触发的处理顺序固定，微时序一致。
+- **阶段上报**：每次触发在服务器控制台输出 `阶段=服务器tick末尾(END_SERVER_TICK), tick=<t>, 统一更新信标数=<n>`。
+- **追踪机制**：BeaconBlockEntityTrackerMixin 注入 BlockEntity.setLevel（覆盖玩家放置 / /setblock / 区块加载）+ 区块实体加载/卸载事件；触发时自愈清理失效位置。
+- **修正 26.2 构建（重要）**：26.x 是非混淆版本（无 intermediary），必须直接按 26.2 编译：
+  1. 插件改用官方 ID `net.fabricmc.fabric-loom` 1.17-SNAPSHOT（短 ID 无 1.17.18 marker）；无需 mappings 声明、无需 `noIntermediateMappings()`。
+  2. `modImplementation` → `implementation`（非混淆版没有 mod* DSL）；无 remapJar，jar 任务直接用 `jar`。
+  3. `ServerWorldEvents` → `ServerLevelEvents`（26.x 改名）；恢复被误删的 mixins.json `plugin` 字段（VersionedMixinPlugin）。
+  4. 验证：jar 内无 `class_` 名、Validator 签名与 Carpet 26.2 完全一致（修复 26.2 上的 `AbstractMethodError` 崩溃）。
+- **文档对齐**：README / dev.md 版本号、依赖表、jar 命名全部对齐真实构建配置（26.2 编译目标、Java 25、Carpet 26.2+v260616）。
+- **清理**：删除 gradle.properties 死变量 carpet_dep_version；新增 MIT LICENSE（build.gradle 的 jar 任务引用了该文件）。
+
+
+### 1.14.2 — 错误的“多版本”尝试（已由 b1.14.3.1 修正）
+
+> **教训记录**：此版本曾试图以 1.21.11 为编译目标、产物同时支持 1.21.11 ~ 26.2，但经 26.2 实机测试被推翻——26.x 无 intermediary，intermediary 编译的 jar 在 26.2 上 mixin 目标全部失效 + Carpet API 签名不匹配（`AbstractMethodError`）。1.14.2 的 jar 不可用于 26.2。
 
 - **目标变更**：26.2 分支从“仅 26.2”改为同时支持 **1.21.11 ~ 26.2**（fabric.mod.json 声明 `minecraft >=1.21.11 <26.3`）。
-- **构建目标**：编译目标从 26.2 改为 **1.21.11**（1.21.11 的 mappings 重构方向与 26.2 一致，intermediary 名在 1.21.11~26.2 间稳定，产物可跨版本运行）。
+- **构建目标**：编译目标从 26.2 改为 **1.21.11**。
 - **修复 build.gradle 关键问题**：
-  1. 插件 ID `net.fabricmc.fabric-loom` → `fabric-loom`（前者解析异常，导致 `Cannot use Mojang mappings in a non-obfuscated environment` 与 Carpet access widener 报错）。
+  1. 插件 ID `net.fabricmc.fabric-loom` → `fabric-loom`。
   2. `implementation` → `modImplementation`，补回 `mappings loom.officialMojangMappings()`。
   3. Java 25 → Java 21（1.21.11 运行要求）。
 - **API 适配（1.21.11 尚无 26.2 新 API）**：
   - `EntityTypes` → `EntityType`（PortalZombiePigmanMixin / VillagerGolemMixin / SpawnEggHelper）。
-  - `StackableItemMixin` 从 `implements ItemInstance`（26.2 专属）改回 `@Inject getMaxStackSize`（兼容 1.21.11），加 `require = 0` 兜底（26.2 上若 ItemStack 无该方法则静默降级）。
+  - `StackableItemMixin` 从 `implements ItemInstance`（26.2 专属）改回 `@Inject getMaxStackSize`（兼容 1.21.11），加 `require = 0` 兜底。
 - **依赖**：carpet `>=1.4.194`，fabricloader `>=0.17.3`，java `>=21`。
-- jar 命名规范：产物名 = `[vpl-<version>-for-<支持范围>]carpet-addition-<version>.jar`（如 `[vpl-1.14.2-for-1.21.11-26.2]carpet-addition-1.14.2.jar`）。
+- jar 命名规范：产物名 = `[vpl-<version>-for-<支持范围>]carpet-addition-<version>.jar`。
 
 ### 1.14.1 — 默认启用 pickBlockNbt
 
