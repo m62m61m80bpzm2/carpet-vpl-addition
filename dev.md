@@ -25,7 +25,7 @@
 
 | 项目 | 版本 |
 |---|---|
-| Minecraft | 26.2（非混淆版，产物仅支持 26.2） |
+| Minecraft | 26.2（非混淆版编译目标，产物兼容 26.2 ~ 26.3） |
 | Java（运行/编译） | 25 |
 | Fabric Loader | 0.19.3 |
 | Fabric API | 0.154.2+26.2 |
@@ -41,8 +41,8 @@
 ```
 
 产物位于 `build/libs/`：
-- `[vpl-b1.14.3.1-for-26.2]carpet-addition-b1.14.3.1.jar` — 发布用 jar（直接以 Mojang 官方命名编译，无需 remap）
-- `[vpl-b1.14.3.1-for-26.2]carpet-addition-b1.14.3.1-sources.jar` — 源码 jar
+- `[vpl-b1.14.3.1-for-26.2-26.3]carpet-addition-b1.14.3.1.jar` — 发布用 jar（直接以 Mojang 官方命名编译，无需 remap）
+- `[vpl-b1.14.3.1-for-26.2-26.3]carpet-addition-b1.14.3.1-sources.jar` — 源码 jar
 
 > 注意：若出现“卡住不动”的假死，通常是上次超时被杀掉的 Gradle daemon 遗留了 Loom 缓存锁。
 > 用 `--no-daemon` 构建，或先执行 `./gradlew --stop` 清理。
@@ -59,7 +59,7 @@ loader_version=0.19.3
 fabric_version=0.154.2+26.2
 carpet_version=26.2+v260616
 mod_version=b1.14.3.1
-mc_support_range=26.2
+mc_support_range=26.2-26.3
 archives_base_name=[vpl26.2]carpet-vpl-addition
 ```
 
@@ -196,6 +196,11 @@ src/main/java/carpetvpladdition/
   4. 验证：jar 内无 `class_` 名、Validator 签名与 Carpet 26.2 完全一致（修复 26.2 上的 `AbstractMethodError` 崩溃）。
 - **文档对齐**：README / dev.md 版本号、依赖表、jar 命名全部对齐真实构建配置（26.2 编译目标、Java 25、Carpet 26.2+v260616）。
 - **清理**：删除 gradle.properties 死变量 carpet_dep_version；新增 MIT LICENSE（build.gradle 的 jar 任务引用了该文件）。
+- **修复 StackableItemMixin 在 26.2 静默失效（重要）**：1.14.2 为兼容 1.21.11 改用 `@Inject ItemStack.getMaxStackSize + require=0`，但 26.2 中该方法是 `ItemInstance` 接口的 default 方法（读 `DataComponents.MAX_STACK_SIZE`），ItemStack 不重写它 → 注入点不存在 → require=0 静默跳过，**全部堆叠规则失效**。已恢复 1.13.4 验证过的 `implements ItemInstance + @Override getMaxStackSize` 方案。
+- **修复 syncNumericCaches 无下限校验**：maxAir/maxSaturation/maxPlayerHealth/hopperMinecartStackSize 等接受 0 或负数，已加 `Math.max` 下限保护（hopperMinecartStackSize 保持 99 上限）。
+- **向上兼容 26.3**：经 tis-addition 的 `mapping-26.2-26.3.txt` 对比，26.2→26.3 服务端 API 零变化（仅客户端渲染类 `GlStateManager` 改名），26.2 编译产物理论上可直接运行于 26.3。fabric.mod.json 放宽为 `>=26.2 <26.4`，mc_support_range 改为 `26.2-26.3`。
+  > **注意**：该 mapping 文件只覆盖 tis 自己的 API 用法，未覆盖本 mod 全部 27 个 mixin 目标。26.3 兼容为**声明性兼容，尚未在 26.3 上实机验证**，需用户测试确认。
+- **全面核对 mixin 注入目标**：逐类验证全部 27 个 mixin 的 @Mixin 目标与注入方法在 26.2 源码中存在且签名匹配（含 Player.getXpNeededForNextLevel、ServerPlayer.restoreFrom、Villager.onReputationEventFrom、RecipeManager.prepare 等）。
 
 
 ### 1.14.2 — 错误的“多版本”尝试（已由 b1.14.3.1 修正）

@@ -26,33 +26,33 @@ public class CarpetVPLAdditionSettings {
     public static double maxArmorCached = 0.0;
     public static float cactusGrowthMultiplierCached = 1.0f;
 
-    /** 将所有字符串规则解析到缓存字段 */
+    /** 将所有字符串规则解析到缓存字段（含最小值/上限保护，防止玩家输入 0 或负数破坏机制） */
     public static void syncNumericCaches() {
         try { observerTickDelayCached = Math.max(1, Integer.parseInt(observerTickDelay)); }
         catch (NumberFormatException e) { observerTickDelayCached = 2; }
 
-        try { maxAirCached = Integer.parseInt(maxAir); }
+        try { maxAirCached = Math.max(1, Integer.parseInt(maxAir)); }
         catch (NumberFormatException e) { maxAirCached = 300; }
 
-        try { maxSaturationCached = Integer.parseInt(maxSaturation); }
+        try { maxSaturationCached = Math.max(1, Integer.parseInt(maxSaturation)); }
         catch (NumberFormatException e) { maxSaturationCached = 20; }
 
-        try { furnaceXpMultiplierCached = Float.parseFloat(furnaceXpMultiplier); }
+        try { furnaceXpMultiplierCached = Math.max(0.0f, Float.parseFloat(furnaceXpMultiplier)); }
         catch (NumberFormatException e) { furnaceXpMultiplierCached = 1.0f; }
 
-        try { hopperMinecartStackSizeCached = Math.min(99, Integer.parseInt(hopperMinecartStackSize)); }
+        try { hopperMinecartStackSizeCached = Math.min(99, Math.max(1, Integer.parseInt(hopperMinecartStackSize))); }
         catch (NumberFormatException e) { hopperMinecartStackSizeCached = 1; }
 
-        try { maxPlayerHealthCached = Integer.parseInt(maxPlayerHealth); }
+        try { maxPlayerHealthCached = Math.max(1, Integer.parseInt(maxPlayerHealth)); }
         catch (NumberFormatException e) { maxPlayerHealthCached = 20; }
 
-        try { playerAttackDamageCached = Double.parseDouble(playerAttackDamage); }
+        try { playerAttackDamageCached = Math.max(0.0, Double.parseDouble(playerAttackDamage)); }
         catch (NumberFormatException e) { playerAttackDamageCached = 2.0; }
 
-        try { maxArmorCached = Double.parseDouble(maxArmor); }
+        try { maxArmorCached = Math.max(0.0, Double.parseDouble(maxArmor)); }
         catch (NumberFormatException e) { maxArmorCached = 0.0; }
 
-        try { cactusGrowthMultiplierCached = Float.parseFloat(cactusGrowthMultiplier); }
+        try { cactusGrowthMultiplierCached = Math.max(0.0f, Float.parseFloat(cactusGrowthMultiplier)); }
         catch (NumberFormatException e) { cactusGrowthMultiplierCached = 1.0f; }
     }
 
