@@ -31,7 +31,8 @@
     "CactusGrowthMixin",
     "CactusBonemealMixin",
     "PickBlockNbtMixin",
-    "BeaconBlockEntityTrackerMixin"
+    "BeaconBlockEntityTrackerMixin",
+    "ZombieHorseSpawnMixin"
   ],
   "injectors": {
     "defaultRequire": 1

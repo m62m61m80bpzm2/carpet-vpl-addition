@@ -120,5 +120,8 @@
     "carpet.rule.beaconUnifiedPPUpdate.name": "信标统一PP更新",
     "carpet.rule.beaconUnifiedPPUpdate.desc": "每隔20游戏刻，向所有正下方为浅层青金石原矿（minecraft:lapis_ore）的信标统一发出一次方块更新。所有符合要求的信标在同一服务器tick末尾阶段被更新，时间与微时序一致。",
     "carpet.rule.beaconUnifiedPPUpdate.extra.0": "浅层青金石原矿=石头变体lapis_ore（非深板岩deepslate_lapis_ore）。触发阶段：服务器tick末尾（END_SERVER_TICK，所有维度tick完成后）。每次触发在服务器控制台输出阶段、tick号与更新数量，便于验证时序。",
+    "carpet.rule.noZombieHorseSpawn.name": "禁止僵尸马生成",
+    "carpet.rule.noZombieHorseSpawn.desc": "阻止僵尸马在夜间自然生成（作为怪物刷出）。调整后即时生效。",
+    "carpet.rule.noZombieHorseSpawn.extra.0": "在 ZombieHorse.finalizeSpawn 中拦截 NATURAL 生成路径（夜间刷怪）。不影响刷怪蛋、指令或繁殖等其他生成方式。",
     "carpet.category.carpet_vpl_addition": "Carpet VPL Addition"
 }
