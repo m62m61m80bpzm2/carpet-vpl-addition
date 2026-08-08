@@ -1,9 +1,9 @@
 package carpetvpladdition.mixin;
 
 import carpetvpladdition.settings.CarpetVPLAdditionSettings;
+import carpetvpladdition.util.EntityTypeHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.EntitySpawnReason;
-import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.npc.villager.Villager;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
@@ -29,7 +29,9 @@ public abstract class VillagerGolemMixin {
         level.setBlock(belowPos, Blocks.AIR.defaultBlockState(), 3);
         level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
 
-        Villager villager = EntityTypes.VILLAGER.create(level, EntitySpawnReason.STRUCTURE);
+        Villager villager = EntityTypeHelper.<Villager>get("villager") != null
+            ? EntityTypeHelper.<Villager>get("villager").create(level, EntitySpawnReason.STRUCTURE)
+            : null;
         if (villager != null) {
             villager.setPos(belowPos.getX() + 0.5, belowPos.getY() + 0.05, belowPos.getZ() + 0.5);
             level.addFreshEntity(villager);
