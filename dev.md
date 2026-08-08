@@ -17,7 +17,7 @@
 
 ## 版本号
 
-- 当前版本：**b1.14.3.2**（测试版）
+- 当前版本：**b1.14.3.3**（测试版）
 - 规则：**测试版本号前加 b 前缀**（如 1.14.2 之后的测试版 = b1.14.3.1，用户测试通过后去掉 b 转正式版）。
 - git 提交信息 = 当前版本号。
 
@@ -25,11 +25,11 @@
 
 | 项目 | 版本 |
 |---|---|
-| Minecraft | 26.2（非混淆版编译目标，产物兼容 26.2 ~ 26.3） |
+| Minecraft | 26.1.2（非混淆版编译目标，产物兼容 26.1 ~ 26.2） |
 | Java（运行/编译） | 25 |
 | Fabric Loader | 0.19.3 |
-| Fabric API | 0.154.2+26.2 |
-| Carpet | 26.2+v260616 |
+| Fabric API | 0.154.2+26.1.2 |
+| Carpet | 26.1+v260401 |
 | fabric-loom | 1.17-SNAPSHOT（官方 ID `net.fabricmc.fabric-loom`） |
 | mappings | 无（26.x 为非混淆版本，直接使用 Mojang 官方命名，无需任何 mappings） |
 | Gradle | 9.5.1（wrapper） |
@@ -41,8 +41,8 @@
 ```
 
 产物位于 `build/libs/`：
-- `[vpl-b1.14.3.2-for-26.2-26.3]carpet-addition-b1.14.3.2.jar` — 发布用 jar（直接以 Mojang 官方命名编译，无需 remap）
-- `[vpl-b1.14.3.2-for-26.2-26.3]carpet-addition-b1.14.3.2-sources.jar` — 源码 jar
+- `[vpl-b1.14.3.3-for-26.1-26.2]carpet-addition-b1.14.3.3.jar` — 发布用 jar（直接以 Mojang 官方命名编译，无需 remap）
+- `[vpl-b1.14.3.3-for-26.1-26.2]carpet-addition-b1.14.3.3-sources.jar` — 源码 jar
 
 > 注意：若出现“卡住不动”的假死，通常是上次超时被杀掉的 Gradle daemon 遗留了 Loom 缓存锁。
 > 用 `--no-daemon` 构建，或先执行 `./gradlew --stop` 清理。
@@ -54,12 +54,12 @@
 ### Gradle 关键配置（gradle.properties / build.gradle）
 
 ```properties
-minecraft_version=26.2
+minecraft_version=26.1.2
 loader_version=0.19.3
-fabric_version=0.154.2+26.2
-carpet_version=26.2+v260616
-mod_version=b1.14.3.2
-mc_support_range=26.2-26.3
+fabric_version=0.154.2+26.1.2
+carpet_version=26.1+v260401
+mod_version=b1.14.3.3
+mc_support_range=26.1-26.2
 archives_base_name=[vpl26.2]carpet-vpl-addition
 ```
 
@@ -79,10 +79,10 @@ it.options.release = 25
 ```json
 "depends": {
   "fabricloader": ">=0.19.3",
-  "minecraft": ">=26.2 <26.3",
+  "minecraft": ">=26.1 <26.3",
   "java": ">=25",
   "fabric-api": "*",
-  "carpet": ">=26.2"
+  "carpet": ">=26.1"
 }
 ```
 
@@ -165,9 +165,11 @@ src/main/java/carpetvpladdition/
 | 1.21.2-1.21.5 | 禁用 VillagerReincarnation |
 | 1.21.6-1.21.10 | 全部启用（由分支 1.21.6-1.21.10 维护，intermediary 编译） |
 | 1.21.11 | 全部启用（由分支 1.21.6-1.21.10 维护，intermediary 编译） |
-| 26.x | 全部启用（本分支 1.21.11-26.2 维护，26.2 非混淆直编） |
+| 26.1 ~ 26.2 | 全部启用（本分支 1.21.11-26.2 维护，以 26.1.2 为编译目标的非混淆直编产物） |
 
-> **重要**：26.x 是非混淆版本（无 intermediary 映射，日志会提示 `Mappings not present!`），必须用按 26.2 直接编译的 jar；intermediary 编译的 jar 在 26.2 上 mixin 目标全部失效（`class_XXXX` 找不到）+ Carpet API 签名不匹配（`AbstractMethodError`）。因此 1.21.11 与 26.2 **无法共用一个 jar**，本分支（1.21.11-26.2）实际以 **26.2** 为编译目标，仅支持 26.2；1.21.6 ~ 1.21.11 由分支 1.21.6-1.21.10 维护。
+> **重要**：26.x 是非混淆版本（无 intermediary 映射，日志会提示 `Mappings not present!`），必须用按 26.x 直接编译的 jar；intermediary 编译的 jar 在 26.x 上 mixin 目标全部失效（`class_XXXX` 找不到）+ Carpet API 签名不匹配（`AbstractMethodError`）。因此 1.21.11 与 26.x **无法共用一个 jar**，本分支（1.21.11-26.2）实际以 **26.1.2** 为编译目标，产物兼容 **26.1 ~ 26.2**（经源码核对，26.1/26.1.1/26.1.2/26.2 的服务端 API、Carpet 26.1/26.2 的 Validator/Extension/Rule API 签名完全一致）；1.21.6 ~ 1.21.11 由分支 1.21.6-1.21.10 维护。
+
+> **26.3 暂不支持**：26.3 尚处 snapshot 阶段，本分支不声明 26.3 兼容（fabric.mod.json 上限 `<26.3`）。待 26.3 正式发布且实机验证后再放开。
 
 ## 性能优化
 
@@ -181,6 +183,13 @@ src/main/java/carpetvpladdition/
 8. **canHasTranslations**：ConcurrentHashMap 缓存翻译。
 
 ## 修复记录（变更日志）
+
+### b1.14.3.3 — 编译目标降至 26.1.2，产物兼容 26.1 ~ 26.2（测试版）
+
+- **编译目标 26.2 → 26.1.2**：26.1 系列（26.1 / 26.1.1 / 26.1.2）与 26.2 的服务端 API 经源码逐类核对完全一致（ZombieHorse.finalizeSpawn、SpawnPlacements 注册、BlockEntity.setLevel、ItemInstance、EntitySpawnReason、RecipeManager/RecipeMap 等），Carpet 26.1/26.2 的 Validator / CarpetExtension / Rule 注解签名一致（javap 对比）。以最低版本 26.1.2 编译，产物在 26.1 ~ 26.2 全部可用。
+- **依赖更新**：fabric-api `0.154.2+26.1.2`、carpet `26.1+v260401`。
+- **撤回 26.3 兼容声明**：fabric.mod.json `minecraft >=26.2 <26.4` → `>=26.1 <26.3`，carpet `>=26.2` → `>=26.1`，描述改为 "26.1 ~ 26.2"，mc_support_range `26.2-26.3` → `26.1-26.2`。26.3 尚处 snapshot，不声明支持。
+- 版本号：b1.14.3.2 → b1.14.3.3。
 
 ### b1.14.3.2 — 新增禁止僵尸马生成规则（测试版）
 
@@ -206,8 +215,7 @@ src/main/java/carpetvpladdition/
 - **清理**：删除 gradle.properties 死变量 carpet_dep_version；新增 MIT LICENSE（build.gradle 的 jar 任务引用了该文件）。
 - **修复 StackableItemMixin 在 26.2 静默失效（重要）**：1.14.2 为兼容 1.21.11 改用 `@Inject ItemStack.getMaxStackSize + require=0`，但 26.2 中该方法是 `ItemInstance` 接口的 default 方法（读 `DataComponents.MAX_STACK_SIZE`），ItemStack 不重写它 → 注入点不存在 → require=0 静默跳过，**全部堆叠规则失效**。已恢复 1.13.4 验证过的 `implements ItemInstance + @Override getMaxStackSize` 方案。
 - **修复 syncNumericCaches 无下限校验**：maxAir/maxSaturation/maxPlayerHealth/hopperMinecartStackSize 等接受 0 或负数，已加 `Math.max` 下限保护（hopperMinecartStackSize 保持 99 上限）。
-- **向上兼容 26.3**：经 tis-addition 的 `mapping-26.2-26.3.txt` 对比，26.2→26.3 服务端 API 零变化（仅客户端渲染类 `GlStateManager` 改名），26.2 编译产物理论上可直接运行于 26.3。fabric.mod.json 放宽为 `>=26.2 <26.4`，mc_support_range 改为 `26.2-26.3`。
-  > **注意**：该 mapping 文件只覆盖 tis 自己的 API 用法，未覆盖本 mod 全部 27 个 mixin 目标。26.3 兼容为**声明性兼容，尚未在 26.3 上实机验证**，需用户测试确认。
+- **向上兼容 26.3（已撤回）**：曾根据 tis-addition 的 `mapping-26.2-26.3.txt` 推断 26.2→26.3 服务端 API 零变化并放宽到 `>=26.2 <26.4`。**b1.14.3.3 已撤回该声明**：26.3 尚处 snapshot、未实机验证，现声明上限 `<26.3`。
 - **全面核对 mixin 注入目标**：逐类验证全部 27 个 mixin 的 @Mixin 目标与注入方法在 26.2 源码中存在且签名匹配（含 Player.getXpNeededForNextLevel、ServerPlayer.restoreFrom、Villager.onReputationEventFrom、RecipeManager.prepare 等）。
 
 

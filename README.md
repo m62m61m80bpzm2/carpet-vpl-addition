@@ -2,8 +2,8 @@
 
 一个基于 `fabric-carpet` 的 Fabric 服务端 Mod，为原版 Carpet 添加大量自定义游戏规则（Rules）。
 
-* 目标游戏版本：**Minecraft 26.2 ~ 26.3**
-* 当前 Mod 版本：**b1.14.3.2**（测试版）
+* 目标游戏版本：**Minecraft 26.1 ~ 26.2**
+* 当前 Mod 版本：**b1.14.3.3**（测试版）
 * 支持语言：简体中文 / English
 
 本文件是**给玩家使用的说明**（怎么装、有哪些规则）。
@@ -23,20 +23,20 @@
 
 |依赖|版本要求|
 |-|-|
-|Minecraft|`>=26.2 <26.4`|
+|Minecraft|`>=26.1 <26.3`|
 |Java|`>=25`|
 |Fabric Loader|`>=0.19.3`|
 |Fabric API|任意|
-|Carpet|`>=26.2`|
+|Carpet|`>=26.1`|
 
 ## 安装
 
 1. 安装 [Fabric Loader](https://fabricmc.net/use/installer/)（0.19.3+）。
 2. 将以下 Mod 放入 `.minecraft/mods/` 文件夹：
 
-   * Carpet（26.2+ 版本）
+   * Carpet（26.1+ 版本）
    * Fabric API
-   * **`[vpl-b1.14.3.2-for-26.2-26.3]carpet-addition-b1.14.3.2.jar`**
+   * **`[vpl-b1.14.3.3-for-26.1-26.2]carpet-addition-b1.14.3.3.jar`**
 3. 启动游戏即可。
 
 ## 使用
@@ -126,7 +126,7 @@
 |规则|类型|默认值|说明|
 |-|-|-|-|
 |`stringDupe`|布尔|false|重新引入刷线机漏洞|
-|`pickBlockNbt`|布尔|true|修复 Ctrl+中键复制方块 NBT（26.2）|
+|`pickBlockNbt`|布尔|true|修复 Ctrl+中键复制方块 NBT（26.1-26.2）|
 
 ## 已知问题
 
