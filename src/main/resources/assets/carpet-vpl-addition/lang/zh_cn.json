@@ -119,7 +119,7 @@
     "carpet.rule.pickBlockNbt.extra.0": "在 handlePickItemFromBlock 中强制 includeData=true，恢复 1.21.8/1.21.11 的创造模式复制方块 NBT 行为。",
     "carpet.rule.beaconUnifiedPPUpdate.name": "信标统一PP更新",
     "carpet.rule.beaconUnifiedPPUpdate.desc": "每隔20游戏刻，向所有正下方为浅层青金石原矿（minecraft:lapis_ore）的信标统一发出一次方块更新。所有符合要求的信标在同一服务器tick末尾阶段被更新，时间与微时序一致。",
-    "carpet.rule.beaconUnifiedPPUpdate.extra.0": "浅层青金石原矿=石头变体lapis_ore（非深板岩deepslate_lapis_ore）。触发阶段：服务器tick末尾（END_SERVER_TICK，所有维度tick完成后）。对信标位置调用 updateNeighborsAt，信标四周的方块（含上方红石线）会收到更新。",
+    "carpet.rule.beaconUnifiedPPUpdate.extra.0": "浅层青金石原矿=石头变体lapis_ore（非深板岩deepslate_lapis_ore）。触发阶段：方块实体（TE）阶段最前面（Level.tickBlockEntities 开头）。对信标位置调用 updateNeighbourShapes（PP更新），信标四周的方块（含侦测器、上方红石线）会收到更新。所有信标在同一阶段内按坐标顺序连续更新，微时序一致。",
     "carpet.rule.noZombieHorseSpawn.name": "禁止僵尸马生成",
     "carpet.rule.noZombieHorseSpawn.desc": "阻止僵尸马在夜间自然生成（作为怪物刷出）。调整后即时生效。",
     "carpet.rule.noZombieHorseSpawn.extra.0": "在 ZombieHorse.finalizeSpawn 中拦截 NATURAL 生成路径（夜间刷怪）。不影响刷怪蛋、指令或繁殖等其他生成方式。",

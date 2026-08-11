@@ -17,7 +17,7 @@
 
 ## 版本号
 
-- 当前版本：**b1.14.3.5**（测试版）
+- 当前版本：**b1.14.3.6**（测试版）
 - 规则：**测试版本号前加 b 前缀**（如 1.14.2 之后的测试版 = b1.14.3.1，用户测试通过后去掉 b 转正式版）。
 - git 提交信息 = 当前版本号。
 
@@ -41,8 +41,8 @@
 ```
 
 产物位于 `build/libs/`：
-- `[vpl-b1.14.3.5-for-26.1-26.2]carpet-addition-b1.14.3.5.jar` — 发布用 jar（直接以 Mojang 官方命名编译，无需 remap）
-- `[vpl-b1.14.3.5-for-26.1-26.2]carpet-addition-b1.14.3.5-sources.jar` — 源码 jar
+- `[vpl-b1.14.3.6-for-26.1-26.2]carpet-addition-b1.14.3.6.jar` — 发布用 jar（直接以 Mojang 官方命名编译，无需 remap）
+- `[vpl-b1.14.3.6-for-26.1-26.2]carpet-addition-b1.14.3.6-sources.jar` — 源码 jar
 
 > 注意：若出现“卡住不动”的假死，通常是上次超时被杀掉的 Gradle daemon 遗留了 Loom 缓存锁。
 > 用 `--no-daemon` 构建，或先执行 `./gradlew --stop` 清理。
@@ -58,7 +58,7 @@ minecraft_version=26.1.2
 loader_version=0.19.3
 fabric_version=0.154.2+26.1.2
 carpet_version=26.1+v260401
-mod_version=b1.14.3.5
+mod_version=b1.14.3.6
 mc_support_range=26.1-26.2
 archives_base_name=[vpl26.2]carpet-vpl-addition
 ```
@@ -183,6 +183,14 @@ src/main/java/carpetvpladdition/
 8. **canHasTranslations**：ConcurrentHashMap 缓存翻译。
 
 ## 修复记录（变更日志）
+
+### b1.14.3.6 — 信标PP更新改用PP更新(updateNeighbourShapes)+TE阶段最前面统一触发（测试版）
+
+- **信标 PP 更新仍无效的根因（重要）**：26.2 的侦测器（ObserverBlock）**不重写 neighborChanged（NC 更新入口）**，只在 `updateShape`（PP 更新入口）中响应：`if (FACING == directionToNeighbour && !POWERED) startSignal(...)`。因此上一版对信标位置调 `updateNeighborsAt`（NC 更新）侦测器无反应。
+- **修复**：改为对信标位置调用 `BlockState.updateNeighbourShapes(level, pos, UPDATE_NEIGHBORS)`（PP 更新 / shape update，等价于“信标被重新放置”时向 6 个邻居发出的形状更新），侦测器通过 updateShape 正确响应。
+- **触发阶段改为 TE 阶段最前面**：新增 `BeaconTickPhaseMixin` 注入 `Level.tickBlockEntities` 的 HEAD（方块实体阶段最前面，遍历 tick 任何 BE 之前）。同一阶段内按 TreeSet 坐标顺序连续更新全部信标，100 个信标的更新顺序固定、连续执行，中间不插入其他方块实体的 tick；各维度在其自身 TE 阶段最前面更新（与信标自身“信标线程”BeaconBlockEntity.tick 检测下方方块处于同一阶段）。
+- **移除**：`ServerTickEvents.END_SERVER_TICK` 钩子与全部控制台打印。
+- 版本号：b1.14.3.5 → b1.14.3.6。
 
 ### b1.14.3.5 — 修复信标PP更新无效 / 移除控制台打印 / disableSnow不再禁冰 / 甘蔗骨粉只能长2格（测试版）
 

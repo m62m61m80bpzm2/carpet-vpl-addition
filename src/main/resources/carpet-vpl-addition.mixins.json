@@ -32,6 +32,7 @@
     "CactusBonemealMixin",
     "PickBlockNbtMixin",
     "BeaconBlockEntityTrackerMixin",
+    "BeaconTickPhaseMixin",
     "ZombieHorseSpawnMixin"
   ],
   "injectors": {
