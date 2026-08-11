@@ -52,10 +52,6 @@ public class CarpetVPLAdditionExtension implements CarpetExtension {
                 damageAttr.setBaseValue(CarpetVPLAdditionSettings.playerAttackDamageCached);
             }
 
-            AttributeInstance armorAttr = player.getAttribute(Attributes.ARMOR);
-            if (armorAttr != null) {
-                armorAttr.setBaseValue(CarpetVPLAdditionSettings.maxArmorCached);
-            }
         } catch (Exception e) {
             System.err.println("[carpet-vpl-addition] Failed to apply attributes: " + e.getMessage());
         }

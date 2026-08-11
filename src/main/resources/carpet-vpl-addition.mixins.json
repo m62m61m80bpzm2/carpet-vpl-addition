@@ -10,7 +10,6 @@
     "PlayerAttributeMixin",
     "StackableItemMixin",
     "LivingEntityMixin",
-    "FoodDataMixin",
     "VillagerGolemMixin",
     "VillagerAttractionMixin",
     "FastLeafDecayMixin",
