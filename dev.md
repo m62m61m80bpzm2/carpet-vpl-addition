@@ -17,7 +17,7 @@
 
 ## 版本号
 
-- 当前版本：**b1.14.3.8**（测试版）
+- 当前版本：**v1.14.3**（正式版）
 - 规则：**测试版本号前加 b 前缀**（如 1.14.2 之后的测试版 = b1.14.3.1，用户测试通过后去掉 b 转正式版）。
 - git 提交信息 = 当前版本号。
 
@@ -41,8 +41,8 @@
 ```
 
 产物位于 `build/libs/`：
-- `[vpl-b1.14.3.8-for-26.1-26.2]carpet-addition-b1.14.3.8.jar` — 发布用 jar（直接以 Mojang 官方命名编译，无需 remap）
-- `[vpl-b1.14.3.8-for-26.1-26.2]carpet-addition-b1.14.3.8-sources.jar` — 源码 jar
+- `[vpl-v1.14.3-for-26.1-26.2]carpet-addition-v1.14.3.jar` — 发布用 jar（直接以 Mojang 官方命名编译，无需 remap）
+- `[vpl-v1.14.3-for-26.1-26.2]carpet-addition-v1.14.3-sources.jar` — 源码 jar
 
 > 注意：若出现“卡住不动”的假死，通常是上次超时被杀掉的 Gradle daemon 遗留了 Loom 缓存锁。
 > 用 `--no-daemon` 构建，或先执行 `./gradlew --stop` 清理。
@@ -58,7 +58,7 @@ minecraft_version=26.1.2
 loader_version=0.19.3
 fabric_version=0.154.2+26.1.2
 carpet_version=26.1+v260401
-mod_version=b1.14.3.8
+mod_version=v1.14.3
 mc_support_range=26.1-26.2
 archives_base_name=[vpl26.2]carpet-vpl-addition
 ```
@@ -183,6 +183,11 @@ src/main/java/carpetvpladdition/
 8. **canHasTranslations**：ConcurrentHashMap 缓存翻译。
 
 ## 修复记录（变更日志）
+
+### v1.14.3 — 正式版发布（由测试版 b1.14.3.8 转正）
+
+- **转正式版**：测试版 b1.14.3.8（含 b1.14.3.1 ~ b1.14.3.8 全部修复）经测试通过，去掉 b 前缀转正式版 v1.14.3。
+- 版本号：b1.14.3.8 → v1.14.3。
 
 ### b1.14.3.8 — 修复 noZombieHorseSpawn 无效（改拦 Monster.checkMonsterSpawnRules）（测试版）
 
