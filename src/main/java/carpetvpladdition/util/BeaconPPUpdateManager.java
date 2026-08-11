@@ -95,8 +95,9 @@ public final class BeaconPPUpdateManager {
 
     /**
      * 服务器 tick 末尾阶段：每隔 20GT 给所有符合条件的信标统一发出一次方块更新。
-     * 更新方式：对信标正下方的青金石原矿调用 updateNeighborsAt（等价于"重新放置青金石原矿"），
-     * 信标作为其上方邻居收到方块更新，与其相邻的红石元件也会重新计算，产生可观测的统一脉冲。
+     * 更新方式：对【信标所在位置】调用 updateNeighborsAt（等价于"信标被重新放置"），
+     * 信标四周（含上方红石线、下方青金石原矿）的所有邻居都会收到方块更新并重新计算。
+     * 不再打印任何控制台输出（避免刷屏）。
      */
     private static void onServerTick(MinecraftServer server) {
         if (!CarpetVPLAdditionSettings.beaconUnifiedPPUpdate) {
@@ -106,7 +107,6 @@ public final class BeaconPPUpdateManager {
             return;
         }
 
-        int updated = 0;
         for (ServerLevel level : server.getAllLevels()) {
             Set<BlockPos> set = BEACONS.get(level.dimension());
             if (set == null || set.isEmpty()) {
@@ -124,17 +124,9 @@ public final class BeaconPPUpdateManager {
                 if (!level.getBlockState(pos.below()).is(Blocks.LAPIS_ORE)) {
                     continue;
                 }
-                // 向青金石原矿的 6 个邻居（含其上方的信标）发出方块更新
-                level.updateNeighborsAt(pos.below(), Blocks.LAPIS_ORE);
-                updated++;
+                // 对信标本身发出方块更新：通知其 6 个邻居（含上方红石线）重新计算
+                level.updateNeighborsAt(pos, Blocks.BEACON);
             }
-        }
-
-        // 告知触发阶段：服务器 tick 末尾（END_SERVER_TICK），所有维度 tick 已完成。
-        // 仅在确有更新时输出，避免每秒刷屏（无符合要求的信标时静默）。
-        if (updated > 0) {
-            System.out.println("[carpet-vpl-addition] beaconUnifiedPPUpdate: 阶段=服务器tick末尾(END_SERVER_TICK), tick="
-                    + server.getTickCount() + ", 统一更新信标数=" + updated);
         }
     }
 }
