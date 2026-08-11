@@ -1,10 +1,10 @@
 {
-    "carpet-vpl-addition.rule.stringDupe": "重新引入刷线机",
-    "carpet-vpl-addition.rule.stringDupe.desc": "重新引入绊线钩刷线漏洞（MC-129055 / MC-59471），该漏洞在 1.21.2+ 中被 Mojang 修复",
-    "carpet-vpl-addition.rule.stringDupe.extra.0": "绕开 TripWireBlock.updateSource 中的 break 和 TripWireHookBlock.calculateState 中的 is(TRIPWIRE) 检查，恢复旧版绊线复制行为。需搭配线（tripwire）使用，仅在 1.21.2+ 中生效（原版已被修复）。",
+    "carpet.rule.stringDupe.name": "重新引入刷线机",
+    "carpet.rule.stringDupe.desc": "重新引入绊线钩刷线漏洞（MC-129055 / MC-59471），该漏洞在 1.21.2+ 中被 Mojang 修复",
+    "carpet.rule.stringDupe.extra.0": "绕开 TripWireBlock.updateSource 中的 break 和 TripWireHookBlock.calculateState 中的 is(TRIPWIRE) 检查，恢复旧版绊线复制行为。需搭配线（tripwire）使用，仅在 1.21.2+ 中生效（原版已被修复）。",
 
-    "carpet-vpl-addition.rule.villagerNoPriceOnAttack": "攻击村民不涨价",
-    "carpet-vpl-addition.rule.villagerNoPriceOnAttack.desc": "禁止村民被攻击后涨价，同时阻止目击者村民涨价",
+    "carpet.rule.villagerNoPriceOnAttack.name": "攻击村民不涨价",
+    "carpet.rule.villagerNoPriceOnAttack.desc": "禁止村民被攻击后涨价，同时阻止目击者村民涨价",
 
     "carpet.rule.maxPlayerHealth.name": "最大血量",
     "carpet.rule.maxPlayerHealth.desc": "设置所有玩家的最大生命值上限，需要退出重进存档后生效。支持20~1000之间的任意整数值，默认值: 20。",

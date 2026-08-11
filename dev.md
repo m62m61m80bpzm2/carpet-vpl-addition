@@ -17,7 +17,7 @@
 
 ## 版本号
 
-- 当前版本：**b1.14.3.3**（测试版）
+- 当前版本：**b1.14.3.4**（测试版）
 - 规则：**测试版本号前加 b 前缀**（如 1.14.2 之后的测试版 = b1.14.3.1，用户测试通过后去掉 b 转正式版）。
 - git 提交信息 = 当前版本号。
 
@@ -41,8 +41,8 @@
 ```
 
 产物位于 `build/libs/`：
-- `[vpl-b1.14.3.3-for-26.1-26.2]carpet-addition-b1.14.3.3.jar` — 发布用 jar（直接以 Mojang 官方命名编译，无需 remap）
-- `[vpl-b1.14.3.3-for-26.1-26.2]carpet-addition-b1.14.3.3-sources.jar` — 源码 jar
+- `[vpl-b1.14.3.4-for-26.1-26.2]carpet-addition-b1.14.3.4.jar` — 发布用 jar（直接以 Mojang 官方命名编译，无需 remap）
+- `[vpl-b1.14.3.4-for-26.1-26.2]carpet-addition-b1.14.3.4-sources.jar` — 源码 jar
 
 > 注意：若出现“卡住不动”的假死，通常是上次超时被杀掉的 Gradle daemon 遗留了 Loom 缓存锁。
 > 用 `--no-daemon` 构建，或先执行 `./gradlew --stop` 清理。
@@ -58,7 +58,7 @@ minecraft_version=26.1.2
 loader_version=0.19.3
 fabric_version=0.154.2+26.1.2
 carpet_version=26.1+v260401
-mod_version=b1.14.3.3
+mod_version=b1.14.3.4
 mc_support_range=26.1-26.2
 archives_base_name=[vpl26.2]carpet-vpl-addition
 ```
@@ -183,6 +183,13 @@ src/main/java/carpetvpladdition/
 8. **canHasTranslations**：ConcurrentHashMap 缓存翻译。
 
 ## 修复记录（变更日志）
+
+### b1.14.3.4 — 修复规则注册崩溃（翻译 key 格式错误导致全部规则消失）（测试版）
+
+- **严重 Bug（规则全部消失的根因）**：`stringDupe` 和 `villagerNoPriceOnAttack` 两条老规则在语言文件中的翻译 key 使用了旧前缀 `carpet-vpl-addition.rule.<name>`，而 Carpet 26.2 要求 `carpet.rule.<name>.name / .desc / .extra.N` 格式。`parseSettingsClass` 在注册时找不到 `carpet.rule.stringDupe.desc` 直接抛异常（`No language key provided for carpet.rule.stringDupe.desc`），**导致整个规则类注册中断——游戏里 `/carpet list` 看不到任何 VPL 规则（包括 b1.14.3.1 的信标统一PP更新与 b1.14.3.2 的禁止僵尸马生成）**，设置规则时报“未知的规则选项”。
+- **修复**：语言文件（zh_cn / en_us）中这两条规则的 key 全部改为标准 `carpet.rule.<name>.name/.desc/.extra.0` 格式，并补上缺失的 `.name` key。
+- **验证**：脚本逐一核对 41 条规则在两种语言中都有 `.name` 与 `.desc`，无旧前缀残留、无孤儿 key。
+- 版本号：b1.14.3.3 → b1.14.3.4。
 
 ### b1.14.3.3 — 编译目标降至 26.1.2，产物兼容 26.1 ~ 26.2（测试版）
 
