@@ -2,19 +2,29 @@ package carpetvpladdition.mixin;
 
 import carpetvpladdition.settings.CarpetVPLAdditionSettings;
 import net.minecraft.core.BlockPos;
-import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.biome.Biome;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.Redirect;
 
-@Mixin(ServerLevel.class)
+/**
+ * 禁止积雪（disableSnow 规则）。
+ *
+ * 只拦截 Biome.shouldSnow（决定积雪层是否生成），返回 false 时积雪不会堆积；
+ * 不拦截 Biome.shouldFreeze，因此水面结冰（生成冰方块）保持原版行为，不受影响。
+ */
+@Mixin(net.minecraft.server.level.ServerLevel.class)
 public class NoSnowAccumulationMixin {
 
-    @Inject(method = "tickPrecipitation", at = @At("HEAD"), cancellable = true, require = 0)
-    private void onTickPrecipitation(BlockPos pos, CallbackInfo ci) {
+    @Redirect(
+        method = "tickPrecipitation",
+        at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/biome/Biome;shouldSnow(Lnet/minecraft/world/level/LevelReader;Lnet/minecraft/core/BlockPos;)Z")
+    )
+    private boolean onShouldSnow(Biome biome, LevelReader level, BlockPos pos) {
         if (CarpetVPLAdditionSettings.disableSnow) {
-            ci.cancel();
+            return false;
         }
+        return biome.shouldSnow(level, pos);
     }
 }

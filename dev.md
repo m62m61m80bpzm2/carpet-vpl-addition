@@ -17,7 +17,7 @@
 
 ## 版本号
 
-- 当前版本：**b1.14.3.4**（测试版）
+- 当前版本：**b1.14.3.5**（测试版）
 - 规则：**测试版本号前加 b 前缀**（如 1.14.2 之后的测试版 = b1.14.3.1，用户测试通过后去掉 b 转正式版）。
 - git 提交信息 = 当前版本号。
 
@@ -41,8 +41,8 @@
 ```
 
 产物位于 `build/libs/`：
-- `[vpl-b1.14.3.4-for-26.1-26.2]carpet-addition-b1.14.3.4.jar` — 发布用 jar（直接以 Mojang 官方命名编译，无需 remap）
-- `[vpl-b1.14.3.4-for-26.1-26.2]carpet-addition-b1.14.3.4-sources.jar` — 源码 jar
+- `[vpl-b1.14.3.5-for-26.1-26.2]carpet-addition-b1.14.3.5.jar` — 发布用 jar（直接以 Mojang 官方命名编译，无需 remap）
+- `[vpl-b1.14.3.5-for-26.1-26.2]carpet-addition-b1.14.3.5-sources.jar` — 源码 jar
 
 > 注意：若出现“卡住不动”的假死，通常是上次超时被杀掉的 Gradle daemon 遗留了 Loom 缓存锁。
 > 用 `--no-daemon` 构建，或先执行 `./gradlew --stop` 清理。
@@ -58,7 +58,7 @@ minecraft_version=26.1.2
 loader_version=0.19.3
 fabric_version=0.154.2+26.1.2
 carpet_version=26.1+v260401
-mod_version=b1.14.3.4
+mod_version=b1.14.3.5
 mc_support_range=26.1-26.2
 archives_base_name=[vpl26.2]carpet-vpl-addition
 ```
@@ -183,6 +183,14 @@ src/main/java/carpetvpladdition/
 8. **canHasTranslations**：ConcurrentHashMap 缓存翻译。
 
 ## 修复记录（变更日志）
+
+### b1.14.3.5 — 修复信标PP更新无效 / 移除控制台打印 / disableSnow不再禁冰 / 甘蔗骨粉只能长2格（测试版）
+
+- **信标 PP 更新无效**：原先对信标**正下方青金石原矿**调 `updateNeighborsAt`，信标收到的是“邻居变化”通知，但 `BeaconBlock` 不响应邻居更新 → 无可观测效果。改为对**信标位置**调 `updateNeighborsAt(pos, BEACON)`（等价于“信标被重新放置”），信标四周（含上方红石线、下方原矿）全部收到方块更新并重新计算。
+- **移除控制台打印**：删除 `BeaconPPUpdateManager.onServerTick` 中的 `System.out.println`（不再每次触发刷屏）。
+- **disableSnow 不再禁止结冰**：原先 HEAD cancel 整个 `tickPrecipitation`（积雪+结冰一起禁）。改为 `@Redirect` 仅拦截 `Biome.shouldSnow`（积雪层生成判断），水面结冰（`shouldFreeze`）保持原版行为。
+- **甘蔗骨粉只能长 2 格**：`SugarcaneBonemealMixin` 原先要求 `pos.above()` 为空气 → 对底部那格第二次用骨粉时上方已是甘蔗，永远 false。重写为：从 pos 向上找顶端、顶端上方是空气且总高 < 3 才可催熟；对柱内任意一格用骨粉都能长到原版上限 3 格。
+- 版本号：b1.14.3.4 → b1.14.3.5。
 
 ### b1.14.3.4 — 修复规则注册崩溃（翻译 key 格式错误导致全部规则消失）（测试版）
 
