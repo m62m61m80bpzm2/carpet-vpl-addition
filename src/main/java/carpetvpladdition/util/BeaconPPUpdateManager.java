@@ -3,13 +3,12 @@ package carpetvpladdition.util;
 import carpetvpladdition.settings.CarpetVPLAdditionSettings;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerBlockEntityEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLevelEvents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BeaconBlockEntity;
 
@@ -20,17 +19,24 @@ import java.util.Set;
 import java.util.TreeSet;
 
 /**
- * 信标统一 PP 更新管理器（b1.14.3.1 新增）。
+ * 信标统一 PP 更新管理器（b1.14.3.1 新增，b1.14.3.6 重构）。
  *
  * 功能：开启规则 beaconUnifiedPPUpdate 后，每隔 20 游戏刻（GT），向所有"达到要求"的信标
  * ——即正下方为【浅层青金石原矿】（minecraft:lapis_ore，石头变体，非深板岩变体）的信标——
- * 统一发出一次方块更新。
+ * 统一发出一次 PP 更新（方块更新中的 post-place / shape update）。
  *
- * 统一性保证：
- *  1. 所有维度、所有位置的信标都在【服务器 tick 末尾阶段】（ServerTickEvents.END_SERVER_TICK，
- *     所有世界 tick 完成、计划刻与区块事件处理完毕之后）被更新，发出更新的时刻完全一致；
- *  2. 追踪集合使用 TreeSet（按坐标排序），每次触发的处理顺序固定，微时序保持一致；
- *  3. 每次触发在服务器控制台输出触发阶段、tick 号与更新数量，便于验证时序。
+ * 为什么是 PP 更新而不是 NC 更新：
+ *  - 26.2 的侦测器（ObserverBlock）不重写 neighborChanged（NC 更新入口），只在
+ *    updateShape（PP 更新入口）中响应：`if (FACING == directionToNeighbour && !POWERED) startSignal(...)`。
+ *  - 因此必须对信标位置调用 BlockState.updateNeighbourShapes(...)（等价于"信标被重新放置"时
+ *    向 6 个邻居发出的形状更新），信标周围的侦测器才会被触发。
+ *
+ * 统一性保证（TE 阶段最前面，微时序一致）：
+ *  1. 由 BeaconTickPhaseMixin 注入 Level.tickBlockEntities 的 HEAD——即【方块实体（TE）阶段
+ *     的最前面】、在遍历并 tick 任何方块实体之前执行；
+ *  2. 该阶段内按 TreeSet（坐标排序）遍历本维度全部符合条件的信标并连续发出 PP 更新，
+ *     100 个信标的更新顺序固定、连续执行，中间不会插入其他方块实体的 tick；
+ *  3. 各维度在其各自的 TE 阶段最前面更新（信标本身是方块实体，其检测逻辑在该阶段内正常运行）。
  *
  * 追踪机制（始终追踪，规则仅控制是否触发，保证游戏中途开启规则也能生效）：
  *  - BeaconBlockEntityTrackerMixin 注入 BlockEntity.setLevel：信标被放置 / /setblock /
@@ -51,7 +57,7 @@ public final class BeaconPPUpdateManager {
     private BeaconPPUpdateManager() {
     }
 
-    /** 注册追踪事件与 tick 钩子（幂等，只在 onGameStarted 调用一次） */
+    /** 注册追踪事件（幂等，只在 onGameStarted 调用一次）。不再注册 tick 钩子，由 BeaconTickPhaseMixin 驱动。 */
     public static void register() {
         if (registered) {
             return;
@@ -75,9 +81,6 @@ public final class BeaconPPUpdateManager {
 
         // 服务器停止时清空全部追踪
         ServerLifecycleEvents.SERVER_STOPPING.register(server -> BEACONS.clear());
-
-        // 每隔 20GT 的统一更新钩子（阶段：服务器 tick 末尾）
-        ServerTickEvents.END_SERVER_TICK.register(BeaconPPUpdateManager::onServerTick);
     }
 
     /** 将指定位置加入追踪（由 BeaconBlockEntityTrackerMixin 调用） */
@@ -94,39 +97,37 @@ public final class BeaconPPUpdateManager {
     }
 
     /**
-     * 服务器 tick 末尾阶段：每隔 20GT 给所有符合条件的信标统一发出一次方块更新。
-     * 更新方式：对【信标所在位置】调用 updateNeighborsAt（等价于"信标被重新放置"），
-     * 信标四周（含上方红石线、下方青金石原矿）的所有邻居都会收到方块更新并重新计算。
-     * 不再打印任何控制台输出（避免刷屏）。
+     * 由 BeaconTickPhaseMixin 在【TE 阶段最前面】（Level.tickBlockEntities HEAD）调用：
+     * 每隔 20GT，给当前维度所有符合条件的信标连续统一发出一次 PP 更新。
+     * 所有信标在同一阶段内按坐标顺序连续处理，微时序一致，不打印任何输出。
      */
-    private static void onServerTick(MinecraftServer server) {
+    public static void updateBeacons(ServerLevel level) {
         if (!CarpetVPLAdditionSettings.beaconUnifiedPPUpdate) {
             return;
         }
-        if (server.getTickCount() % PP_INTERVAL != 0) {
+        if (level.getServer().getTickCount() % PP_INTERVAL != 0) {
             return;
         }
 
-        for (ServerLevel level : server.getAllLevels()) {
-            Set<BlockPos> set = BEACONS.get(level.dimension());
-            if (set == null || set.isEmpty()) {
+        Set<BlockPos> set = BEACONS.get(level.dimension());
+        if (set == null || set.isEmpty()) {
+            return;
+        }
+        Iterator<BlockPos> it = set.iterator();
+        while (it.hasNext()) {
+            BlockPos pos = it.next();
+            // 自愈：该位置已不是信标（被破坏 / 被替换），移出追踪
+            if (!level.getBlockState(pos).is(Blocks.BEACON)) {
+                it.remove();
                 continue;
             }
-            Iterator<BlockPos> it = set.iterator();
-            while (it.hasNext()) {
-                BlockPos pos = it.next();
-                // 自愈：该位置已不是信标（被破坏 / 被替换），移出追踪
-                if (!level.getBlockState(pos).is(Blocks.BEACON)) {
-                    it.remove();
-                    continue;
-                }
-                // 达到要求：正下方是浅层青金石原矿（minecraft:lapis_ore，非深板岩变体）
-                if (!level.getBlockState(pos.below()).is(Blocks.LAPIS_ORE)) {
-                    continue;
-                }
-                // 对信标本身发出方块更新：通知其 6 个邻居（含上方红石线）重新计算
-                level.updateNeighborsAt(pos, Blocks.BEACON);
+            // 达到要求：正下方是浅层青金石原矿（minecraft:lapis_ore，非深板岩变体）
+            if (!level.getBlockState(pos.below()).is(Blocks.LAPIS_ORE)) {
+                continue;
             }
+            // PP 更新：等价于"信标被重新放置"时向 6 个邻居发出的形状更新。
+            // 侦测器等方块通过 updateShape 响应（NC 更新它们不响应）。
+            level.getBlockState(pos).updateNeighbourShapes(level, pos, Block.UPDATE_NEIGHBORS);
         }
     }
 }
