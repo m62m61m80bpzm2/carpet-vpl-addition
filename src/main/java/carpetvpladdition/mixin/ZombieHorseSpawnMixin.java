@@ -1,10 +1,13 @@
 package carpetvpladdition.mixin;
 
 import carpetvpladdition.settings.CarpetVPLAdditionSettings;
-import net.minecraft.world.DifficultyInstance;
+import carpetvpladdition.util.EntityTypeHelper;
+import net.minecraft.core.BlockPos;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntitySpawnReason;
-import net.minecraft.world.entity.SpawnGroupData;
-import net.minecraft.world.entity.animal.equine.ZombieHorse;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.ServerLevelAccessor;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -12,23 +15,34 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 /**
- * 禁止僵尸马自然生成（b1.14.3.2 新增，服务于 noZombieHorseSpawn 规则）。
+ * 禁止僵尸马自然生成（b1.14.3.2 新增，b1.14.3.8 修复）。
  *
- * 26.2 中僵尸马通过 SpawnPlacements 注册的 Monster::checkMonsterSpawnRules 夜间自然生成。
- * 在 ZombieHorse.finalizeSpawn 的 HEAD 拦截：当生成原因为 NATURAL（夜间刷怪）且规则开启时，
- * 直接返回 null，生成方会丢弃该实体，从而阻止自然生成。
+ * 修复原因：旧实现注入 ZombieHorse.finalizeSpawn 并返回 null，
+ * 但 NaturalSpawner 只是把返回值赋给 groupData、从不检查是否为 null，
+ * 实体照样 addFreshEntityWithPassengers 生成——规则完全无效。
  *
- * 只拦截 NATURAL，刷怪蛋 / 指令 / 繁殖等其他生成路径不受影响（玩家主动行为不干预）。
+ * 正确拦截点：SpawnPlacements 为僵尸马注册的生成前置判断
+ * Monster.checkMonsterSpawnRules（ZombieHorse 注册的是 Monster::checkMonsterSpawnRules），
+ * NaturalSpawner.isValidSpawnPostitionForType 在生成前调用
+ * SpawnPlacements.checkSpawnRules(type, level, EntitySpawnReason.NATURAL, pos, random)，
+ * 此时直接返回 false，僵尸马不会进入生成流程。
+ *
+ * 只拦 NATURAL（夜间刷怪）：刷怪蛋 / 指令 / 繁殖等其他生成路径不受影响。
+ * 类型比较走 EntityTypeHelper（BuiltInRegistries），避免 26.1/26.2 常量位置差异。
  */
-@Mixin(ZombieHorse.class)
+@Mixin(Monster.class)
 public abstract class ZombieHorseSpawnMixin {
 
-    @Inject(method = "finalizeSpawn", at = @At("HEAD"), cancellable = true)
-    private void onFinalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty,
-                                 EntitySpawnReason spawnReason, SpawnGroupData groupData,
-                                 CallbackInfoReturnable<SpawnGroupData> cir) {
-        if (CarpetVPLAdditionSettings.noZombieHorseSpawn && spawnReason == EntitySpawnReason.NATURAL) {
-            cir.setReturnValue(null);
+    private static final EntityType<?> ZOMBIE_HORSE_TYPE = EntityTypeHelper.get("zombie_horse");
+
+    @Inject(method = "checkMonsterSpawnRules", at = @At("HEAD"), cancellable = true)
+    private static void onCheckMonsterSpawnRules(EntityType<? extends Mob> type, ServerLevelAccessor level,
+                                                 EntitySpawnReason spawnReason, BlockPos pos, RandomSource random,
+                                                 CallbackInfoReturnable<Boolean> cir) {
+        if (CarpetVPLAdditionSettings.noZombieHorseSpawn
+            && spawnReason == EntitySpawnReason.NATURAL
+            && type == ZOMBIE_HORSE_TYPE) {
+            cir.setReturnValue(false);
         }
     }
 }

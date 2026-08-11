@@ -98,6 +98,6 @@
     "carpet.rule.beaconUnifiedPPUpdate.extra.0": "Shallow lapis ore = the stone variant (lapis_ore), not deepslate_lapis_ore. Fire phase: the very start of the block-entity (TE) phase (Level.tickBlockEntities HEAD). Calls updateNeighbourShapes (PP update) on the beacon position, so neighboring blocks (including observers and redstone wire above) receive the update. All beacons are updated consecutively in coordinate order within the same phase for consistent micro-timing.",
     "carpet.rule.noZombieHorseSpawn.name": "No Zombie Horse Spawn",
     "carpet.rule.noZombieHorseSpawn.desc": "Prevents zombie horses from naturally spawning at night (as monsters). Takes effect immediately.",
-    "carpet.rule.noZombieHorseSpawn.extra.0": "Intercepts the NATURAL spawn path in ZombieHorse.finalizeSpawn (night-time monster spawning). Does not affect spawn eggs, commands, or breeding.",
+    "carpet.rule.noZombieHorseSpawn.extra.0": "Intercepts Monster.checkMonsterSpawnRules (the spawn pre-check registered for zombie horses), returning false when the spawn reason is NATURAL (night-time monster spawning) so the horse never enters the spawn flow. Does not affect spawn eggs, commands, or breeding.",
     "carpet.category.carpet_vpl_addition": "Carpet VPL Addition"
 }

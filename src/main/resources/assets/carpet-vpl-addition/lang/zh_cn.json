@@ -98,6 +98,6 @@
     "carpet.rule.beaconUnifiedPPUpdate.extra.0": "浅层青金石原矿=石头变体lapis_ore（非深板岩deepslate_lapis_ore）。触发阶段：方块实体（TE）阶段最前面（Level.tickBlockEntities 开头）。对信标位置调用 updateNeighbourShapes（PP更新），信标四周的方块（含侦测器、上方红石线）会收到更新。所有信标在同一阶段内按坐标顺序连续更新，微时序一致。",
     "carpet.rule.noZombieHorseSpawn.name": "禁止僵尸马生成",
     "carpet.rule.noZombieHorseSpawn.desc": "阻止僵尸马在夜间自然生成（作为怪物刷出）。调整后即时生效。",
-    "carpet.rule.noZombieHorseSpawn.extra.0": "在 ZombieHorse.finalizeSpawn 中拦截 NATURAL 生成路径（夜间刷怪）。不影响刷怪蛋、指令或繁殖等其他生成方式。",
+    "carpet.rule.noZombieHorseSpawn.extra.0": "拦截 Monster.checkMonsterSpawnRules（僵尸马注册的生成前置判断），当生成原因为 NATURAL（夜间刷怪）时直接返回 false，僵尸马不会进入生成流程。不影响刷怪蛋、指令或繁殖等其他生成方式。",
     "carpet.category.carpet_vpl_addition": "Carpet VPL Addition"
 }
