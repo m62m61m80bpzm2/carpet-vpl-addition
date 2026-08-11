@@ -1,14 +1,12 @@
 package carpetvpladdition.mixin;
 
 import carpetvpladdition.settings.CarpetVPLAdditionSettings;
-import net.minecraft.world.item.HangingSignItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemInstance;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.PotionItem;
-import net.minecraft.world.item.SignItem;
 import org.spongepowered.asm.mixin.Mixin;
 
 /**
@@ -45,35 +43,11 @@ public abstract class StackableItemMixin implements ItemInstance {
             return 64;
         }
 
-        if (CarpetVPLAdditionSettings.stackableBucket && self.is(Items.BUCKET)) {
-            return 64;
-        }
-
         if (CarpetVPLAdditionSettings.stackableGlassBottle && self.is(Items.GLASS_BOTTLE)) {
             return 64;
         }
 
         if (CarpetVPLAdditionSettings.stackableWaterBucket && self.is(Items.WATER_BUCKET)) {
-            return 64;
-        }
-
-        if (CarpetVPLAdditionSettings.stackableMilkBucket && self.is(Items.MILK_BUCKET)) {
-            return 64;
-        }
-
-        if (CarpetVPLAdditionSettings.stackablePowderSnowBucket && self.is(Items.POWDER_SNOW_BUCKET)) {
-            return 64;
-        }
-
-        if (CarpetVPLAdditionSettings.stackableEnderPearl && self.is(Items.ENDER_PEARL)) {
-            return 64;
-        }
-
-        if (CarpetVPLAdditionSettings.stackableMusicDisc && self.has(DataComponents.JUKEBOX_PLAYABLE)) {
-            return 64;
-        }
-
-        if (CarpetVPLAdditionSettings.stackableSign && (item instanceof SignItem || item instanceof HangingSignItem)) {
             return 64;
         }
 
@@ -104,14 +78,8 @@ public abstract class StackableItemMixin implements ItemInstance {
     private static boolean anyStackableEnabled() {
         return CarpetVPLAdditionSettings.stackableTotem
             || CarpetVPLAdditionSettings.stackableLavaBucket
-            || CarpetVPLAdditionSettings.stackableBucket
             || CarpetVPLAdditionSettings.stackableGlassBottle
             || CarpetVPLAdditionSettings.stackableWaterBucket
-            || CarpetVPLAdditionSettings.stackableMilkBucket
-            || CarpetVPLAdditionSettings.stackablePowderSnowBucket
-            || CarpetVPLAdditionSettings.stackableEnderPearl
-            || CarpetVPLAdditionSettings.stackableMusicDisc
-            || CarpetVPLAdditionSettings.stackableSign
             || CarpetVPLAdditionSettings.stackablePotion
             || CarpetVPLAdditionSettings.stackableStew
             || CarpetVPLAdditionSettings.stackableCake;

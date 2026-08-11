@@ -3,7 +3,7 @@
 一个基于 `fabric-carpet` 的 Fabric 服务端 Mod，为原版 Carpet 添加大量自定义游戏规则（Rules）。
 
 * 目标游戏版本：**Minecraft 26.1 ~ 26.2**
-* 当前 Mod 版本：**b1.14.3.6**（测试版）
+* 当前 Mod 版本：**b1.14.3.7**（测试版）
 * 支持语言：简体中文 / English
 
 本文件是**给玩家使用的说明**（怎么装、有哪些规则）。
@@ -36,7 +36,7 @@
 
    * Carpet（26.1+ 版本）
    * Fabric API
-   * **`[vpl-b1.14.3.6-for-26.1-26.2]carpet-addition-b1.14.3.6.jar`**
+   * **`[vpl-b1.14.3.7-for-26.1-26.2]carpet-addition-b1.14.3.7.jar`**
 3. 启动游戏即可。
 
 ## 使用
@@ -58,9 +58,7 @@
 |-|-|-|-|
 |`maxPlayerHealth`|数值|20|玩家最大生命值上限|
 |`playerAttackDamage`|数值|2.0|玩家基础攻击力|
-|`maxArmor`|数值|0|玩家基础护甲值|
 |`maxAir`|数值|300|玩家最大水下氧气值（游戏刻）|
-|`maxSaturation`|数值|20|玩家最大饱食度上限|
 
 ### 物品堆叠
 
@@ -68,14 +66,8 @@
 |-|-|-|-|
 |`stackableTotem`|布尔|false|不死图腾可堆叠至 64|
 |`stackableLavaBucket`|布尔|false|岩浆桶可堆叠至 64|
-|`stackableBucket`|布尔|false|空桶可堆叠至 64|
 |`stackableGlassBottle`|布尔|false|空瓶可堆叠至 64|
 |`stackableWaterBucket`|布尔|false|水桶可堆叠至 64|
-|`stackableMusicDisc`|布尔|false|唱片可堆叠至 64|
-|`stackableMilkBucket`|布尔|false|奶桶可堆叠至 64|
-|`stackablePowderSnowBucket`|布尔|false|细雪桶可堆叠至 64|
-|`stackableEnderPearl`|布尔|false|末影珍珠可堆叠至 64|
-|`stackableSign`|布尔|false|告示牌可堆叠至 64|
 |`stackablePotion`|布尔|false|药水可堆叠至 64|
 |`stackableStew`|布尔|false|炖菜可堆叠至 64|
 |`stackableCake`|布尔|false|蛋糕可堆叠至 64|

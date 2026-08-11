@@ -18,12 +18,10 @@ public class CarpetVPLAdditionSettings {
     // 避免热路径上反复 Integer.parseInt / Float.parseFloat
     public static int observerTickDelayCached = 2;
     public static int maxAirCached = 300;
-    public static int maxSaturationCached = 20;
     public static float furnaceXpMultiplierCached = 1.0f;
     public static int hopperMinecartStackSizeCached = 1;
     public static int maxPlayerHealthCached = 20;
     public static double playerAttackDamageCached = 2.0;
-    public static double maxArmorCached = 0.0;
     public static float cactusGrowthMultiplierCached = 1.0f;
 
     /** 将所有字符串规则解析到缓存字段（含最小值/上限保护，防止玩家输入 0 或负数破坏机制） */
@@ -33,9 +31,6 @@ public class CarpetVPLAdditionSettings {
 
         try { maxAirCached = Math.max(1, Integer.parseInt(maxAir)); }
         catch (NumberFormatException e) { maxAirCached = 300; }
-
-        try { maxSaturationCached = Math.max(1, Integer.parseInt(maxSaturation)); }
-        catch (NumberFormatException e) { maxSaturationCached = 20; }
 
         try { furnaceXpMultiplierCached = Math.max(0.0f, Float.parseFloat(furnaceXpMultiplier)); }
         catch (NumberFormatException e) { furnaceXpMultiplierCached = 1.0f; }
@@ -48,9 +43,6 @@ public class CarpetVPLAdditionSettings {
 
         try { playerAttackDamageCached = Math.max(0.0, Double.parseDouble(playerAttackDamage)); }
         catch (NumberFormatException e) { playerAttackDamageCached = 2.0; }
-
-        try { maxArmorCached = Math.max(0.0, Double.parseDouble(maxArmor)); }
-        catch (NumberFormatException e) { maxArmorCached = 0.0; }
 
         try { cactusGrowthMultiplierCached = Math.max(0.0f, Float.parseFloat(cactusGrowthMultiplier)); }
         catch (NumberFormatException e) { cactusGrowthMultiplierCached = 1.0f; }
@@ -120,11 +112,6 @@ public class CarpetVPLAdditionSettings {
     @Rule(
         categories = {CARPET_VPL_ADDITION, FEATURE}
     )
-    public static boolean stackableBucket = false;
-
-    @Rule(
-        categories = {CARPET_VPL_ADDITION, FEATURE}
-    )
     public static boolean stackableGlassBottle = false;
 
     @Rule(
@@ -139,47 +126,6 @@ public class CarpetVPLAdditionSettings {
         validators = CacheRefreshValidator.class
     )
     public static String maxAir = "300";
-
-    @Rule(
-        categories = {CARPET_VPL_ADDITION, FEATURE, SURVIVAL},
-        options = {"0", "10", "20", "30"},
-        strict = false,
-        validators = AttributeRefreshValidator.class
-    )
-    public static String maxArmor = "0";
-
-    @Rule(
-        categories = {CARPET_VPL_ADDITION, FEATURE, SURVIVAL},
-        options = {"20", "40", "60", "100", "200"},
-        strict = false,
-        validators = CacheRefreshValidator.class
-    )
-    public static String maxSaturation = "20";
-
-    @Rule(
-        categories = {CARPET_VPL_ADDITION, FEATURE}
-    )
-    public static boolean stackableMusicDisc = false;
-
-    @Rule(
-        categories = {CARPET_VPL_ADDITION, FEATURE}
-    )
-    public static boolean stackableMilkBucket = false;
-
-    @Rule(
-        categories = {CARPET_VPL_ADDITION, FEATURE}
-    )
-    public static boolean stackablePowderSnowBucket = false;
-
-    @Rule(
-        categories = {CARPET_VPL_ADDITION, FEATURE}
-    )
-    public static boolean stackableEnderPearl = false;
-
-    @Rule(
-        categories = {CARPET_VPL_ADDITION, FEATURE}
-    )
-    public static boolean stackableSign = false;
 
     @Rule(
         categories = {CARPET_VPL_ADDITION, FEATURE},

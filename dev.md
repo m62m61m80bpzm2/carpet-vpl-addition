@@ -17,7 +17,7 @@
 
 ## 版本号
 
-- 当前版本：**b1.14.3.6**（测试版）
+- 当前版本：**b1.14.3.7**（测试版）
 - 规则：**测试版本号前加 b 前缀**（如 1.14.2 之后的测试版 = b1.14.3.1，用户测试通过后去掉 b 转正式版）。
 - git 提交信息 = 当前版本号。
 
@@ -41,8 +41,8 @@
 ```
 
 产物位于 `build/libs/`：
-- `[vpl-b1.14.3.6-for-26.1-26.2]carpet-addition-b1.14.3.6.jar` — 发布用 jar（直接以 Mojang 官方命名编译，无需 remap）
-- `[vpl-b1.14.3.6-for-26.1-26.2]carpet-addition-b1.14.3.6-sources.jar` — 源码 jar
+- `[vpl-b1.14.3.7-for-26.1-26.2]carpet-addition-b1.14.3.7.jar` — 发布用 jar（直接以 Mojang 官方命名编译，无需 remap）
+- `[vpl-b1.14.3.7-for-26.1-26.2]carpet-addition-b1.14.3.7-sources.jar` — 源码 jar
 
 > 注意：若出现“卡住不动”的假死，通常是上次超时被杀掉的 Gradle daemon 遗留了 Loom 缓存锁。
 > 用 `--no-daemon` 构建，或先执行 `./gradlew --stop` 清理。
@@ -58,7 +58,7 @@ minecraft_version=26.1.2
 loader_version=0.19.3
 fabric_version=0.154.2+26.1.2
 carpet_version=26.1+v260401
-mod_version=b1.14.3.6
+mod_version=b1.14.3.7
 mc_support_range=26.1-26.2
 archives_base_name=[vpl26.2]carpet-vpl-addition
 ```
@@ -183,6 +183,13 @@ src/main/java/carpetvpladdition/
 8. **canHasTranslations**：ConcurrentHashMap 缓存翻译。
 
 ## 修复记录（变更日志）
+
+### b1.14.3.7 — 删除 8 个规则（末影珍珠/告示牌/奶桶/细雪桶/唱片/空桶堆叠 + 最大护甲值/最大饱食度）（测试版）
+
+- **删除堆叠规则**：`stackableEnderPearl`（末影珍珠）、`stackableSign`（告示牌）、`stackableMilkBucket`（奶桶）、`stackablePowderSnowBucket`（细雪桶）、`stackableMusicDisc`（唱片）、`stackableBucket`（空桶）。
+- **删除属性规则**：`maxArmor`（最大护甲值）、`maxSaturation`（最大饱食度）。
+- **同步清理**：Settings 中对应规则字段与缓存（maxArmorCached / maxSaturationCached）及其解析；StackableItemMixin 中对应分支与 anyStackableEnabled；CarpetVPLAdditionExtension.applyAttributes 中 maxArmor 应用；删除整个 FoodDataMixin 并移除 mixins.json 注册；中英文翻译、README 同步删除。
+- 版本号：b1.14.3.6 → b1.14.3.7。
 
 ### b1.14.3.6 — 信标PP更新改用PP更新(updateNeighbourShapes)+TE阶段最前面统一触发（测试版）
 
