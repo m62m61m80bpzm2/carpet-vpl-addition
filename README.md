@@ -3,7 +3,7 @@
 一个基于 `fabric-carpet` 的 Fabric 服务端 Mod，为原版 Carpet 添加大量自定义游戏规则（Rules）。
 
 * 目标游戏版本：**Minecraft 26.1 ~ 26.2**
-* 当前 Mod 版本：**b1.14.3.7**（测试版）
+* 当前 Mod 版本：**b1.14.3.8**（测试版）
 * 支持语言：简体中文 / English
 
 本文件是**给玩家使用的说明**（怎么装、有哪些规则）。
@@ -36,7 +36,7 @@
 
    * Carpet（26.1+ 版本）
    * Fabric API
-   * **`[vpl-b1.14.3.7-for-26.1-26.2]carpet-addition-b1.14.3.7.jar`**
+   * **`[vpl-b1.14.3.8-for-26.1-26.2]carpet-addition-b1.14.3.8.jar`**
 3. 启动游戏即可。
 
 ## 使用

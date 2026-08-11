@@ -17,7 +17,7 @@
 
 ## 版本号
 
-- 当前版本：**b1.14.3.7**（测试版）
+- 当前版本：**b1.14.3.8**（测试版）
 - 规则：**测试版本号前加 b 前缀**（如 1.14.2 之后的测试版 = b1.14.3.1，用户测试通过后去掉 b 转正式版）。
 - git 提交信息 = 当前版本号。
 
@@ -41,8 +41,8 @@
 ```
 
 产物位于 `build/libs/`：
-- `[vpl-b1.14.3.7-for-26.1-26.2]carpet-addition-b1.14.3.7.jar` — 发布用 jar（直接以 Mojang 官方命名编译，无需 remap）
-- `[vpl-b1.14.3.7-for-26.1-26.2]carpet-addition-b1.14.3.7-sources.jar` — 源码 jar
+- `[vpl-b1.14.3.8-for-26.1-26.2]carpet-addition-b1.14.3.8.jar` — 发布用 jar（直接以 Mojang 官方命名编译，无需 remap）
+- `[vpl-b1.14.3.8-for-26.1-26.2]carpet-addition-b1.14.3.8-sources.jar` — 源码 jar
 
 > 注意：若出现“卡住不动”的假死，通常是上次超时被杀掉的 Gradle daemon 遗留了 Loom 缓存锁。
 > 用 `--no-daemon` 构建，或先执行 `./gradlew --stop` 清理。
@@ -58,7 +58,7 @@ minecraft_version=26.1.2
 loader_version=0.19.3
 fabric_version=0.154.2+26.1.2
 carpet_version=26.1+v260401
-mod_version=b1.14.3.7
+mod_version=b1.14.3.8
 mc_support_range=26.1-26.2
 archives_base_name=[vpl26.2]carpet-vpl-addition
 ```
@@ -183,6 +183,13 @@ src/main/java/carpetvpladdition/
 8. **canHasTranslations**：ConcurrentHashMap 缓存翻译。
 
 ## 修复记录（变更日志）
+
+### b1.14.3.8 — 修复 noZombieHorseSpawn 无效（改拦 Monster.checkMonsterSpawnRules）（测试版）
+
+- **规则无效的根因**：旧实现注入 `ZombieHorse.finalizeSpawn` 返回 null，但 NaturalSpawner 只是把返回值赋给 `groupData`、**从不检查是否为 null**，实体照样 `addFreshEntityWithPassengers` 生成。
+- **修复**：改为拦截 `Monster.checkMonsterSpawnRules`（僵尸马在 SpawnPlacements 注册的生成前置判断 `Monster::checkMonsterSpawnRules`）。NaturalSpawner.isValidSpawnPostitionForType 在生成前调用 `SpawnPlacements.checkSpawnRules(type, level, NATURAL, pos, random)`，此时对僵尸马直接返回 false，根本不会进入生成流程。
+- **类型比较**：用 EntityTypeHelper（BuiltInRegistries 按 ID 查）跨版本比较 `zombie_horse`，避免 26.1/26.2 常量位置差异。
+- 版本号：b1.14.3.7 → b1.14.3.8。
 
 ### b1.14.3.7 — 删除 8 个规则（末影珍珠/告示牌/奶桶/细雪桶/唱片/空桶堆叠 + 最大护甲值/最大饱食度）（测试版）
 
