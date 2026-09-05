@@ -38,7 +38,7 @@
 
    * Carpet（26.1+ 版本）
    * Fabric API
-   * **`[vpl-v1.14.3-for-26.1-26.2]carpet-addition-v1.14.3.jar`**
+   * **`[vpl-b1.14.4.1-for-26.1-26.2]carpet-addition-b1.14.4.1.jar`**
 3. 启动游戏即可。
 
 ## 使用
@@ -80,8 +80,18 @@
 |规则|类型|默认值|说明|
 |-|-|-|-|
 |`totemRecipe`|布尔|false|不死图腾合成配方|
+|`calciteRecipe`|布尔|false|方解石合成：安山岩+骨粉=2 方解石|
+|`tuffRecipe`|布尔|false|凝灰岩合成：圆石+骨粉=2 凝灰岩|
+|`woolToString`|布尔|false|羊毛分解：任意羊毛 1=线 4|
+|`quartzUnpack`|布尔|false|石英块分解：石英块 1=下界石英 4|
 |`fixedXpPerLevel`|布尔|false|每级经验固定 62|
 |`furnaceXpMultiplier`|数值|1.0|熔炉经验倍率|
+
+### 日常修复
+
+|规则|类型|默认值|说明|
+|-|-|-|-|
+|`anvilNoDamage`|布尔|false|铁砧使用不损坏|
 
 ### 村民与生物
 
@@ -113,7 +123,7 @@
 |`bedrockPushableFurnace`|布尔|false|熔炉可被活塞推动|
 |`tridentVoidReturn`|布尔|false|忠诚三叉戟虚空返回|
 |`beaconUnifiedPPUpdate`|布尔|false|信标统一PP更新（20GT）|
-|`noZombieHorseSpawn`|布尔|false|禁止僵尸马自然生成|
+|`noZombieHorseSpawn`|布尔|false|禁止僵尸马自然生成（**仅 26.2 生效**，26.1/26.1.2 上无效）|
 
 ### 修复
 

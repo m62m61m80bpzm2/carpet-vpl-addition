@@ -19,7 +19,7 @@
 
 ## 版本号
 
-- 当前版本：**v1.14.3**（正式版）
+- 当前版本：**b1.14.4.1**（测试版）
 - 规则：**测试版本号前加 b 前缀**（如 1.14.2 之后的测试版 = b1.14.3.1，用户测试通过后去掉 b 转正式版）。
 - git 提交信息 = 当前版本号。
 
@@ -185,6 +185,24 @@ src/main/java/carpetvpladdition/
 8. **canHasTranslations**：ConcurrentHashMap 缓存翻译。
 
 ## 修复记录（变更日志）
+
+### b1.14.4.1 — 新增 5 条日常生存规则 + noZombieHorseSpawn 标注 + 珍珠区块调查（测试版）
+
+- **新增规则 `anvilNoDamage`**（默认关闭）：铁砧使用不损坏。`AnvilNoDamageMixin` 注入 `AnvilBlock.damage` HEAD，规则开启时返回原 BlockState（完整/缺口/损坏铁砧均不降级不消失，不影响坠落损坏）。
+- **新增规则 `calciteRecipe`**（默认关闭）：方解石合成——安山岩+骨粉 → 2 方解石（无序）。材料全部可再生（安山岩=闪长岩+圆石，骨粉=骷髅/堆肥）。
+- **新增规则 `tuffRecipe`**（默认关闭）：凝灰岩合成——圆石+骨粉 → 2 凝灰岩（无序）。初版方案"深板岩圆石+骨粉"被否（深板岩不可再生），改为圆石（刷石机无限）。
+- **新增规则 `woolToString`**（默认关闭）：羊毛分解——任意颜色羊毛 1 → 线 4（`#minecraft:wool` 标签 17 色通吃）。与原版 4 线→1 羊毛对称可逆。
+- **新增规则 `quartzUnpack`**（默认关闭）：石英块分解——石英块 1 → 下界石英 4。与原版 4:1 对称可逆；仅支持普通石英块（柱/雕纹/砖为 1:1，分解会凭空溢出）。
+- **RecipeManagerMixin 重构**：单 totem 配方改为 `DynamicRecipe` 列表结构（规则字段名 + 配方 ID + JSON），新增配方只需加一条记录；单条解析失败不影响其余配方。
+- **noZombieHorseSpawn 兼容性标注**（TODO 文档结案）：不采用门控方案，翻译 desc/extra 直接标注"【仅在 MC 26.2 及以上版本生效，26.1/26.1.2 上无效】"；1.21.6 分支不处理。
+- **末影珍珠区块不加载调查**（用户游玩报告，26.2 偶发：退出重进后珍珠所在区块有时不加载）：
+  - 机制溯源（1.21.5+ 原版新增，26.2 保留）：飞行中的珍珠每 40gt 通过 `ServerPlayer.registerAndUpdateEnderPearlTicket` 给所在区块加 `TicketType.ENDER_PEARL`（半径 2 区块）ticket；玩家退出时珍珠序列化进玩家数据（`saveEnderPearls`，ender_pearls 列表）；重进时 `loadAndSpawnEnderPearl` 重新放置珍珠并加 ticket。
+  - 已定位的三个原版机制缺口（均非本 Mod 引入，本 Mod 无任何珍珠/区块相关 mixin）：
+    1. `loadAndSpawnEnderPearl` 中维度未就绪或实体加载失败时**静默跳过**（日志 "Failed to spawn player ender pearl..." / "Trying to load ender pearl without level..."）→ 珍珠丢失，区块自然无 ticket；
+    2. ticket 续期依赖珍珠 tick 且 owner 必须解析为在线玩家；owner=null 的珍珠（发射器射出）不进玩家数据也不注册 ticket，区块卸载即冻结且不自愈（不加载→不 tick→不续期死锁）；
+    3. ticket 超时 40gt，若退出/重进时序异常导致续期断档，区块卸载后珍珠冻结。
+  - 待复现确认：检查服务器日志是否出现上述两条 warn；确认珍珠是手投还是发射器射出。
+- 版本号：v1.14.3 → b1.14.4.1。
 
 ### v1.14.3 — 正式版发布（由测试版 b1.14.3.8 转正）
 

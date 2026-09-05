@@ -263,4 +263,29 @@ public class CarpetVPLAdditionSettings {
         categories = {CARPET_VPL_ADDITION, FEATURE, SURVIVAL}
     )
     public static boolean noZombieHorseSpawn = false;
+
+    @Rule(
+        categories = {CARPET_VPL_ADDITION, FEATURE}
+    )
+    public static boolean anvilNoDamage = false;
+
+    @Rule(
+        categories = {CARPET_VPL_ADDITION, FEATURE}
+    )
+    public static boolean calciteRecipe = false;
+
+    @Rule(
+        categories = {CARPET_VPL_ADDITION, FEATURE}
+    )
+    public static boolean tuffRecipe = false;
+
+    @Rule(
+        categories = {CARPET_VPL_ADDITION, FEATURE}
+    )
+    public static boolean woolToString = false;
+
+    @Rule(
+        categories = {CARPET_VPL_ADDITION, FEATURE}
+    )
+    public static boolean quartzUnpack = false;
 }
