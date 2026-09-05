@@ -4,7 +4,6 @@ import carpet.CarpetExtension;
 import carpet.CarpetServer;
 import carpetvpladdition.settings.CarpetVPLAdditionSettings;
 import carpetvpladdition.util.BeaconPPUpdateManager;
-import carpetvpladdition.util.PearlChunkKeepaliveManager;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import net.minecraft.server.level.ServerPlayer;
@@ -30,8 +29,6 @@ public class CarpetVPLAdditionExtension implements CarpetExtension {
             CarpetVPLAdditionSettings.syncNumericCaches();
             // 注册信标统一 PP 更新：信标追踪 + 每 20GT 统一触发（规则 beaconUnifiedPPUpdate）
             BeaconPPUpdateManager.register();
-            // 注册珍珠区块保活：珍珠追踪 + 每 20GT 续 ticket（规则 pearlChunkKeepalive）
-            PearlChunkKeepaliveManager.register();
         } catch (Exception e) {
             System.err.println("[carpet-vpl-addition] Failed to register settings: " + e.getMessage());
         }
