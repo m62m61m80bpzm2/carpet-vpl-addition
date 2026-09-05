@@ -29,3 +29,6 @@ compatibility-report-*.md
 # opencode 本地配置与规则（不入库）
 opencode.json
 AGENTS.md
+
+# 待办/错误报告类本地文档（不入库）
+TODO-*.md
