@@ -2,6 +2,8 @@
 
 一个基于 `fabric-carpet` 的 Fabric 服务端 Mod，为原版 Carpet 添加大量自定义游戏规则（Rules）。
 
+> **声明：本项目的代码（含全部 Mixin、规则、工具类）均由 AI 生成，特此说明。**
+
 * 目标游戏版本：**Minecraft 26.1 ~ 26.2**
 * 当前 Mod 版本：**v1.14.3**（正式版）
 * 支持语言：简体中文 / English
