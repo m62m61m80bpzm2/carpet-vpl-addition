@@ -114,6 +114,6 @@
     "carpet.rule.quartzUnpack.desc": "开启后石英块可分解：石英块1个=下界石英4个。需要 /reload 或重进存档生效。",
     "carpet.rule.quartzUnpack.extra.0": "与原版\"4石英→1石英块\"对称可逆。仅支持普通石英块（石英柱/雕纹石英/石英砖为1:1配方，分解会产生凭空溢出漏洞，故不支持）。",
     "carpet.rule.pearlChunkKeepalive.name": "珍珠区块保活",
-    "carpet.rule.pearlChunkKeepalive.desc": "每20游戏刻为所有飞行中的末影珍珠所在区块续期加载票据，修复原版退出重进后珍珠区块偶发不加载（珍珠传送站失效）的问题。调整后即时生效。",
-    "carpet.rule.pearlChunkKeepalive.extra.0": "复用原版 ENDER_PEARL 票据（半径2区块）。原版机制：重进时只加一次40gt票据，之后依赖区块加载成功后珍珠tick续期，chunk系统竞态会导致断档死锁（区块卸载→珍珠不tick→不续期）。本规则每20gt兜底续期，珍珠命中传送后自动移出追踪。"
+    "carpet.rule.pearlChunkKeepalive.desc": "修复原版 bug：退出并重新进入游戏后，飞行中的末影珍珠所在区块偶发不再加载，珍珠传送站因此失效，必须手动跑过去加载一次才能恢复。开启后每20游戏刻为所有飞行中的珍珠所在区块续期加载票据，调整后即时生效。",
+    "carpet.rule.pearlChunkKeepalive.extra.0": "bug 根因（1.21.5+ 原版机制）：重进时原版只放置一次40gt的加载票据，之后完全依赖\"区块加载成功→珍珠tick→续期\"这一链条，chunk系统调度竞态会断掉链条造成永久死锁（区块卸载→珍珠不tick→不再续期）。本规则每20gt为珍珠兜底续期票据（半径2区块，与原版一致），珍珠命中传送后自动移出追踪。"
 }
