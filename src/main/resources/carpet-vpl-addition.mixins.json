@@ -33,7 +33,8 @@
     "PickBlockNbtMixin",
     "BeaconBlockEntityTrackerMixin",
     "BeaconTickPhaseMixin",
-    "ZombieHorseSpawnMixin"
+    "ZombieHorseSpawnMixin",
+    "ThrownEnderpearlMixin"
   ],
   "injectors": {
     "defaultRequire": 1
