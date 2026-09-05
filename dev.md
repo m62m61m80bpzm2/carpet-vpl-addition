@@ -193,6 +193,10 @@ src/main/java/carpetvpladdition/
   - **修复（最小干预）**：`ServerPlayerPearlMixin` 注入 `loadAndSpawnEnderPearl` 的 `placeEnderPearlTicket` 调用之后（MixinExtras `@Local` 捕获 pearl 局部变量），同步强制加载珍珠所在区块（`getChunk(FULL, true)`，仅一次，1 个区块开销可忽略）。区块确定就位后珍珠立即 tick，由原版机制自行续期接管，无需持续干预。初版的"每 20gt 持续续期"方案被否定（过度设计），已简化。
   - **文案**：六语言介绍均侧重"修复的 bug"本身（珍珠区块不加载/珍珠冻结），不绑定具体使用场景。
 - **6 语言全支持**：新增 `es_ar`（西语）、`fr_fr`（法语）、`pt_br`（葡语-巴西）、`zh_tw`（繁体，zhconv 词级转换 + 台服术语：終界珍珠/地獄/生怪蛋），与现有 `en_us`/`zh_cn` 覆盖 Carpet language 规则的全部选项；6 文件键集完全一致（各 117 键，脚本校验）。
+- **配方规则即时生效 + 自动解锁配方书**：修复开启配方规则后需 /reload 才生效、且配方书不显示的问题。
+  - **根因**：b1.14.4.1 的 4 条新配方规则（calciteRecipe/tuffRecipe/woolToString/quartzUnpack）未挂 `RecipeRuleObserver` validator，开启时不触发资源重载，RecipeMap 不更新。
+  - **修复**：4 条规则补挂 validator；`RecipeRuleObserver` 增强为"重载完成后自动解锁"——reload 完成（原版已向玩家广播配方包，合成台即刻可用）后，将当前开启的动态配方通过 `ServerRecipeBook.addRecipes()` 解锁到所有在线玩家配方书（解锁+新配方高亮+客户端立即显示，触发 RECIPE_UNLOCKED 准据），无需 /reload 或重新登录。
+  - 实现细节：`RecipeRuleObserver` 内置规则字段→配方 ID 映射（与 RecipeManagerMixin.DYNAMIC_RECIPES 对应），重载完成后反射读取规则开关、`RecipeManager.byKey` 查找 holder，仅解锁已开启规则的配方。
 - 版本号：b1.14.4.1 → b1.14.4.2。
 
 ### b1.14.4.1 — 新增 5 条日常生存规则 + noZombieHorseSpawn 标注 + 珍珠区块调查（测试版）

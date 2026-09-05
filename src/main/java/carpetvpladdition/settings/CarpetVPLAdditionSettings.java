@@ -270,22 +270,26 @@ public class CarpetVPLAdditionSettings {
     public static boolean anvilNoDamage = false;
 
     @Rule(
-        categories = {CARPET_VPL_ADDITION, FEATURE}
+        categories = {CARPET_VPL_ADDITION, FEATURE},
+        validators = RecipeRuleObserver.class
     )
     public static boolean calciteRecipe = false;
 
     @Rule(
-        categories = {CARPET_VPL_ADDITION, FEATURE}
+        categories = {CARPET_VPL_ADDITION, FEATURE},
+        validators = RecipeRuleObserver.class
     )
     public static boolean tuffRecipe = false;
 
     @Rule(
-        categories = {CARPET_VPL_ADDITION, FEATURE}
+        categories = {CARPET_VPL_ADDITION, FEATURE},
+        validators = RecipeRuleObserver.class
     )
     public static boolean woolToString = false;
 
     @Rule(
-        categories = {CARPET_VPL_ADDITION, FEATURE}
+        categories = {CARPET_VPL_ADDITION, FEATURE},
+        validators = RecipeRuleObserver.class
     )
     public static boolean quartzUnpack = false;
 
