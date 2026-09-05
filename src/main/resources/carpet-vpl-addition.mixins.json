@@ -29,6 +29,7 @@
     "VillagerNoPriceOnAttackMixin",
     "CactusGrowthMixin",
     "CactusBonemealMixin",
+    "AnvilNoDamageMixin",
     "PickBlockNbtMixin",
     "BeaconBlockEntityTrackerMixin",
     "BeaconTickPhaseMixin",

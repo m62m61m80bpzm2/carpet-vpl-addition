@@ -2,10 +2,8 @@
     "carpet.rule.stringDupe.name": "String Dupe",
     "carpet.rule.stringDupe.desc": "Reintroduces the tripwire string duplication exploit (MC-129055 / MC-59471), which was patched by Mojang in 1.21.2+",
     "carpet.rule.stringDupe.extra.0": "Bypasses the break in TripWireBlock.updateSource and the is(TRIPWIRE) check in TripWireHookBlock.calculateState, restoring the legacy tripwire duplication behavior. Requires string (tripwire) and only takes effect in 1.21.2+ (where the exploit was patched).",
-
     "carpet.rule.villagerNoPriceOnAttack.name": "Villager No Price On Attack",
     "carpet.rule.villagerNoPriceOnAttack.desc": "Prevents villagers from increasing prices when attacked. Affects both the attacked villager and witnesses",
-
     "carpet.rule.maxPlayerHealth.name": "Max Player Health",
     "carpet.rule.maxPlayerHealth.desc": "Set the max health for all players. Requires re-entering world to take effect. Supports values 20~1000. Default: 20.",
     "carpet.rule.maxPlayerHealth.extra.0": "Modifies the base value of MAX_HEALTH attribute. Applied on player login/respawn.",
@@ -97,7 +95,22 @@
     "carpet.rule.beaconUnifiedPPUpdate.desc": "Every 20 game ticks, sends a unified block update to all beacons sitting directly on shallow-layer lapis ore (minecraft:lapis_ore). All qualifying beacons are updated at the same server-tick-end phase with consistent micro-timing.",
     "carpet.rule.beaconUnifiedPPUpdate.extra.0": "Shallow lapis ore = the stone variant (lapis_ore), not deepslate_lapis_ore. Fire phase: the very start of the block-entity (TE) phase (Level.tickBlockEntities HEAD). Calls updateNeighbourShapes (PP update) on the beacon position, so neighboring blocks (including observers and redstone wire above) receive the update. All beacons are updated consecutively in coordinate order within the same phase for consistent micro-timing.",
     "carpet.rule.noZombieHorseSpawn.name": "No Zombie Horse Spawn",
-    "carpet.rule.noZombieHorseSpawn.desc": "Prevents zombie horses from naturally spawning at night (as monsters). Takes effect immediately.",
-    "carpet.rule.noZombieHorseSpawn.extra.0": "Intercepts Monster.checkMonsterSpawnRules (the spawn pre-check registered for zombie horses), returning false when the spawn reason is NATURAL (night-time monster spawning) so the horse never enters the spawn flow. Does not affect spawn eggs, commands, or breeding.",
-    "carpet.category.carpet_vpl_addition": "Carpet VPL Addition"
+    "carpet.rule.noZombieHorseSpawn.desc": "Prevents zombie horses from naturally spawning at night (as monsters). Takes effect immediately. [Only works on MC 26.2+; ineffective on 26.1/26.1.2]",
+    "carpet.rule.noZombieHorseSpawn.extra.0": "Intercepts Monster.checkMonsterSpawnRules (the spawn pre-check registered for zombie horses), returning false when the spawn reason is NATURAL (night-time monster spawning) so the horse never enters the spawn flow. Does not affect spawn eggs, commands, or breeding. Note: only since 26.2 is ZombieHorse registered in SpawnPlacements with this pre-check; this rule has no effect on 26.1/26.1.2.",
+    "carpet.category.carpet_vpl_addition": "Carpet VPL Addition",
+    "carpet.rule.anvilNoDamage.name": "Anvil No Damage",
+    "carpet.rule.anvilNoDamage.desc": "Anvils never degrade or break when used (vanilla has a 12% chance to damage per use). Takes effect immediately.",
+    "carpet.rule.anvilNoDamage.extra.0": "Intercepts AnvilBlock.damage and returns the original state when enabled: intact/chipped/damaged anvils never degrade or disappear. Falling anvil breakage is unaffected.",
+    "carpet.rule.calciteRecipe.name": "Calcite Recipe",
+    "carpet.rule.calciteRecipe.desc": "Adds a crafting recipe for calcite: andesite + bone meal = 2 calcite. Requires /reload or re-entering world.",
+    "carpet.rule.calciteRecipe.extra.0": "Shapeless, fully renewable materials (andesite = diorite + cobblestone; bone meal = skeletons/composter). 1:1 ratio, no dupe exploits.",
+    "carpet.rule.tuffRecipe.name": "Tuff Recipe",
+    "carpet.rule.tuffRecipe.desc": "Adds a crafting recipe for tuff: cobblestone + bone meal = 2 tuff. Requires /reload or re-entering world.",
+    "carpet.rule.tuffRecipe.extra.0": "Shapeless, fully renewable materials (cobblestone = cobblestone generators; bone meal = skeletons/composter). Pairs with the calcite recipe: \"stone variant + bone meal = cave stone\".",
+    "carpet.rule.woolToString.name": "Wool To String",
+    "carpet.rule.woolToString.desc": "Adds a recipe to unravel wool: 1 wool (any color) = 4 string. Requires /reload or re-entering world.",
+    "carpet.rule.woolToString.extra.0": "Uses the #minecraft:wool tag, all 17 colors supported. Perfectly reversible with the vanilla \"4 string = 1 wool\" recipe, no dupe exploits.",
+    "carpet.rule.quartzUnpack.name": "Quartz Unpack",
+    "carpet.rule.quartzUnpack.desc": "Adds a recipe to unpack quartz blocks: 1 quartz block = 4 nether quartz. Requires /reload or re-entering world.",
+    "carpet.rule.quartzUnpack.extra.0": "Reversible with the vanilla \"4 quartz = 1 quartz block\". Only the plain quartz block is supported (pillar/chiseled/bricks are 1:1 recipes, unpacking them would dupe quartz)."
 }

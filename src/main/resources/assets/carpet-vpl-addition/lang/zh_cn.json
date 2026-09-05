@@ -2,10 +2,8 @@
     "carpet.rule.stringDupe.name": "重新引入刷线机",
     "carpet.rule.stringDupe.desc": "重新引入绊线钩刷线漏洞（MC-129055 / MC-59471），该漏洞在 1.21.2+ 中被 Mojang 修复",
     "carpet.rule.stringDupe.extra.0": "绕开 TripWireBlock.updateSource 中的 break 和 TripWireHookBlock.calculateState 中的 is(TRIPWIRE) 检查，恢复旧版绊线复制行为。需搭配线（tripwire）使用，仅在 1.21.2+ 中生效（原版已被修复）。",
-
     "carpet.rule.villagerNoPriceOnAttack.name": "攻击村民不涨价",
     "carpet.rule.villagerNoPriceOnAttack.desc": "禁止村民被攻击后涨价，同时阻止目击者村民涨价",
-
     "carpet.rule.maxPlayerHealth.name": "最大血量",
     "carpet.rule.maxPlayerHealth.desc": "设置所有玩家的最大生命值上限，需要退出重进存档后生效。支持20~1000之间的任意整数值，默认值: 20。",
     "carpet.rule.maxPlayerHealth.extra.0": "修改的是玩家基础属性 MAX_HEALTH 的基值。该值会在玩家登录/重生时自动应用。",
@@ -97,7 +95,22 @@
     "carpet.rule.beaconUnifiedPPUpdate.desc": "每隔20游戏刻，向所有正下方为浅层青金石原矿（minecraft:lapis_ore）的信标统一发出一次方块更新。所有符合要求的信标在同一服务器tick末尾阶段被更新，时间与微时序一致。",
     "carpet.rule.beaconUnifiedPPUpdate.extra.0": "浅层青金石原矿=石头变体lapis_ore（非深板岩deepslate_lapis_ore）。触发阶段：方块实体（TE）阶段最前面（Level.tickBlockEntities 开头）。对信标位置调用 updateNeighbourShapes（PP更新），信标四周的方块（含侦测器、上方红石线）会收到更新。所有信标在同一阶段内按坐标顺序连续更新，微时序一致。",
     "carpet.rule.noZombieHorseSpawn.name": "禁止僵尸马生成",
-    "carpet.rule.noZombieHorseSpawn.desc": "阻止僵尸马在夜间自然生成（作为怪物刷出）。调整后即时生效。",
-    "carpet.rule.noZombieHorseSpawn.extra.0": "拦截 Monster.checkMonsterSpawnRules（僵尸马注册的生成前置判断），当生成原因为 NATURAL（夜间刷怪）时直接返回 false，僵尸马不会进入生成流程。不影响刷怪蛋、指令或繁殖等其他生成方式。",
-    "carpet.category.carpet_vpl_addition": "Carpet VPL Addition"
+    "carpet.rule.noZombieHorseSpawn.desc": "阻止僵尸马在夜间自然生成（作为怪物刷出）。调整后即时生效。【仅在 MC 26.2 及以上版本生效，26.1/26.1.2 上无效】",
+    "carpet.rule.noZombieHorseSpawn.extra.0": "拦截 Monster.checkMonsterSpawnRules（僵尸马注册的生成前置判断），当生成原因为 NATURAL（夜间刷怪）时直接返回 false，僵尸马不会进入生成流程。不影响刷怪蛋、指令或繁殖等其他生成方式。注意：26.2 起僵尸马才被注册到 SpawnPlacements 使用该前置判断，26.1/26.1.2 上此规则无效果。",
+    "carpet.category.carpet_vpl_addition": "Carpet VPL Addition",
+    "carpet.rule.anvilNoDamage.name": "铁砧不损坏",
+    "carpet.rule.anvilNoDamage.desc": "铁砧使用后不再降级或消失（原版每次使用有12%概率损坏一级）。调整后即时生效。",
+    "carpet.rule.anvilNoDamage.extra.0": "拦截 AnvilBlock.damage，规则开启时直接返回原状态：完整/缺口/损坏铁砧均不会降级或消失。不影响铁砧坠落损坏。",
+    "carpet.rule.calciteRecipe.name": "方解石合成",
+    "carpet.rule.calciteRecipe.desc": "开启后方解石可通过合成获得：安山岩+骨粉=2个方解石。需要 /reload 或重进存档生效。",
+    "carpet.rule.calciteRecipe.extra.0": "无序合成，材料全部可再生（安山岩=闪长岩+圆石可合成，骨粉=骷髅/堆肥）。1:1 配比无刷取漏洞。",
+    "carpet.rule.tuffRecipe.name": "凝灰岩合成",
+    "carpet.rule.tuffRecipe.desc": "开启后凝灰岩可通过合成获得：圆石+骨粉=2个凝灰岩。需要 /reload 或重进存档生效。",
+    "carpet.rule.tuffRecipe.extra.0": "无序合成，材料全部可再生（圆石=刷石机无限，骨粉=骷髅/堆肥）。与方解石配方成对：\"石头变体+骨粉=洞穴新石头\"。",
+    "carpet.rule.woolToString.name": "羊毛分解",
+    "carpet.rule.woolToString.desc": "开启后羊毛可分解为线：任意颜色羊毛1个=线4个。需要 /reload 或重进存档生效。",
+    "carpet.rule.woolToString.extra.0": "使用 #minecraft:wool 标签，17 色羊毛全部支持。与原版\"4线→1羊毛\"完全对称可逆，无刷取漏洞。",
+    "carpet.rule.quartzUnpack.name": "石英块分解",
+    "carpet.rule.quartzUnpack.desc": "开启后石英块可分解：石英块1个=下界石英4个。需要 /reload 或重进存档生效。",
+    "carpet.rule.quartzUnpack.extra.0": "与原版\"4石英→1石英块\"对称可逆。仅支持普通石英块（石英柱/雕纹石英/石英砖为1:1配方，分解会产生凭空溢出漏洞，故不支持）。"
 }
