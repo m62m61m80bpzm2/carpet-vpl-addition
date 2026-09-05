@@ -115,5 +115,6 @@
     "carpet.rule.quartzUnpack.extra.0": "與原版\"4石英→1石英塊\"對稱可逆。僅支持普通石英塊（石英柱/雕紋石英/石英磚為1:1配方，分解會產生憑空溢出漏洞，故不支持）。",
     "carpet.rule.pearlChunkKeepalive.name": "珍珠區塊保活",
     "carpet.rule.pearlChunkKeepalive.desc": "修復原版 bug：退出並重新進入遊戲後，飛行中的終界珍珠所在區塊偶發不再加載，珍珠懸在半空不動、無法完成傳送。開啓後在進入世界時強制加載珍珠所在區塊，讓珍珠恢復正常。",
-    "carpet.rule.pearlChunkKeepalive.extra.0": "bug 根因（1.21.5+ 原版機制）：重進時原版只爲珍珠放置一次40gt的加載票據，之後完全依賴\"區塊加載成功→珍珠tick→續期\"的鏈條，chunk系統調度競態會斷掉鏈條造成永久死鎖（區塊卸載→珍珠不tick→不再續期）。本規則在珍珠加載時同步強制加載其所在區塊（僅一次，開銷可忽略），區塊就位後由原版機制正常接管續期。"
+    "carpet.rule.pearlChunkKeepalive.extra.0": "bug 根因（1.21.5+ 原版機制）：重進時原版只爲珍珠放置一次40gt的加載票據，之後完全依賴\"區塊加載成功→珍珠tick→續期\"的鏈條，chunk系統調度競態會斷掉鏈條造成永久死鎖（區塊卸載→珍珠不tick→不再續期）。本規則在珍珠加載時同步強制加載其所在區塊（僅一次，開銷可忽略），區塊就位後由原版機制正常接管續期。",
+    "modmenu.descriptionTranslation.carpet-vpl-addition": "為 Carpet 新增 39 條自訂規則，面向生存與生電玩家：日常修復（鐵砧不損壞）、新增合成配方（方解石/凝灰岩/羊毛分解/石英分解）、信標統一PP更新、重進世界後終界珍珠區塊載入修復、玩家屬性、物品堆疊等。除 pickBlockNbt 外所有規則預設關閉。支援 Minecraft 26.1 ~ 26.2。"
 }

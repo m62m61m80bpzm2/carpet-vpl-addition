@@ -19,7 +19,7 @@
 
 ## 版本号
 
-- 当前版本：**b1.14.4.2**（测试版）
+- 当前版本：**v1.14.4**（正式版）
 - 规则：**测试版本号前加 b 前缀**（如 1.14.2 之后的测试版 = b1.14.3.1，用户测试通过后去掉 b 转正式版）。
 - git 提交信息 = 当前版本号。
 
@@ -185,6 +185,12 @@ src/main/java/carpetvpladdition/
 8. **canHasTranslations**：ConcurrentHashMap 缓存翻译。
 
 ## 修复记录（变更日志）
+
+### v1.14.4 — 正式版发布（由测试版 b1.14.4.2 转正）
+
+- **转正式版**：测试版 b1.14.4.1 / b1.14.4.2 经测试通过，去掉 b 前缀转正式版 v1.14.4。
+- 含内容：5 条日常生存规则（anvilNoDamage / calciteRecipe / tuffRecipe / woolToString / quartzUnpack）、pearlChunkKeepalive（修复重进后珍珠区块偶发不加载）、配方规则即时生效+自动解锁配方书、6 语言全支持（es_ar/fr_fr/pt_br/zh_tw）、noZombieHorseSpawn 标注仅 26.2 生效。
+- 版本号：b1.14.4.2 → v1.14.4。
 
 ### b1.14.4.2 — 新增珍珠区块保活规则 + 6 语言全支持（测试版）
 

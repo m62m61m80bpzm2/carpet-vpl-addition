@@ -3,9 +3,17 @@
   "id": "${mod_id}",
   "version": "${version}",
   "name": "${mod_name}",
-  "description": "A Carpet extension addon for Minecraft 26.1 ~ 26.2",
-  "authors": [],
-  "contact": {},
+  "description": "A Carpet extension addon adding survival & technical rules (new recipes, anvil no damage, beacon PP update, pearl chunk-loading fix) for Minecraft 26.1 ~ 26.2",
+  "authors": [
+    "m62m61m80bpzm2"
+  ],
+  "contact": {
+    "homepage": "https://github.com/m62m61m80bpzm2/carpet-vpl-addition",
+    "sources": "https://github.com/m62m61m80bpzm2/carpet-vpl-addition",
+    "issues": "https://github.com/m62m61m80bpzm2/carpet-vpl-addition/issues"
+  },
+  "license": "MIT",
+  "icon": "assets/carpet-vpl-addition/icon.png",
   "environment": "*",
   "entrypoints": {
     "main": [
