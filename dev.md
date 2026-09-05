@@ -188,10 +188,10 @@ src/main/java/carpetvpladdition/
 
 ### b1.14.4.2 — 新增珍珠区块保活规则 + 6 语言全支持（测试版）
 
-- **新增规则 `pearlChunkKeepalive`**（默认关闭，中文名：珍珠区块保活）：修复原版 1.21.5+ 珍珠 ticket 机制的"续期断档死锁"。
-  - **根因**（26.2 源码确认）：玩家退出重进时 `loadAndSpawnEnderPearl` 只放一次 ENDER_PEARL ticket（半径 2 区块，超时 40gt），之后完全依赖"区块加载成功 → 珍珠 tick → 每 39gt 续期"这一链条；chunk 系统调度偶发竞态会断掉链条 → 区块卸载 → 珍珠永不 tick → 永不续期，珍珠传送站永久失效，需玩家手动跑过去加载一次才恢复（用户实机报告的偶发 bug，手投珍珠复现）。
-  - **修复**：`PearlChunkKeepaliveManager` 每 20gt（ticket 超时的一半）为所有存活珍珠所在区块重放 `ServerPlayer.placeEnderPearlTicket`（复用原版静态方法，半径 2），断档也会被拉回。
-  - **追踪**：`ThrownEnderpearlMixin` 注入 `setOwner(EntityReference)` HEAD——26.2 的 `Projectile.readAdditionalSaveData` 加载路径与投掷路径都经过该方法，单注入点同时覆盖"重进恢复的珍珠"与"新投掷的珍珠"；每 20gt 自愈清理已消失的珍珠（命中传送即 discard，集合自然收敛）。
+- **新增规则 `pearlChunkKeepalive`**（默认关闭，中文名：修复珍珠区块加载）：修复原版 1.21.5+ 珍珠 ticket 机制的"续期断档死锁"（用户实机报告：退出重进后珍珠区块偶发不加载，珍珠悬空冻结无法传送，手投珍珠复现）。
+  - **根因**（26.2 源码确认）：玩家退出重进时 `loadAndSpawnEnderPearl` 只放置一次 ENDER_PEARL ticket（半径 2 区块，超时 40gt），之后完全依赖"区块加载成功 → 珍珠 tick → 续期"链条；chunk 系统调度偶发竞态断掉链条 → 区块卸载 → 珍珠永不 tick → 永不续期 → 永久死锁。
+  - **修复（最小干预）**：`ServerPlayerPearlMixin` 注入 `loadAndSpawnEnderPearl` 的 `placeEnderPearlTicket` 调用之后（MixinExtras `@Local` 捕获 pearl 局部变量），同步强制加载珍珠所在区块（`getChunk(FULL, true)`，仅一次，1 个区块开销可忽略）。区块确定就位后珍珠立即 tick，由原版机制自行续期接管，无需持续干预。初版的"每 20gt 持续续期"方案被否定（过度设计），已简化。
+  - **文案**：六语言介绍均侧重"修复的 bug"本身（珍珠区块不加载/珍珠冻结），不绑定具体使用场景。
 - **6 语言全支持**：新增 `es_ar`（西语）、`fr_fr`（法语）、`pt_br`（葡语-巴西）、`zh_tw`（繁体，zhconv 词级转换 + 台服术语：終界珍珠/地獄/生怪蛋），与现有 `en_us`/`zh_cn` 覆盖 Carpet language 规则的全部选项；6 文件键集完全一致（各 117 键，脚本校验）。
 - 版本号：b1.14.4.1 → b1.14.4.2。
 
