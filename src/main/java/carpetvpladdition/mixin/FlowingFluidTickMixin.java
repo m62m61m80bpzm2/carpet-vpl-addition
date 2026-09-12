@@ -41,8 +41,9 @@ public abstract class FlowingFluidTickMixin {
         if (!fluidState.is(FluidTags.LAVA) || fluidState.isSource()) {
             return;
         }
-        // 正下方必须是青金石矿石或深层青金石矿石
-        if (!level.getBlockState(pos.below()).is(Blocks.LAPIS_ORE, Blocks.DEEPSLATE_LAPIS_ORE)) {
+        // 正下方必须是青金石矿石或深层青金石矿石（26.2 的 is() 无可变参数重载，用或判断）
+        BlockState below = level.getBlockState(pos.below());
+        if (!below.is(Blocks.LAPIS_ORE) && !below.is(Blocks.DEEPSLATE_LAPIS_ORE)) {
             return;
         }
         // 无限水判定：水平相邻 4 个方向中至少 2 个方向是岩浆源（只统计岩浆源，水源不算）
