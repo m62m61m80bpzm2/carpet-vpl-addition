@@ -15,11 +15,11 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 /**
- * 青金石岩浆源（b1.14.5.1 新增，规则 lavaSourceOnLapis）。
+ * 青金石矿石岩浆源（b1.14.5.1 新增，规则 lavaSourceOnLapisOre）。
  *
  * 复刻无限水机制：流动岩浆的水平相邻 4 个方向中至少 2 个方向是岩浆源，
- * 且其正下方是青金石块时，在下一次流体计划 tick 转化为岩浆源方块。
- * 省去反复倾倒岩浆桶，方便建造岩浆田/刷石机。
+ * 且其正下方是青金石矿石（含深层青金石矿石）时，在下一次流体计划 tick
+ * 转化为岩浆源方块。省去反复倾倒岩浆桶，方便建造岩浆田/刷石机。
  *
  * 注入 FlowingFluid.tick HEAD（所有流动流体计划 tick 的统一入口）：
  * 满足条件时替换为源方块并取消本次 spread；源方块放置时 LiquidBlock.onPlace
@@ -33,16 +33,16 @@ public abstract class FlowingFluidTickMixin {
         at = @At("HEAD"),
         cancellable = true
     )
-    private void lavaSourceOnLapis(ServerLevel level, BlockPos pos, BlockState blockState, FluidState fluidState, CallbackInfo ci) {
-        if (!CarpetVPLAdditionSettings.lavaSourceOnLapis) {
+    private void lavaSourceOnLapisOre(ServerLevel level, BlockPos pos, BlockState blockState, FluidState fluidState, CallbackInfo ci) {
+        if (!CarpetVPLAdditionSettings.lavaSourceOnLapisOre) {
             return;
         }
         // 仅处理流动岩浆（非源）；水源/岩浆源不干预
         if (!fluidState.is(FluidTags.LAVA) || fluidState.isSource()) {
             return;
         }
-        // 正下方必须是青金石块
-        if (!level.getBlockState(pos.below()).is(Blocks.LAPIS_BLOCK)) {
+        // 正下方必须是青金石矿石或深层青金石矿石
+        if (!level.getBlockState(pos.below()).is(Blocks.LAPIS_ORE, Blocks.DEEPSLATE_LAPIS_ORE)) {
             return;
         }
         // 无限水判定：水平相邻 4 个方向中至少 2 个方向是岩浆源（只统计岩浆源，水源不算）

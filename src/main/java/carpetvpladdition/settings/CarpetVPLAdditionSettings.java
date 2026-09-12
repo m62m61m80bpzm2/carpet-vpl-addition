@@ -301,5 +301,5 @@ public class CarpetVPLAdditionSettings {
     @Rule(
         categories = {CARPET_VPL_ADDITION, FEATURE, SURVIVAL}
     )
-    public static boolean lavaSourceOnLapis = false;
+    public static boolean lavaSourceOnLapisOre = false;
 }
