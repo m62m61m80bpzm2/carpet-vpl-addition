@@ -10,7 +10,6 @@
     "PlayerAttributeMixin",
     "StackableItemMixin",
     "LivingEntityMixin",
-    "FoodDataMixin",
     "VillagerGolemMixin",
     "VillagerAttractionMixin",
     "FastLeafDecayMixin",
@@ -29,7 +28,13 @@
     "TripWireBlockStringDupeMixin",
     "VillagerNoPriceOnAttackMixin",
     "CactusGrowthMixin",
-    "CactusBonemealMixin"
+    "CactusBonemealMixin",
+    "AnvilNoDamageMixin",
+    "PickBlockNbtMixin",
+    "BeaconBlockEntityTrackerMixin",
+    "BeaconTickPhaseMixin",
+    "ServerPlayerPearlMixin",
+    "FlowingFluidTickMixin"
   ],
   "injectors": {
     "defaultRequire": 1

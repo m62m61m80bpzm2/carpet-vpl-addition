@@ -18,41 +18,33 @@ public class CarpetVPLAdditionSettings {
     // 避免热路径上反复 Integer.parseInt / Float.parseFloat
     public static int observerTickDelayCached = 2;
     public static int maxAirCached = 300;
-    public static int maxSaturationCached = 20;
     public static float furnaceXpMultiplierCached = 1.0f;
     public static int hopperMinecartStackSizeCached = 1;
     public static int maxPlayerHealthCached = 20;
     public static double playerAttackDamageCached = 2.0;
-    public static double maxArmorCached = 0.0;
     public static float cactusGrowthMultiplierCached = 1.0f;
 
-    /** 将所有字符串规则解析到缓存字段 */
+    /** 将所有字符串规则解析到缓存字段（含最小值/上限保护，防止玩家输入 0 或负数破坏机制） */
     public static void syncNumericCaches() {
         try { observerTickDelayCached = Math.max(1, Integer.parseInt(observerTickDelay)); }
         catch (NumberFormatException e) { observerTickDelayCached = 2; }
 
-        try { maxAirCached = Integer.parseInt(maxAir); }
+        try { maxAirCached = Math.max(1, Integer.parseInt(maxAir)); }
         catch (NumberFormatException e) { maxAirCached = 300; }
 
-        try { maxSaturationCached = Integer.parseInt(maxSaturation); }
-        catch (NumberFormatException e) { maxSaturationCached = 20; }
-
-        try { furnaceXpMultiplierCached = Float.parseFloat(furnaceXpMultiplier); }
+        try { furnaceXpMultiplierCached = Math.max(0.0f, Float.parseFloat(furnaceXpMultiplier)); }
         catch (NumberFormatException e) { furnaceXpMultiplierCached = 1.0f; }
 
-        try { hopperMinecartStackSizeCached = Math.min(99, Integer.parseInt(hopperMinecartStackSize)); }
+        try { hopperMinecartStackSizeCached = Math.min(99, Math.max(1, Integer.parseInt(hopperMinecartStackSize))); }
         catch (NumberFormatException e) { hopperMinecartStackSizeCached = 1; }
 
-        try { maxPlayerHealthCached = Integer.parseInt(maxPlayerHealth); }
+        try { maxPlayerHealthCached = Math.max(1, Integer.parseInt(maxPlayerHealth)); }
         catch (NumberFormatException e) { maxPlayerHealthCached = 20; }
 
-        try { playerAttackDamageCached = Double.parseDouble(playerAttackDamage); }
+        try { playerAttackDamageCached = Math.max(0.0, Double.parseDouble(playerAttackDamage)); }
         catch (NumberFormatException e) { playerAttackDamageCached = 2.0; }
 
-        try { maxArmorCached = Double.parseDouble(maxArmor); }
-        catch (NumberFormatException e) { maxArmorCached = 0.0; }
-
-        try { cactusGrowthMultiplierCached = Float.parseFloat(cactusGrowthMultiplier); }
+        try { cactusGrowthMultiplierCached = Math.max(0.0f, Float.parseFloat(cactusGrowthMultiplier)); }
         catch (NumberFormatException e) { cactusGrowthMultiplierCached = 1.0f; }
     }
 
@@ -65,12 +57,12 @@ public class CarpetVPLAdditionSettings {
         }
     }
 
-    /** 属性规则变更验证器：刷新缓存 + 即时应用到所有在线玩家（自 26.2 分支移植） */
+    /** 属性规则变更验证器：刷新缓存 + 即时应用到所有在线玩家 */
     public static class AttributeRefreshValidator extends Validator<String> {
         @Override
         public String validate(CommandSourceStack source, CarpetRule<String> rule, String newValue, String userInput) {
             syncNumericCaches();
-            // 即时重新应用属性到所有在线玩家，无需重进服务器即可生效
+            // 即时重新应用属性到所有在线玩家
             if (source != null) {
                 MinecraftServer server = source.getServer();
                 if (server != null) {
@@ -120,11 +112,6 @@ public class CarpetVPLAdditionSettings {
     @Rule(
         categories = {CARPET_VPL_ADDITION, FEATURE}
     )
-    public static boolean stackableBucket = false;
-
-    @Rule(
-        categories = {CARPET_VPL_ADDITION, FEATURE}
-    )
     public static boolean stackableGlassBottle = false;
 
     @Rule(
@@ -139,47 +126,6 @@ public class CarpetVPLAdditionSettings {
         validators = CacheRefreshValidator.class
     )
     public static String maxAir = "300";
-
-    @Rule(
-        categories = {CARPET_VPL_ADDITION, FEATURE, SURVIVAL},
-        options = {"0", "10", "20", "30"},
-        strict = false,
-        validators = AttributeRefreshValidator.class
-    )
-    public static String maxArmor = "0";
-
-    @Rule(
-        categories = {CARPET_VPL_ADDITION, FEATURE, SURVIVAL},
-        options = {"20", "40", "60", "100", "200"},
-        strict = false,
-        validators = CacheRefreshValidator.class
-    )
-    public static String maxSaturation = "20";
-
-    @Rule(
-        categories = {CARPET_VPL_ADDITION, FEATURE}
-    )
-    public static boolean stackableMusicDisc = false;
-
-    @Rule(
-        categories = {CARPET_VPL_ADDITION, FEATURE}
-    )
-    public static boolean stackableMilkBucket = false;
-
-    @Rule(
-        categories = {CARPET_VPL_ADDITION, FEATURE}
-    )
-    public static boolean stackablePowderSnowBucket = false;
-
-    @Rule(
-        categories = {CARPET_VPL_ADDITION, FEATURE}
-    )
-    public static boolean stackableEnderPearl = false;
-
-    @Rule(
-        categories = {CARPET_VPL_ADDITION, FEATURE}
-    )
-    public static boolean stackableSign = false;
 
     @Rule(
         categories = {CARPET_VPL_ADDITION, FEATURE},
@@ -302,4 +248,58 @@ public class CarpetVPLAdditionSettings {
         categories = {CARPET_VPL_ADDITION, FEATURE, SURVIVAL}
     )
     public static boolean cactusBoneMeal = false;
+
+    @Rule(
+        categories = {CARPET_VPL_ADDITION, FEATURE}
+    )
+    public static boolean pickBlockNbt = true;
+
+    @Rule(
+        categories = {CARPET_VPL_ADDITION, FEATURE, SURVIVAL}
+    )
+    public static boolean beaconUnifiedPPUpdate = false;
+
+    @Rule(
+        categories = {CARPET_VPL_ADDITION, FEATURE, SURVIVAL}
+    )
+    public static boolean noZombieHorseSpawn = false;
+
+    @Rule(
+        categories = {CARPET_VPL_ADDITION, FEATURE}
+    )
+    public static boolean anvilNoDamage = false;
+
+    @Rule(
+        categories = {CARPET_VPL_ADDITION, FEATURE},
+        validators = RecipeRuleObserver.class
+    )
+    public static boolean calciteRecipe = false;
+
+    @Rule(
+        categories = {CARPET_VPL_ADDITION, FEATURE},
+        validators = RecipeRuleObserver.class
+    )
+    public static boolean tuffRecipe = false;
+
+    @Rule(
+        categories = {CARPET_VPL_ADDITION, FEATURE},
+        validators = RecipeRuleObserver.class
+    )
+    public static boolean woolToString = false;
+
+    @Rule(
+        categories = {CARPET_VPL_ADDITION, FEATURE},
+        validators = RecipeRuleObserver.class
+    )
+    public static boolean quartzUnpack = false;
+
+    @Rule(
+        categories = {CARPET_VPL_ADDITION, FEATURE, SURVIVAL}
+    )
+    public static boolean pearlChunkKeepalive = false;
+
+    @Rule(
+        categories = {CARPET_VPL_ADDITION, FEATURE, SURVIVAL}
+    )
+    public static boolean lavaSourceOnLapisOre = false;
 }
