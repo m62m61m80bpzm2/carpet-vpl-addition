@@ -34,7 +34,8 @@
     "BeaconBlockEntityTrackerMixin",
     "BeaconTickPhaseMixin",
     "ZombieHorseSpawnMixin",
-    "ServerPlayerPearlMixin"
+    "ServerPlayerPearlMixin",
+    "FlowingFluidTickMixin"
   ],
   "injectors": {
     "defaultRequire": 1
