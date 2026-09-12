@@ -3,7 +3,7 @@
 > 本项目的代码（含全部 Mixin、规则、工具类）均由 **AI 生成**（opencode 协助编写），特此说明。
 
 ## 版本号
-当前版本：1.14.2（每次修改后 +1）
+当前版本：v0.14.5（正式版，2026-09-12；1.21.6-1.21.10 分支版本线改用 0.x 前缀，与 26.2 分支 v1.14.5 的规则内容对应）
 
 ## 构建
 ```bash
@@ -122,6 +122,28 @@ Mojang 在 24w33a（1.21.2）修复了刷线漏洞，在 `TripWireHookBlock.calc
 4. 1.21.11 需要大量适配工作（mappings 重构）
 
 详细报告见 `compatibility-report-1.21.x.md`
+
+## 修复记录（v0.14.5）
+
+### v0.14.5 — 正式版发布（由测试版 b1.14.5.1 转正，2026-09-12）
+
+- **转正式版**：b1.14.5.1 与 26.1-26.2 分支（v1.14.5）规则**完全对齐（40 条）**，静态自查通过后转正。
+- **自查记录（转正前）**：
+  - 6 个新 Mixin 的 1.21.8 目标逐一核对源码：`FlowingFluid.tick(ServerLevel, BlockPos, BlockState, FluidState)` 四参、`ServerPlayer.loadAndSpawnEnderPearl`/`placeEnderPearlTicket(ServerLevel, ChunkPos)J`（static）、`AnvilBlock.damage(BlockState)`、`ServerGamePacketListenerImpl.handlePickItemFromBlock` + `ServerboundPickItemFromBlockPacket.includeData()`、`BlockEntity.setLevel(Level)`、`Level.tickBlockEntities`（protected 可注入）——全部存在且签名一致。
+  - `VersionedMixinPlugin` 确认不拦截新增 Mixin。
+  - `RecipeManager.prepare`/`byKey`/`Recipe.isSpecial`/`ServerRecipeBook.addRecipes(Collection, ServerPlayer)` 均 1.21.8 在位。
+  - **refmap 机制确认**：本分支 intermediary 构建无 refmap 文件是正常现象——loom 在 remapJar 时直接把 Mixin 注解中的 Mojang 名重写为 intermediary 写入 class 字节码（解包验证：FlowingFluidTickMixin 含 `method_15778(class_3218;class_2338;class_2680;class_3610;)V`、ServerPlayerPearlMixin 含 `method_64123(class_3218;class_1923;)J`，与实测可用的 1.14.2 jar 同机制）。
+  - 26.2 分支 API 名适配：`Identifier`→`ResourceLocation`、`ServerLevelEvents`→`ServerWorldEvents`（1.21.x Fabric API 事件名），全项目无 Identifier 残留。
+- **版本号**：1.14.2 → b1.14.5.1 → v0.14.5（测试版号对齐 26.2 分支 b1.14.5.x 线；正式版 1.21.6-1.21.10 分支版本线改用 0.x 前缀，v0.14.5 对应 26.2 分支 v1.14.5 的规则内容；初误定 b1.15.1/v1.15，已更正）。
+- jar 命名同步 26.2 分支格式：`[vpl-v0.14.5-for-1.21.6-1.21.10]carpet-addition-v0.14.5.jar`。
+
+### b1.14.5.1 — 与 26.2 分支规则对齐（测试版）
+
+- **删除 8 条规则**（与 26.2 分支 b1.14.3.7 同步）：stackableBucket / maxArmor / maxSaturation / stackableMusicDisc / stackableMilkBucket / stackablePowderSnowBucket / stackableEnderPearl / stackableSign。`StackableItemMixin` 删除对应 6 个物品分支（两分支该 Mixin 实现不同：1.21.x 用 @Inject，26.2 用 ItemInstance 接口，不可直接覆盖）；`FoodDataMixin` 整个删除；`CarpetVPLAdditionExtension.applyAttributes` 删除 maxArmor 块。
+- **移植 10 条规则**：anvilNoDamage、calciteRecipe、tuffRecipe、woolToString、quartzUnpack（配方 4 条+铁砧）、pearlChunkKeepalive、lavaSourceOnLapisOre、pickBlockNbt、beaconUnifiedPPUpdate、noZombieHorseSpawn（规则保留但 1.21.x 无效，翻译已标注仅 26.2 生效；ZombieHorseSpawnMixin 不移植）。
+- **6 语言对齐**：从 2 语言（en_us/zh_cn）补齐到 6 语言（+zh_tw/es_ar/fr_fr/pt_br），121 键与 26.2 分支完全一致（脚本校验键集）。
+- 修复误提交的 TODO 文档：git rm --cached + .gitignore 补 `TODO-*.md`。
+- 版本号：1.14.2 → b1.14.5.1。
 
 ## 修复记录（1.11.5）
 
