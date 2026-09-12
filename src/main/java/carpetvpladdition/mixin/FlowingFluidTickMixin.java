@@ -2,6 +2,7 @@ package carpetvpladdition.mixin;
 
 import carpetvpladdition.settings.CarpetVPLAdditionSettings;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.level.block.Blocks;
@@ -16,8 +17,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 /**
  * 青金石岩浆源（b1.14.5.1 新增，规则 lavaSourceOnLapis）。
  *
- * 流动岩浆位于青金石块正上方时，在下一次流体计划 tick 转化为岩浆源方块，
- * 类似无限水机制，省去反复倾倒岩浆桶，方便建造刷石机/岩浆塔。
+ * 复刻无限水机制：流动岩浆的水平相邻 4 个方向中至少 2 个方向是岩浆源，
+ * 且其正下方是青金石块时，在下一次流体计划 tick 转化为岩浆源方块。
+ * 省去反复倾倒岩浆桶，方便建造岩浆田/刷石机。
  *
  * 注入 FlowingFluid.tick HEAD（所有流动流体计划 tick 的统一入口）：
  * 满足条件时替换为源方块并取消本次 spread；源方块放置时 LiquidBlock.onPlace
@@ -39,8 +41,22 @@ public abstract class FlowingFluidTickMixin {
         if (!fluidState.is(FluidTags.LAVA) || fluidState.isSource()) {
             return;
         }
-        // 要求流动岩浆正下方是青金石块
+        // 正下方必须是青金石块
         if (!level.getBlockState(pos.below()).is(Blocks.LAPIS_BLOCK)) {
+            return;
+        }
+        // 无限水判定：水平相邻 4 个方向中至少 2 个方向是岩浆源（只统计岩浆源，水源不算）
+        int lavaSourceNeighbors = 0;
+        for (Direction direction : Direction.Plane.HORIZONTAL) {
+            FluidState neighbor = level.getFluidState(pos.relative(direction));
+            if (neighbor.is(FluidTags.LAVA) && neighbor.isSource()) {
+                lavaSourceNeighbors++;
+                if (lavaSourceNeighbors >= 2) {
+                    break;
+                }
+            }
+        }
+        if (lavaSourceNeighbors < 2) {
             return;
         }
         // 转换为岩浆源方块（LEVEL=0 即源）；取消本次 spread，转换后的源
