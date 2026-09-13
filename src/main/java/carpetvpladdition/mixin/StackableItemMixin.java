@@ -27,8 +27,8 @@ public abstract class StackableItemMixin implements ItemInstance {
 
     @Override
     public int getMaxStackSize() {
-        // 快速跳过：没有任何堆叠规则开启时直接返回原始值
-        if (!anyStackableEnabled() && CarpetVPLAdditionSettings.hopperMinecartStackSizeCached <= 1) {
+        // 快速跳过：聚合缓存（b1.15.1.2）——单个布尔替代 7 次字段读取，热路径最优先判断
+        if (!CarpetVPLAdditionSettings.stackableAnyCached && CarpetVPLAdditionSettings.hopperMinecartStackSizeCached <= 1) {
             return this.getOrDefault(DataComponents.MAX_STACK_SIZE, 1);
         }
 
@@ -73,15 +73,5 @@ public abstract class StackableItemMixin implements ItemInstance {
         }
 
         return this.getOrDefault(DataComponents.MAX_STACK_SIZE, 1);
-    }
-
-    private static boolean anyStackableEnabled() {
-        return CarpetVPLAdditionSettings.stackableTotem
-            || CarpetVPLAdditionSettings.stackableLavaBucket
-            || CarpetVPLAdditionSettings.stackableGlassBottle
-            || CarpetVPLAdditionSettings.stackableWaterBucket
-            || CarpetVPLAdditionSettings.stackablePotion
-            || CarpetVPLAdditionSettings.stackableStew
-            || CarpetVPLAdditionSettings.stackableCake;
     }
 }

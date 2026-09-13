@@ -186,6 +186,16 @@ src/main/java/carpetvpladdition/
 
 ## 修复记录（变更日志）
 
+### b1.15.1.2 — 性能优化（测试版）
+
+- **StackableItemMixin 热路径聚合缓存**：`getMaxStackSize` 是物品堆叠计算的最热路径（渲染/物流/合成高频调用），原每次调用执行 `anyStackableEnabled()`（7 个布尔字段读取+OR）。改为单缓存布尔 `stackableAnyCached`，由 `syncNumericCaches()` 统一刷新；为此给 7 条 stackable 布尔规则挂上 `CacheRefreshValidator`（此前它们无 validator，改规则不会刷新缓存）。
+- **TradedZombieVillagerMixin 短路顺序**：`checkDespawn` 对所有 Mob 每 tick 触发，将难度判断（枚举比较）提到 instanceof 之前，非和平服务器直接短路，避免对全量 Mob 做 instanceof。
+- **NamedMinecartChunkLoaderMixin 节流顺序**：`tickCount % 20` 提前到维度判断之前，规则开启时每矿车 19/20 的调用在最便宜的判断处直接返回。
+- 审查结论（无需改动）：FurnaceXpController/ObserverTickControl/NoSnowAccumulation/NoKelpGrowth/CactusGrowth 等均已使用缓存字段且快速路径在最前；FlowingFluidTickMixin 对非岩浆流体仅 2 次布尔判断即返回；BeaconPPUpdateManager 规则关闭时第一条即返回；RecipeRuleObserver 反射仅在 reload（低频）时执行。
+- 版本号：b1.15.1.1 → b1.15.1.2。
+
+### v1.14.5
+
 ### v1.14.5 — 正式版发布（由测试版 b1.14.5.2 转正）
 
 - **转正式版**：测试版 b1.14.5.1 / b1.14.5.2 经测试通过，转正式版 v1.14.5。

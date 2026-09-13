@@ -23,12 +23,12 @@ public abstract class TradedZombieVillagerMixin {
 
     @Inject(method = "checkDespawn", at = @At("HEAD"), cancellable = true)
     private void vplKeepTradedZombieVillager(CallbackInfo ci) {
-        if (!CarpetVPLAdditionSettings.tradedZombieVillagerPeace) {
+        // 顺序优化（b1.15.1.2）：难度判断最便宜且绝大多数情况非和平，先短路避免对所有 Mob 做 instanceof
+        if (!CarpetVPLAdditionSettings.tradedZombieVillagerPeace
+            || ((Mob) (Object) this).level().getDifficulty() != Difficulty.PEACEFUL) {
             return;
         }
-        if ((Object) this instanceof ZombieVillager zombieVillager
-            && zombieVillager.level().getDifficulty() == Difficulty.PEACEFUL
-            && hasTradingGossip(zombieVillager)) {
+        if ((Object) this instanceof ZombieVillager zombieVillager && hasTradingGossip(zombieVillager)) {
             ci.cancel();
         }
     }

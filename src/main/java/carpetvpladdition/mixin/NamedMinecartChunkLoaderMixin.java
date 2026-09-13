@@ -30,9 +30,10 @@ public abstract class NamedMinecartChunkLoaderMixin {
             return;
         }
         AbstractMinecart cart = (AbstractMinecart) (Object) this;
-        if (cart.level().isClientSide()
-            || !(cart.level() instanceof ServerLevel serverLevel)
-            || cart.tickCount % 20 != 0) {
+        // 顺序优化（b1.15.1.2）：先按 20 刻节流（每矿车 19/20 的调用在此直接返回）
+        if (cart.tickCount % 20 != 0
+            || cart.level().isClientSide()
+            || !(cart.level() instanceof ServerLevel serverLevel)) {
             return;
         }
         Component customName = cart.getCustomName();
