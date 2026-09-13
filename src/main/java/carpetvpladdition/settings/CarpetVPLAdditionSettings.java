@@ -23,6 +23,7 @@ public class CarpetVPLAdditionSettings {
     public static int maxPlayerHealthCached = 20;
     public static double playerAttackDamageCached = 2.0;
     public static float cactusGrowthMultiplierCached = 1.0f;
+    public static float elytraFireworkMultiplierCached = 1.0f;
 
     /** 将所有字符串规则解析到缓存字段（含最小值/上限保护，防止玩家输入 0 或负数破坏机制） */
     public static void syncNumericCaches() {
@@ -46,6 +47,9 @@ public class CarpetVPLAdditionSettings {
 
         try { cactusGrowthMultiplierCached = Math.max(0.0f, Float.parseFloat(cactusGrowthMultiplier)); }
         catch (NumberFormatException e) { cactusGrowthMultiplierCached = 1.0f; }
+
+        try { elytraFireworkMultiplierCached = Math.max(0.0f, Float.parseFloat(elytraFireworkMultiplier)); }
+        catch (NumberFormatException e) { elytraFireworkMultiplierCached = 1.0f; }
     }
 
     // ========== 通用验证器：规则变更时刷新缓存 ==========
@@ -302,4 +306,42 @@ public class CarpetVPLAdditionSettings {
         categories = {CARPET_VPL_ADDITION, FEATURE, SURVIVAL}
     )
     public static boolean lavaSourceOnLapisOre = false;
+
+    @Rule(
+        categories = {CARPET_VPL_ADDITION, FEATURE}
+    )
+    public static boolean furnaceMinecartNoSlip = false;
+
+    @Rule(
+        categories = {CARPET_VPL_ADDITION, FEATURE}
+    )
+    public static boolean namedMinecartChunkLoader = false;
+
+    @Rule(
+        categories = {CARPET_VPL_ADDITION, FEATURE, SURVIVAL}
+    )
+    public static boolean minableBuddingAmethyst = false;
+
+    @Rule(
+        categories = {CARPET_VPL_ADDITION, FEATURE, SURVIVAL}
+    )
+    public static boolean amethystBoneMeal = false;
+
+    @Rule(
+        categories = {CARPET_VPL_ADDITION, FEATURE}
+    )
+    public static boolean noWardenSpawn = false;
+
+    @Rule(
+        categories = {CARPET_VPL_ADDITION, FEATURE},
+        options = {"1.0", "1.5", "2.0", "3.0", "5.0"},
+        strict = false,
+        validators = CacheRefreshValidator.class
+    )
+    public static String elytraFireworkMultiplier = "1.0";
+
+    @Rule(
+        categories = {CARPET_VPL_ADDITION, FEATURE, SURVIVAL}
+    )
+    public static boolean tradedZombieVillagerPeace = false;
 }

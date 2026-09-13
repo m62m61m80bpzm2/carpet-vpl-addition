@@ -35,7 +35,15 @@
     "BeaconTickPhaseMixin",
     "ZombieHorseSpawnMixin",
     "ServerPlayerPearlMixin",
-    "FlowingFluidTickMixin"
+    "FlowingFluidTickMixin",
+    "FurnaceMinecartPushMixin",
+    "NamedMinecartChunkLoaderMixin",
+    "MinableBuddingAmethystMixin",
+    "AmethystBoneMealMixin",
+    "NoWardenSpawnMixin",
+    "ElytraFireworkBoostMixin",
+    "TradedZombieVillagerMixin",
+    "ZombieVillagerAccessor"
   ],
   "injectors": {
     "defaultRequire": 1
