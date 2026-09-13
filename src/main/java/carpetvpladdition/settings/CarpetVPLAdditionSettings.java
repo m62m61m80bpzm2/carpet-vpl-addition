@@ -24,6 +24,8 @@ public class CarpetVPLAdditionSettings {
     public static double playerAttackDamageCached = 2.0;
     public static float cactusGrowthMultiplierCached = 1.0f;
     public static float elytraFireworkMultiplierCached = 1.0f;
+    /** 堆叠规则聚合开关（b1.15.1.2 性能优化）：getMaxStackSize 极热路径，用单个缓存布尔替代 7 次字段读取 */
+    public static boolean stackableAnyCached = false;
 
     /** 将所有字符串规则解析到缓存字段（含最小值/上限保护，防止玩家输入 0 或负数破坏机制） */
     public static void syncNumericCaches() {
@@ -50,6 +52,10 @@ public class CarpetVPLAdditionSettings {
 
         try { elytraFireworkMultiplierCached = Math.max(0.0f, Float.parseFloat(elytraFireworkMultiplier)); }
         catch (NumberFormatException e) { elytraFireworkMultiplierCached = 1.0f; }
+
+        // 堆叠规则聚合开关：任意一条开启即需要进入堆叠修改逻辑
+        stackableAnyCached = stackableTotem || stackableLavaBucket || stackableGlassBottle || stackableWaterBucket
+            || stackablePotion || stackableStew || stackableCake;
     }
 
     // ========== 通用验证器：规则变更时刷新缓存 ==========
@@ -104,22 +110,26 @@ public class CarpetVPLAdditionSettings {
     public static boolean totemRecipe = false;
 
     @Rule(
-        categories = {CARPET_VPL_ADDITION, FEATURE}
+        categories = {CARPET_VPL_ADDITION, FEATURE},
+        validators = CacheRefreshValidator.class
     )
     public static boolean stackableTotem = false;
 
     @Rule(
-        categories = {CARPET_VPL_ADDITION, FEATURE}
+        categories = {CARPET_VPL_ADDITION, FEATURE},
+        validators = CacheRefreshValidator.class
     )
     public static boolean stackableLavaBucket = false;
 
     @Rule(
-        categories = {CARPET_VPL_ADDITION, FEATURE}
+        categories = {CARPET_VPL_ADDITION, FEATURE},
+        validators = CacheRefreshValidator.class
     )
     public static boolean stackableGlassBottle = false;
 
     @Rule(
-        categories = {CARPET_VPL_ADDITION, FEATURE}
+        categories = {CARPET_VPL_ADDITION, FEATURE},
+        validators = CacheRefreshValidator.class
     )
     public static boolean stackableWaterBucket = false;
 
@@ -140,17 +150,20 @@ public class CarpetVPLAdditionSettings {
     public static String hopperMinecartStackSize = "1";
 
     @Rule(
-        categories = {CARPET_VPL_ADDITION, FEATURE}
+        categories = {CARPET_VPL_ADDITION, FEATURE},
+        validators = CacheRefreshValidator.class
     )
     public static boolean stackablePotion = false;
 
     @Rule(
-        categories = {CARPET_VPL_ADDITION, FEATURE}
+        categories = {CARPET_VPL_ADDITION, FEATURE},
+        validators = CacheRefreshValidator.class
     )
     public static boolean stackableStew = false;
 
     @Rule(
-        categories = {CARPET_VPL_ADDITION, FEATURE}
+        categories = {CARPET_VPL_ADDITION, FEATURE},
+        validators = CacheRefreshValidator.class
     )
     public static boolean stackableCake = false;
 
