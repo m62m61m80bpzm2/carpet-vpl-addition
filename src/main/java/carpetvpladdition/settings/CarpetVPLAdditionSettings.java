@@ -67,6 +67,19 @@ public class CarpetVPLAdditionSettings {
         }
     }
 
+    /**
+     * 布尔规则验证器（b1.15.1.3 修复崩溃）：validator 泛型必须与规则的值类型匹配。
+     * b1.15.1.2 曾误把 Validator&lt;String&gt; 挂到 boolean 规则上，Carpet 启动
+     * resetToDefault 时对布尔值强转 String 导致 ClassCastException 开服崩溃。
+     */
+    public static class CacheRefreshValidatorBoolean extends Validator<Boolean> {
+        @Override
+        public Boolean validate(CommandSourceStack source, CarpetRule<Boolean> rule, Boolean newValue, String userInput) {
+            syncNumericCaches();
+            return newValue;
+        }
+    }
+
     /** 属性规则变更验证器：刷新缓存 + 即时应用到所有在线玩家 */
     public static class AttributeRefreshValidator extends Validator<String> {
         @Override
@@ -111,25 +124,25 @@ public class CarpetVPLAdditionSettings {
 
     @Rule(
         categories = {CARPET_VPL_ADDITION, FEATURE},
-        validators = CacheRefreshValidator.class
+        validators = CacheRefreshValidatorBoolean.class
     )
     public static boolean stackableTotem = false;
 
     @Rule(
         categories = {CARPET_VPL_ADDITION, FEATURE},
-        validators = CacheRefreshValidator.class
+        validators = CacheRefreshValidatorBoolean.class
     )
     public static boolean stackableLavaBucket = false;
 
     @Rule(
         categories = {CARPET_VPL_ADDITION, FEATURE},
-        validators = CacheRefreshValidator.class
+        validators = CacheRefreshValidatorBoolean.class
     )
     public static boolean stackableGlassBottle = false;
 
     @Rule(
         categories = {CARPET_VPL_ADDITION, FEATURE},
-        validators = CacheRefreshValidator.class
+        validators = CacheRefreshValidatorBoolean.class
     )
     public static boolean stackableWaterBucket = false;
 
@@ -151,19 +164,19 @@ public class CarpetVPLAdditionSettings {
 
     @Rule(
         categories = {CARPET_VPL_ADDITION, FEATURE},
-        validators = CacheRefreshValidator.class
+        validators = CacheRefreshValidatorBoolean.class
     )
     public static boolean stackablePotion = false;
 
     @Rule(
         categories = {CARPET_VPL_ADDITION, FEATURE},
-        validators = CacheRefreshValidator.class
+        validators = CacheRefreshValidatorBoolean.class
     )
     public static boolean stackableStew = false;
 
     @Rule(
         categories = {CARPET_VPL_ADDITION, FEATURE},
-        validators = CacheRefreshValidator.class
+        validators = CacheRefreshValidatorBoolean.class
     )
     public static boolean stackableCake = false;
 
