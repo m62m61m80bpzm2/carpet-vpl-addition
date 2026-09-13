@@ -310,11 +310,6 @@ public class CarpetVPLAdditionSettings {
     @Rule(
         categories = {CARPET_VPL_ADDITION, FEATURE}
     )
-    public static boolean furnaceMinecartNoSlip = false;
-
-    @Rule(
-        categories = {CARPET_VPL_ADDITION, FEATURE}
-    )
     public static boolean namedMinecartChunkLoader = false;
 
     @Rule(
