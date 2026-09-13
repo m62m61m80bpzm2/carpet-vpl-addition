@@ -186,6 +186,14 @@ src/main/java/carpetvpladdition/
 
 ## 修复记录（变更日志）
 
+### b1.15.1.3 — 修复开服崩溃（测试版）
+
+- **崩溃**：用户报告开服即崩，`ClassCastException: Boolean cannot be cast to String`，位于 `CacheRefreshValidator.validate`，调用链 Carpet `attachServer → loadConfigurationFromConf → resetToDefault → ParsedRule.set → validator`。
+- **根因**：b1.15.1.2 给 7 条 `stackable*` **布尔规则**挂了 `CacheRefreshValidator extends Validator<String>`——Carpet 的 validator 泛型必须与规则值类型匹配，布尔规则在 resetToDefault 时把 Boolean 强转 String 崩溃。开服必崩。
+- **修复**：新增 `CacheRefreshValidatorBoolean extends Validator<Boolean>`（validate 内同样调用 syncNumericCaches 刷新聚合缓存），7 条 stackable 规则改挂 Boolean 版。
+- **复查**：脚本全量校验所有规则挂载的 validator 泛型与字段类型一一匹配（CacheRefreshValidator/AttributeRefreshValidator→String，CacheRefreshValidatorBoolean/RecipeRuleObserver→boolean），无其他错配。
+- 版本号：b1.15.1.2 → b1.15.1.3。
+
 ### b1.15.1.2 — 性能优化（测试版）
 
 - **StackableItemMixin 热路径聚合缓存**：`getMaxStackSize` 是物品堆叠计算的最热路径（渲染/物流/合成高频调用），原每次调用执行 `anyStackableEnabled()`（7 个布尔字段读取+OR）。改为单缓存布尔 `stackableAnyCached`，由 `syncNumericCaches()` 统一刷新；为此给 7 条 stackable 布尔规则挂上 `CacheRefreshValidator`（此前它们无 validator，改规则不会刷新缓存）。
