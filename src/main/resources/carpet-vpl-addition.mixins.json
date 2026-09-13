@@ -36,7 +36,6 @@
     "ZombieHorseSpawnMixin",
     "ServerPlayerPearlMixin",
     "FlowingFluidTickMixin",
-    "FurnaceMinecartPushMixin",
     "NamedMinecartChunkLoaderMixin",
     "MinableBuddingAmethystMixin",
     "AmethystBoneMealMixin",
