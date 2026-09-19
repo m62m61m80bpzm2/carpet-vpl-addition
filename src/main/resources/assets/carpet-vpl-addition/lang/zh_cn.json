@@ -121,8 +121,8 @@
   "carpet.rule.lavaSourceOnLapisOre.desc": "开启后，流动岩浆若与至少两个岩浆源水平相邻，且其正下方是青金石矿石（含深层青金石矿石），会在流体更新时转化为岩浆源块——复刻无限水机制，无需反复倾倒岩浆桶，方便建造岩浆田、刷石机等设施。",
   "carpet.rule.lavaSourceOnLapisOre.extra.0": "细节：判定条件为流动岩浆水平相邻的4个方向中至少2个方向是岩浆源（水源不算），且所在位置正下方为青金石矿石或深层青金石矿石；转换在下一次流体计划tick时进行（主世界岩浆流动较慢，最多延迟约1.5秒；下界更快）。仅对流动岩浆生效，转换后按原版源方块流动，关闭规则不影响已转换的岩浆源。",
   "carpet.rule.namedMinecartChunkLoader.name": "命名矿车区块加载器",
-  "carpet.rule.namedMinecartChunkLoader.desc": "开启后，在铁砧中把矿车物品命名为 \"chunkloader\"（不区分大小写），放置后的矿车会成为区块加载器：持续加载自身所在及周边区块，保证动力矿车铁路、刷怪场等正常运转，不会因离开而停摆。",
-  "carpet.rule.namedMinecartChunkLoader.extra.0": "细节：每秒为矿车所在区块续期一次加载票据（复用原版末影珍珠票据：半径2区块、40刻超时）。矿车移动时票据跟随更新，只有命名为约定名字的矿车生效，可随时用拆除方式停止。",
+  "carpet.rule.namedMinecartChunkLoader.desc": "开启后，用铁砧把矿车命名为 \"chunkloader\" 或任意一种受支持语言的等价名字（如「区块加载器」，忽略大小写、空格与下划线），放置后该矿车即成为区块加载器：以它为中心的 3×3 区块保持完全运行，漏斗、熔炉、作物、刷怪、掉落都照常，加载范围随矿车沿轨道移动。",
+  "carpet.rule.namedMinecartChunkLoader.extra.0": "细节：每秒为矿车周围 3×3 区块各续期一次加载票据，沿用原版传送门票据（超时 300 刻即 15 秒，且随世界存档保存，重启服务器后自动恢复）。之所以铺满 3×3 而不只加载脚下那一格：单格加载时邻格只跑方块、不跑实体，矿车一跨过区块边界就会停止 tick，从此无人续期并永久冻结；留出一圈余量才能保证矿车始终处在可运行的区块中。若被其他 mod 加速到一秒跨出 2 格以上仍会失联。名字中含有 \"chunkloader\" 的前后缀写法（如「南塔chunkloader」）同样有效。",
   "carpet.rule.minableBuddingAmethyst.name": "可挖掘紫水晶母岩",
   "carpet.rule.minableBuddingAmethyst.desc": "开启后，使用精准采集镐挖掘紫水晶母岩可以获得母岩本体，水晶农场可以整体搬迁到更合适的位置；普通镐挖掘仍维持原版的掉落行为。",
   "carpet.rule.minableBuddingAmethyst.extra.0": "细节：仅精准采集生效（创造模式不触发），掉落为母岩方块本身。",
@@ -137,5 +137,8 @@
   "carpet.rule.elytraFireworkMultiplier.extra.0": "细节：数值规则，仅缩放烟花对鞘翅飞行的推进加速度增量，不改变烟花自身的飞行与爆炸；填回 1.0 恢复原版。",
   "carpet.rule.tradedZombieVillagerPeace.name": "和平保护交易村民",
   "carpet.rule.tradedZombieVillagerPeace.desc": "开启后，被玩家交易过的村民转化为僵尸村民后，在和平模式下不会被移除。切换难度做交易折扣时不再担心交易记录清零，切回困难即可照常治疗。",
-  "carpet.rule.tradedZombieVillagerPeace.extra.0": "细节：通过村民的传播声望（TRADING 记录）判断是否交易过；未交易过的僵尸村民在和平模式下仍按原版移除。"
+  "carpet.rule.tradedZombieVillagerPeace.extra.0": "细节：通过村民的传播声望（TRADING 记录）判断是否交易过；未交易过的僵尸村民在和平模式下仍按原版移除。",
+  "carpet.rule.beeNoAngerOnHarvest.name": "采蜜不惊蜂",
+  "carpet.rule.beeNoAngerOnHarvest.desc": "开启后，剪下蜜脾或用玻璃瓶取蜂蜜时，附近的蜜蜂不再把玩家列为攻击目标。效果等同于蜂巢底下永远压着一堆点燃的营火。",
+  "carpet.rule.beeNoAngerOnHarvest.extra.0": "细节：只免除「取蜜」这一种情形——用工具砸毁蜂巢、或蜂巢被炸掉时，蜜蜂照旧追人。开启后取蜜也不会再把巢内蜜蜂惊出巢外。"
 }

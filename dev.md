@@ -19,7 +19,7 @@
 
 ## 版本号
 
-- 当前版本：**v1.14.5**（正式版）
+- 当前版本：**b1.15.2.1**（测试版；最新正式版为 v1.14.5）
 - 规则：**测试版本号前加 b 前缀**（如 1.14.2 之后的测试版 = b1.14.3.1，用户测试通过后去掉 b 转正式版）。
 - git 提交信息 = 当前版本号。
 
@@ -185,6 +185,41 @@ src/main/java/carpetvpladdition/
 8. **canHasTranslations**：ConcurrentHashMap 缓存翻译。
 
 ## 修复记录（变更日志）
+
+### b1.15.2.1 — 矿车区块加载器重做 + 新增采蜜不惊蜂（测试版）
+
+- **`namedMinecartChunkLoader` 修复「矿车一跨区块边界就永久冻结」**（功能缺陷，非崩溃）。
+- **26.x 票据等级机制**（javap 核实 26.1.2 与 26.2 的 `TicketStorage` / `ChunkLevel` / `ServerChunkCache` / `DistanceManager`）：
+  - `ServerChunkCache.addTicketWithRadius(type, pos, r)` → `new Ticket(type, ChunkLevel.FULL_CHUNK_LEVEL(33) - r)`；
+  - **等级数值越低权限越高**：`isEntityTicking(l) = l <= 31`、`isBlockTicking(l) = l <= 32`、`fullStatus(l <= 33) = FULL`；
+    `FullChunkStatus` 是包含关系，等级 31 的区块同样跑方块实体（漏斗/熔炉/作物）；
+  - 票据源点向邻格扩散时每格权限降 1 等（`ChunkTracker extends DynamicGraphMinFixedPoint`），33 即视为未被覆盖；
+  - `TicketType` 在 26.x 已是 registry record `(long timeout, int flags)`，flags 位
+    `PERSIST=1 / LOADING=2 / SIMULATION=4 / KEEP_DIMENSION_ACTIVE=8 / CAN_EXPIRE_IF_UNLOADED=16`；
+    `Ticket` 的泛型 value 载荷已被删除，去重只看 (type, level)，重复贴同一张票仅 `resetTicksLeft()`。
+- **根因**：旧实现只在矿车所在区块贴一张 radius 2（等级 31）票 → 只有锚点格跑实体，邻格被扩散为 32
+  （只跑方块、**不跑实体**）。矿车跨出锚点格即停止 tick → 本 Mixin 不再执行 → 无人续期 →
+  票据过期后整片卸载，永久卡在区块边界且无法自愈。与 `pearlChunkKeepalive` 同属"实体停 tick 即断续期"死锁族。
+- **修复**：显式给以矿车为中心的 3×3 区块各贴一张源点票（不依赖扩散推断），仍每 20gt 续期一次；
+  9 次 map 调用/秒/加载器，同 type+level 由原版去重，无累积。
+- **票据类型 `ENDER_PEARL` → `PORTAL`**：timeout 300gt（15 秒）对比 40gt，且 flags=15 含 `FLAG_PERSIST`。
+  26.x `TicketStorage` 本身是 `SavedDataType`，但 `packTickets` 只序列化 `persist()` 为真的票据，
+  故传送门票据随世界存档保存、重启后恢复；珍珠票不入库，重启即全丢。
+  已遍历 26.1.2 全部 10682 个类：仅 15 个类引用 `TicketType`，无任何代码移除 PORTAL 票据，借用不会被传送门逻辑误清。
+  额外收益：PORTAL 带 `FLAG_KEEP_DIMENSION_ACTIVE`，所在维度不休眠——跨维度（末地/下界）农场才会真的运行。
+- **名称匹配扩展**：归一化（转小写、剔除空白与下划线）后匹配 6 语言等价名
+  （`chunkloader` / `区块加载器` / `區塊載入器` / `cargadordechunks` / `chargeurdechunks` / `carregadordechunks`），
+  并对含 `chunkloader` 子串的名字放行，便于玩家加前后缀区分多台加载器。
+- **新增规则 `beeNoAngerOnHarvest`（采蜜不惊蜂）**：`@Redirect` `BeehiveBlock.useItemOn` 内的
+  `CampfireBlock.isSmokeyPos(Level, BlockPos)`，规则开启即视为"已被营火熏"。原版随即只走 `resetHoneyLevel` 分支，
+  一次注入同时避开两条仇恨路径：`angerNearbyBees`（巢外蜂 `setTarget`）与
+  `emptyAllLivingFromHive` 的 EMERGENCY 释放（巢内蜂 `setTarget`）。
+  仅覆盖取蜜：`playerDestroy`（工具砸巢）与 `onExplosionHit` 不经过该判定，仇恨照旧。
+  `isSmokeyPos` 签名 26.1.2/26.2 一致（`CampfireBlock` 仅 `BlockEntityType`→`BlockEntityTypes` 改名差异）。
+- **6 语言同步至 142 键**（新增 bee 3 键 + 改写 cart 3 键，键集一致性脚本校验通过）。
+- 版本号：b1.15.1.3 → b1.15.2.1。
+- **待实测**（本版为静态分析 + 字节码核实结论，尚未在服务器内观察）：矿车跨区块边界续期成功；
+  3×3 内漏斗/熔炉确实运行；重启后票据恢复；取蜜不再追人而砸巢仍追人。
 
 ### b1.15.1.3 — 修复开服崩溃（测试版）
 

@@ -104,6 +104,9 @@
 |`villagerReincarnation`|布尔|false|村民死亡掉落刷怪蛋转世|
 |`villagerNoPriceOnAttack`|布尔|false|村民被攻击不涨价|
 |`bedrockPortalZombiePigman`|布尔|false|地狱门刷僵尸猪人（基岩版行为）|
+|`noWardenSpawn`|布尔|false|尖啸体不再召唤监守者（已有的监守者不受影响）|
+|`tradedZombieVillagerPeace`|布尔|false|和平模式不再移除交易过的僵尸村民|
+|`beeNoAngerOnHarvest`|布尔|false|采蜜不惊蜂：剪蜜脾/玻璃瓶取蜜时蜜蜂不仇恨玩家（等同蜂巢下永远压着点燃的营火；砸毁蜂巢与爆炸仍会仇恨）|
 
 ### 方块与生长
 
@@ -116,6 +119,8 @@
 |`cactusBoneMeal`|布尔|false|仙人掌可被骨粉催熟|
 |`bedrockSugarcaneBonemeal`|布尔|false|甘蔗可被骨粉催熟（基岩版行为）|
 |`protectImmatureCrops`|布尔|false|保护未成熟农作物|
+|`minableBuddingAmethyst`|布尔|false|精准采集可挖紫水晶母岩（普通镐仍为原版行为）|
+|`amethystBoneMeal`|布尔|false|骨粉可催熟紫水晶芽（玩家与发射器均生效，仅影响水晶）|
 
 ### 红石与机制
 
@@ -126,6 +131,8 @@
 |`tridentVoidReturn`|布尔|false|忠诚三叉戟虚空返回|
 |`beaconUnifiedPPUpdate`|布尔|false|信标统一PP更新（20GT）|
 |`noZombieHorseSpawn`|布尔|false|禁止僵尸马自然生成（**仅 26.2 生效**，26.1/26.1.2 上无效）|
+|`namedMinecartChunkLoader`|布尔|false|命名矿车区块加载器：铁砧把矿车命名为 `chunkloader`（或 6 语言等价名，忽略大小写/空格/下划线）后，以它为中心的 3×3 区块保持完全运行，并随矿车移动|
+|`elytraFireworkMultiplier`|数值|1.0|鞘翅烟花推进加速度倍率（仅缩放推进加速度，不改烟花飞行与爆炸）|
 
 ### 修复
 
