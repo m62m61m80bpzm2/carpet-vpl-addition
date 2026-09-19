@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
 /**
- * 采蜜不惊蜂（b1.15.2.1 新增，规则 beeNoAngerOnHarvest）。
+ * 采蜜不惊蜂（b1.15.1.4 新增，规则 beeNoAngerOnHarvest）。
  *
  * 原版 BeehiveBlock.useItemOn 在剪下蜜脾或用玻璃瓶取蜜后，用
  * CampfireBlock.isSmokeyPos（蜂巢下方 1~5 格有无点燃篝火）决定走哪条分支：

@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.Set;
 
 /**
- * 命名矿车区块加载器（b1.15.1.1 新增，b1.15.2.1 重写，规则 namedMinecartChunkLoader）。
+ * 命名矿车区块加载器（b1.15.1.1 新增，b1.15.1.4 重写，规则 namedMinecartChunkLoader）。
  *
  * 在铁砧中把矿车命名为加载器名字（支持 6 语言等价名，见 LOADER_NAMES），放置后该矿车
  * 即成为区块加载器：每 20 游戏刻为以它为中心的 3×3 区块各续期一次加载票据。
