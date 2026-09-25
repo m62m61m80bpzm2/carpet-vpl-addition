@@ -5,6 +5,26 @@
 ## 版本号
 当前版本：**b0.15.1.1**（测试版，2026-09-25；从 26.1-26.2 分支 v1.15.1 同步规则内容，两分支规则数已对齐为 46 条。上一正式版 v0.14.5 对应 26 分支 v1.14.5）
 
+## ⚠️ 本版本（1.21.6 ~ 1.21.10）风险提示
+
+本分支的 46 条规则内容是**从 26.1~26.3 分支移植过来的**（b0.15.1.x 起）。已完成的验证只有两项：
+**服务端能正常启动**、**规则能注册与开关**（1.21.8 实测 `Done (1.862s)!`，无 Mixin 报错）。
+
+**尚未逐项验证游戏内实际效果**，因此可能存在 bug。风险从高到低：
+
+1. **移植时改过实现方式的** —— `namedMinecartChunkLoader`（`AbstractMinecart` 包路径、`ChunkPos` 字段访问）、
+   `tradedZombieVillagerPeace`（`ZombieVillager` 包路径）。这两条最值得优先试。
+2. **依赖原版数值公式的** —— `elytraFireworkMultiplier`（缩放推进目标速度 1.5）、`cactusGrowthMultiplier`。
+   公式在 1.21.8 与 26.x 源码一致，但手感需实飞确认。
+3. **骨粉三兄弟** —— `amethystBoneMeal` / `cactusBoneMeal` / `bedrockSugarcaneBonemeal` 都注入
+   `BoneMealItem.growCrop`，签名两版一致，但"对母岩/柱内任一格使用"的实际生长要看游戏内表现。
+4. **`noZombieHorseSpawn` 在本分支是死规则**（有规则无 mixin，1.21.8 僵尸马用的是
+   `ZombieHorse::checkZombieHorseSpawnRules`，与 mixin 注入点不同），开了不会有任何效果，也不会报错。
+   详见 `TODO-ZombieHorseSpawn-26.1-compat.md`。
+
+模组菜单（Mod Menu）里本模组会显示 **BETA 徽章**，`description` 中同样写了这段提示。
+需要稳定行为时，请优先使用 26.1~26.3 分支的构建。
+
 ## 构建
 ```bash
 ./gradlew build

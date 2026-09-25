@@ -3,9 +3,15 @@
   "id": "${mod_id}",
   "version": "${version}",
   "name": "${mod_name}",
-  "description": "A Carpet extension addon for Minecraft 1.21.x",
-  "authors": [],
-  "contact": {},
+  "description": "Carpet 附属模组，为 Minecraft 1.21.6 ~ 1.21.10 追加 46 条游戏规则（区块加载矿车、物品堆叠、合成配方、村民与生物、紫水晶与作物、鞘翅与信标）。仅服务端安装，规则默认全部关闭。【注意】本 1.21.x 构建的内容刚从 26.1~26.3 分支移植，已通过开服与规则开关测试，但游戏内实际效果尚未逐项验证，可能存在 bug；如遇问题请到 GitHub 提 issue。",
+  "authors": [
+    "m62m61m80bpzm2"
+  ],
+  "contact": {
+    "homepage": "https://github.com/m62m61m80bpzm2/carpet-vpl-addition",
+    "sources": "https://github.com/m62m61m80bpzm2/carpet-vpl-addition",
+    "issues": "https://github.com/m62m61m80bpzm2/carpet-vpl-addition/issues"
+  },
   "environment": "*",
   "entrypoints": {
     "main": [
@@ -15,6 +21,11 @@
   "mixins": [
     "carpet-vpl-addition.mixins.json"
   ],
+  "modmenu": {
+    "badges": [
+      "beta"
+    ]
+  },
   "depends": {
     "fabricloader": ">=${loader_version}",
     "minecraft": ">=1.21.6 <1.21.11",
