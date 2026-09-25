@@ -19,7 +19,7 @@
 
 ## 版本号
 
-- 当前版本：**v1.15.1**（正式版，由 b1.15.1.6 转正；此前有一次 v1.15.1 转正被撤回，见变更日志）
+- 当前版本：**b1.16.1.1**（测试版，支持范围扩到 MC 26.1 ~ 26.3；最新正式版 v1.15.1）
 - 规则：**测试版本号前加 b 前缀**（如 1.14.2 之后的测试版 = b1.14.3.1，用户测试通过后去掉 b 转正式版）。
 - git 提交信息 = 当前版本号。
 
@@ -185,6 +185,23 @@ src/main/java/carpetvpladdition/
 8. **canHasTranslations**：ConcurrentHashMap 缓存翻译。
 
 ## 修复记录（变更日志）
+
+### b1.16.1.1 — 扩展支持 Minecraft 26.3（测试版）
+
+- 目标：`26.1-26.2` 分支的产物同时覆盖 **26.1 ~ 26.3**。仍按项目既有做法**以最低支持版本 26.1.2 编译**（`minecraft_version` 不动），靠"引用面在三个版本都存在"来保证向上兼容。
+- 配置改动：
+  - `gradle.properties`：`mod_version` v1.15.1 → b1.16.1.1；`mc_support_range` 26.1-26.2 → **26.1-26.3**；`archives_base_name` 同步。
+  - `fabric.mod.json`：`minecraft` 依赖 `>=26.1 <26.3` → **`>=26.1 <26.4`**（不改这条，26.3 上加载器会直接判为不兼容）；顺带把 `description` 从旧文案（只提配方/铁砧/信标/珍珠）改成 46 条规则的实际概览。
+- **26.3 兼容性核对方法**（先把 26.3 源码反编译到 `D:\Ddesketpgent\mc源码.3\`，7302 个 .java）：
+  1. 从已发布 jar 的常量池提取全部 `net/minecraft` 引用：**91 个类、221 处成员引用**。
+  2. 类存在性：91/91 在 26.3 的 client.jar + server jar 中都在；26.2 有而 26.3 删除的 129 个原版类，**我们一个都没引用**。
+  3. 成员回归：逐类对比 26.2 / 26.3 的声明集合，**没有任何"26.2 声明、26.3 消失"的成员**；56 处两版都不在本类声明的，是继承/接口方法，两版情况相同。
+  4. 带描述符的 8 个 `@At` 注入目标（`ScheduledTickAccess/ServerLevel#scheduleTick`、`Biome#shouldSnow`、`ServerPlayer#placeEnderPearlTicket`、`ServerboundPickItemFromBlockPacket#includeData`、`BlockState#is/getOptionalValue`）在 26.2 与 26.3 **同形**。
+  5. 关键机制文件 `TicketType` / `TicketStorage` / `ChunkLevel` 与 `FireworkRocketEntity.tick` 推进公式：26.3 与 26.2 **逐字节/逐行相同** → 矿车区块加载器与鞘翅倍率不受影响。
+- 26.3 侧观察到的原版变化（未波及本项目）：`Block`/`BuddingAmethystBlock` 去掉了 `MapCodec`/`codec()`；`EntityType`→`EntityTypes` 的改名延续到 26.3（26.1.2 仍是旧名，故编译目标留在 26.1.2 时不能新写引用 `EntityTypes` 的代码）。
+- 前置现状：Carpet 官方 maven 最新只到 **`26.3-beta-3+v260820`**，尚无 26.3 正式版；本模组 `depends.carpet` 仍是 `>=26.1`，26.3 上要装 Carpet 的 26.3-beta 构建。
+- 待办：**26.3 实机开服验证**（静态核对不能覆盖"调用点 owner 变化导致 @At 失配"这类问题）；`noZombieHorseSpawn` 的"仅 26.2 生效"限定语与源码不符（26.1.2/26.3 同样注册 `Monster::checkMonsterSpawnRules`），待实机确认后修 6 语言文案。
+- 版本号：v1.15.1 → b1.16.1.1。
 
 ### v1.15.1 — 正式版发布（由 b1.15.1.6 转正，第二次）
 
