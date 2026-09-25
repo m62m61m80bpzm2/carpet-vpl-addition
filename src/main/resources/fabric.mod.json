@@ -3,7 +3,7 @@
   "id": "${mod_id}",
   "version": "${version}",
   "name": "${mod_name}",
-  "description": "A Carpet extension addon adding survival & technical rules (new recipes, anvil no damage, beacon PP update, pearl chunk-loading fix) for Minecraft 26.1 ~ 26.2",
+  "description": "A Carpet add-on with 46 extra game rules for Minecraft 26.1 ~ 26.3: named-minecart chunk loader, item stacking, new recipes, villager and bee behaviour, amethyst growing, elytra fireworks, plus a few vanilla bug fixes. Server-side only, every rule off by default.",
   "authors": [
     "m62m61m80bpzm2"
   ],
@@ -25,7 +25,7 @@
   ],
   "depends": {
     "fabricloader": ">=0.19.3",
-    "minecraft": ">=26.1 <26.3",
+    "minecraft": ">=26.1 <26.4",
     "java": ">=25",
     "fabric-api": "*",
     "carpet": ">=26.1"
