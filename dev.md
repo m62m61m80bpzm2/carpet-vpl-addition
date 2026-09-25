@@ -201,6 +201,12 @@ src/main/java/carpetvpladdition/
 - 26.3 侧观察到的原版变化（未波及本项目）：`Block`/`BuddingAmethystBlock` 去掉了 `MapCodec`/`codec()`；`EntityType`→`EntityTypes` 的改名延续到 26.3（26.1.2 仍是旧名，故编译目标留在 26.1.2 时不能新写引用 `EntityTypes` 的代码）。
 - 前置现状：Carpet 官方 maven 最新只到 **`26.3-beta-3+v260820`**，尚无 26.3 正式版；本模组 `depends.carpet` 仍是 `>=26.1`，26.3 上要装 Carpet 的 26.3-beta 构建。
 - 待办：**26.3 实机开服验证**（静态核对不能覆盖"调用点 owner 变化导致 @At 失配"这类问题）；`noZombieHorseSpawn` 的"仅 26.2 生效"限定语与源码不符（26.1.2/26.3 同样注册 `Monster::checkMonsterSpawnRules`），待实机确认后修 6 语言文案。
+- **用 26.3 映射试编译（`-Pminecraft_version=26.3 -Pfabric_version=0.161.0+26.3 -Pcarpet_version=26.3-beta-3+v260820`）暴露出两个静态核对看不到的真问题**，已修：
+  1. **`BonemealableBlock` 三个方法在 26.3 全部加了 `BonemealSource` 参数**（`isValidBonemealTarget`/`isBonemealSuccess`/`performBonemeal` 描述符都变）。旧 `CactusBonemealMixin` 是 `@Mixin(CactusBlock.class) implements BonemealableBlock` + `@Override`，在 26.3 上旧签名不再覆盖任何接口方法 → 规则静默失效（且 `@Override` 使按 26.3 编译直接失败）。
+     **改法**：`CactusBonemealMixin` 重写为注入 `BoneMealItem.growCrop(ItemStack, Level, BlockPos)Z` 的 HEAD——该描述符 26.1/26.2/26.3 三版一致，且玩家手点与发射器共用此路径，故一个 jar 覆盖三版、不需要版本门控。节数与高度判定照旧（上方空且整根不足 3 节才长）。
+  2. **26.3 的 `RecipeManager` 删掉了 `prepare(ResourceManager, ProfilerFiller)`，且不再有 `registries` 字段**（配方改由注册表装载，`RecipeMap.create(RegistryLookup)`）。我们的 `RecipeManagerMixin`（`@ModifyReturnValue` on `prepare`）与 `RecipeManagerAccessor`（`@Accessor("registries")`）在 26.3 上**找不到注入点 → 开服即 Mixin 崩溃**，不是"规则没效果"那么轻。
+     **改法**：`VersionedMixinPlugin` 新增 `isAtLeast26_3` 判定（解析版本号第二段，>26 主版本亦视为满足），在 26.3+ 直接不注册这两个 mixin；`RecipeRuleObserver.onValueChange` 同条件提前返回，避免调用已不存在的原版 API。5 条配方规则（`totemRecipe`/`calciteRecipe`/`tuffRecipe`/`woolToString`/`quartzUnpack`）在 26.3 上因此无效，已在 6 语言的 `extra.0` 追加"版本限定"说明（139 键不变、键集一致）。
+  3. 修完后 26.3 试编译只剩 `RecipeManagerMixin` 的 2 处源码级类型错误（`Recipe.CODEC` 返回 `Holder<Recipe<?>>`、`RecipeMap.create` 改收 `HolderLookup`）——该类在 26.3 已被插件关闭、运行期不参与，属预期残留。**结论：本 jar 必须以 26.1.2 编译**（`minecraft_version` 不要改成 26.3）。
 - 版本号：v1.15.1 → b1.16.1.1。
 
 ### v1.15.1 — 正式版发布（由 b1.15.1.6 转正，第二次）
