@@ -19,7 +19,7 @@
 
 ## 版本号
 
-- 当前版本：**b1.15.1.4**（测试版；最新正式版为 v1.14.5）
+- 当前版本：**v1.15.1**（正式版，由 b1.15.1.4 转正）
 - 规则：**测试版本号前加 b 前缀**（如 1.14.2 之后的测试版 = b1.14.3.1，用户测试通过后去掉 b 转正式版）。
 - git 提交信息 = 当前版本号。
 
@@ -186,6 +186,14 @@ src/main/java/carpetvpladdition/
 
 ## 修复记录（变更日志）
 
+### v1.15.1 — 正式版发布（由 b1.15.1.4 转正）
+
+- 用户游戏内验证通过后转正，无额外代码改动（仅 `gradle.properties` 的 `mod_version` / `archives_base_name` 与 README、dev.md 版本行）。
+- 本版累计内容：`namedMinecartChunkLoader` 重做（3×3 源点票 + 传送门票据 15 秒且随存档持久化 + 6 语言命名匹配）、新增 `beeNoAngerOnHarvest`，以及 b1.15.1.1~b1.15.1.3 的 6 条新规则、性能优化与开服崩溃修复。
+- 规则 47 条，6 语言各 142 键。
+- 产物校验（解包 jar 实测，非推断）：`fabric.mod.json` 的 `version` = `v1.15.1`；`carpet-vpl-addition.mixins.json` 共 39 项（`BeeNoAngerOnHarvestMixin`、`NamedMinecartChunkLoaderMixin` 均已注册）；两个 mixin 的 class 与 6 个 lang 文件都已进包。
+- 放置：`my-mods\正式\26.1-26.2\[vpl-v1.15.1-for-26.1-26.2]carpet-addition-v1.15.1.jar`（v1.14.5 等旧版保留未覆盖）。
+
 ### b1.15.1.4 — 矿车区块加载器重做 + 新增采蜜不惊蜂（测试版）
 
 - **`namedMinecartChunkLoader` 修复「矿车一跨区块边界就永久冻结」**（功能缺陷，非崩溃）。
@@ -218,8 +226,8 @@ src/main/java/carpetvpladdition/
   `isSmokeyPos` 签名 26.1.2/26.2 一致（`CampfireBlock` 仅 `BlockEntityType`→`BlockEntityTypes` 改名差异）。
 - **6 语言同步至 142 键**（新增 bee 3 键 + 改写 cart 3 键，键集一致性脚本校验通过）。
 - 版本号：b1.15.1.3 → b1.15.1.4（用户决定沿用 b1.15.1.x 补丁线，本次不新开 1.15.2 档）。
-- **待实测**（本版为静态分析 + 字节码核实结论，尚未在服务器内观察）：矿车跨区块边界续期成功；
-  3×3 内漏斗/熔炉确实运行；重启后票据恢复；取蜜不再追人而砸巢仍追人。
+- **实测项（已由用户游戏内验证通过，随后转正 v1.15.1）**：矿车跨区块边界续期正常；范围内方块实体运行；
+  重启服务器后票据随存档恢复；取蜜不再追人而砸毁蜂巢仍追人。
 
 ### b1.15.1.3 — 修复开服崩溃（测试版）
 

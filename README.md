@@ -5,7 +5,7 @@
 > **声明：本项目的代码（含全部 Mixin、规则、工具类）均由 AI 生成，特此说明。**
 
 * 目标游戏版本：**Minecraft 26.1 ~ 26.2**
-* 当前 Mod 版本：**v1.14.5**（正式版）
+* 当前 Mod 版本：**v1.15.1**（正式版）
 * 支持语言：简体中文 / 繁體中文 / English / Français / Español (AR) / Português (BR)
 
 本文件是**给玩家使用的说明**（怎么装、有哪些规则）。
@@ -38,7 +38,7 @@
 
    * Carpet（26.1+ 版本）
    * Fabric API
-   * **`[vpl-v1.14.5-for-26.1-26.2]carpet-addition-v1.14.5.jar`**
+   * **`[vpl-v1.15.1-for-26.1-26.2]carpet-addition-v1.15.1.jar`**
 3. 启动游戏即可。
 
 ## 使用
