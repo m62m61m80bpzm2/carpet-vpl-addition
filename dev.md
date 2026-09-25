@@ -19,7 +19,7 @@
 
 ## 版本号
 
-- 当前版本：**v1.15.1**（正式版，由 b1.15.1.4 转正）
+- 当前版本：**b1.15.5**（测试版；最新正式版 v1.14.5。v1.15.1 曾短暂转正，因用户实测发现两条规则无效而**撤回**，未推送公共仓库、未发 Release）
 - 规则：**测试版本号前加 b 前缀**（如 1.14.2 之后的测试版 = b1.14.3.1，用户测试通过后去掉 b 转正式版）。
 - git 提交信息 = 当前版本号。
 
@@ -186,7 +186,20 @@ src/main/java/carpetvpladdition/
 
 ## 修复记录（变更日志）
 
-### v1.15.1 — 正式版发布（由 b1.15.1.4 转正）
+### b1.15.5 — 数值规则缓存时序 bug + 母岩骨粉 + 删除监守者规则（测试版）
+
+- **【根因确认，影响面大】改规则不生效**：用户报告 `elytraFireworkMultiplier` 设了没反应。javap 反编译 Carpet 26.1（`carpet.settings.ParsedRule` 私有 `set`）确认写入顺序为
+  **① 遍历 validators → ② `Field.set` 写静态字段 → ③ `notifyRuleChanged`**。
+  而 `CacheRefreshValidator.validate` 内调用的 `syncNumericCaches()` 读的是**静态字段本身**，于是 validator 拿到的一律是旧值：游戏内改一条数值规则，对应缓存停留在上一次的值为 `1.0`/默认，表现为"完全无效"；再改别的规则或重启后才恢复。
+  启动时 `onGameStarted` 里那次 `syncNumericCaches()` 是在配置全部写入之后跑的，所以**只有游戏中动态修改**会中招。
+  受害规则：`maxPlayerHealth`、`playerAttackDamage`、`maxAir`、`observerTickDelay`、`furnaceXpMultiplier`、`cactusGrowthMultiplier`、`hopperMinecartStackSize`、`elytraFireworkMultiplier`，以及 `stackableAnyCached` 聚合开关（7 条 `stackable*` 首次开启会不生效）。
+- **修复**：`CarpetVPLAdditionExtension.onGameStarted` 注册 `SettingsManager.registerGlobalRuleObserver(...)` → 回调在 `notifyRuleChanged`（第③步）中触发，此时字段已写入新值，刷出来的缓存一定正确。`registerGlobalRuleObserver` 为 public static、`RuleObserver.ruleChanged(CommandSourceStack, CarpetRule<?>, String)`，26.1 已 javap 确认存在。
+  保留原 validator 不动（其刷新会被观察者覆盖，属冗余但无害），避免再碰 validator 泛型这个已经崩过一次的雷区。
+- **`amethystBoneMeal` 补母岩路径**（用户报告"没效果"）：原实现只处理点到**芽**的情况；实际玩家准星对着母岩那一面时 `growCrop` 收到的 pos 是 `BUDDING_AMETHYST` 本体，母岩不是 `BonemealableBlock`，`growCrop` 直接返回 false，故整体看起来毫无作用。现补上：对母岩使用骨粉时按原版同一套朝向判定依次尝试 6 个面，能长就长（空面出新芽、同朝向的芽推进一档），六面全被占住则**不消耗骨粉**。复用原版公开成员 `BuddingAmethystBlock.canClusterGrowAtState` 与 `AmethystClusterBlock.FACING/WATERLOGGED`，只去掉原版随机刻的 1/5 概率门槛。`BuddingAmethystBlock` 源码 26.1.2 与 26.2 完全一致。
+- **删除 `noWardenSpawn`**（用户要求）：`NoWardenSpawnMixin.java`、`@Rule` 字段、mixins.json 注册项、6 语言 3 键、README 表格行全部清除。规则 47 → **46 条**，mixins 注册 39 → **38 项**，6 语言 142 → **139 键**（键集一致性脚本校验通过）。
+- 版本号：v1.15.1 → b1.15.5（撤回转正，回到测试线）。
+
+### v1.15.1 — 正式版发布（由 b1.15.1.4 转正）**〔已撤回，未推公共仓库、未发 Release〕**
 
 - 用户游戏内验证通过后转正，无额外代码改动（仅 `gradle.properties` 的 `mod_version` / `archives_base_name` 与 README、dev.md 版本行）。
 - 本版累计内容：`namedMinecartChunkLoader` 重做（3×3 源点票 + 传送门票据 15 秒且随存档持久化 + 6 语言命名匹配）、新增 `beeNoAngerOnHarvest`，以及 b1.15.1.1~b1.15.1.3 的 6 条新规则、性能优化与开服崩溃修复。

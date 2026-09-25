@@ -39,7 +39,6 @@
     "NamedMinecartChunkLoaderMixin",
     "MinableBuddingAmethystMixin",
     "AmethystBoneMealMixin",
-    "NoWardenSpawnMixin",
     "ElytraFireworkBoostMixin",
     "TradedZombieVillagerMixin",
     "BeeNoAngerOnHarvestMixin",

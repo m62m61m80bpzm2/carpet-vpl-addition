@@ -5,7 +5,7 @@
 > **声明：本项目的代码（含全部 Mixin、规则、工具类）均由 AI 生成，特此说明。**
 
 * 目标游戏版本：**Minecraft 26.1 ~ 26.2**
-* 当前 Mod 版本：**v1.15.1**（正式版）
+* 当前 Mod 版本：**b1.15.5**（测试版；最新正式版为 v1.14.5，v1.15.1 已撤回未发布）
 * 支持语言：简体中文 / 繁體中文 / English / Français / Español (AR) / Português (BR)
 
 本文件是**给玩家使用的说明**（怎么装、有哪些规则）。
@@ -38,7 +38,7 @@
 
    * Carpet（26.1+ 版本）
    * Fabric API
-   * **`[vpl-v1.15.1-for-26.1-26.2]carpet-addition-v1.15.1.jar`**
+   * **`[vpl-b1.15.5-for-26.1-26.2]carpet-addition-b1.15.5.jar`**
 3. 启动游戏即可。
 
 ## 使用
@@ -104,7 +104,6 @@
 |`villagerReincarnation`|布尔|false|村民死亡掉落刷怪蛋转世|
 |`villagerNoPriceOnAttack`|布尔|false|村民被攻击不涨价|
 |`bedrockPortalZombiePigman`|布尔|false|地狱门刷僵尸猪人（基岩版行为）|
-|`noWardenSpawn`|布尔|false|尖啸体不再召唤监守者（已有的监守者不受影响）|
 |`tradedZombieVillagerPeace`|布尔|false|和平模式不再移除交易过的僵尸村民|
 |`beeNoAngerOnHarvest`|布尔|false|采蜜不惊蜂：剪蜜脾/玻璃瓶取蜜时蜜蜂不仇恨玩家（等同蜂巢下永远压着点燃的营火；砸毁蜂巢与爆炸仍会仇恨）|
 
@@ -120,7 +119,7 @@
 |`bedrockSugarcaneBonemeal`|布尔|false|甘蔗可被骨粉催熟（基岩版行为）|
 |`protectImmatureCrops`|布尔|false|保护未成熟农作物|
 |`minableBuddingAmethyst`|布尔|false|精准采集可挖紫水晶母岩（普通镐仍为原版行为）|
-|`amethystBoneMeal`|布尔|false|骨粉可催熟紫水晶芽（玩家与发射器均生效，仅影响水晶）|
+|`amethystBoneMeal`|布尔|false|骨粉催熟紫水晶：对**紫水晶母岩**用骨粉立刻长出新芽，对芽用则推进一档（玩家与发射器均生效，仅影响水晶）|
 
 ### 红石与机制
 
