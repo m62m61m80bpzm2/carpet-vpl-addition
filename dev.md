@@ -206,6 +206,11 @@ src/main/java/carpetvpladdition/
      **改法**：`CactusBonemealMixin` 重写为注入 `BoneMealItem.growCrop(ItemStack, Level, BlockPos)Z` 的 HEAD——该描述符 26.1/26.2/26.3 三版一致，且玩家手点与发射器共用此路径，故一个 jar 覆盖三版、不需要版本门控。节数与高度判定照旧（上方空且整根不足 3 节才长）。
   2. **26.3 的 `RecipeManager` 删掉了 `prepare(ResourceManager, ProfilerFiller)`，且不再有 `registries` 字段**（配方改由注册表装载，`RecipeMap.create(RegistryLookup)`）。我们的 `RecipeManagerMixin`（`@ModifyReturnValue` on `prepare`）与 `RecipeManagerAccessor`（`@Accessor("registries")`）在 26.3 上**找不到注入点 → 开服即 Mixin 崩溃**，不是"规则没效果"那么轻。
      **改法**：`VersionedMixinPlugin` 新增 `isAtLeast26_3` 判定（解析版本号第二段，>26 主版本亦视为满足），在 26.3+ 直接不注册这两个 mixin；`RecipeRuleObserver.onValueChange` 同条件提前返回，避免调用已不存在的原版 API。5 条配方规则（`totemRecipe`/`calciteRecipe`/`tuffRecipe`/`woolToString`/`quartzUnpack`）在 26.3 上因此无效，已在 6 语言的 `extra.0` 追加"版本限定"说明（139 键不变、键集一致）。
+  2b. **同一接口的第二处受害者 `SugarcaneBonemealMixin`**：它用 `@Implements(@Interface(iface = BonemealableBlock.class, prefix = "cane$"))`，
+     26.3 试编译**不报错**（方法名没加 @Override，javac 不管），但真起 26.3 服务端时 Mixin 在应用阶段抛
+     `isValidBonemealTarget does not exist in target interface BonemealableBlock` → **开服直接失败**。
+     同样改为注入 `BoneMealItem.growCrop`，保留"对柱内任一格都按整根柱算高度、满 3 节不再长"的原行为。
+     教训：**只靠静态核对 + 试编译不足以覆盖 Mixin 的接口校验，必须真起服务端跑一遍。**
   3. 修完后 26.3 试编译只剩 `RecipeManagerMixin` 的 2 处源码级类型错误（`Recipe.CODEC` 返回 `Holder<Recipe<?>>`、`RecipeMap.create` 改收 `HolderLookup`）——该类在 26.3 已被插件关闭、运行期不参与，属预期残留。**结论：本 jar 必须以 26.1.2 编译**（`minecraft_version` 不要改成 26.3）。
 - 版本号：v1.15.1 → b1.16.1.1。
 
@@ -223,6 +228,17 @@ src/main/java/carpetvpladdition/
 - 产物校验（解包 jar 实测）：`fabric.mod.json` 的 `version` = `v1.15.1`；mixin 注册 38 项、无 `NoWardenSpawnMixin` 残留（class 也不在包内）；
   6 语言各 139 键且鞘翅文案已是"巡航速度倍率"新版。
 - **未推送公共仓库、未发 Release**（等用户明确要求）。
+
+### 实机验证结果（2026-09-25，本地起真实 Fabric 服务端，非静态推断）
+
+| MC 版本 | 前置 | 结果 |
+|---|---|---|
+| **26.1.2** | Carpet 26.1+v260401 + Fabric API 26.1.2 | `Done (1.081s)!` 正常启动；控制台 `carpet cactusBoneMeal true`、`bedrockSugarcaneBonemeal true`、`amethystBoneMeal true` 全部接受 |
+| **26.2** | Carpet 26.2+v260616 + Fabric API 0.161.0+26.2 | `Done (0.767s)!` 正常启动；五条规则（含两条重写、一条数值 `elytraFireworkMultiplier 2.0`）实时开关全部生效，无 Mixin 报错 |
+| **26.3** | Carpet **26.3-beta-3+v260820** + Fabric API 0.161.0+26.3 | 我方 38 个 Mixin **全部应用通过**（sugarcane 的接口错误已消失）；启动最终失败在 Carpet 自身：`carpet.script.CarpetScriptServer.parseFunctionClasses` 抛 `NoClassDefFoundError: DensityFunction$FunctionContext`，即 **Carpet 的 26.3-beta 跟不上 26.3 正式版**，与本模组无关，需等 Carpet 出 26.3 正式版 |
+
+复现方式：`fabric-installer 1.1.2` 装 server，`mods/` 放 fabric-api + carpet + 本模组 jar，`eula=true`，
+用 `(sleep 95; echo "carpet <规则> true"; sleep 8; echo "stop") | java -Xmx1536M -jar fabric-server-launch.jar nogui` 驱动控制台。
 
 ### b1.15.1.6 — 修正鞘翅烟花倍率的缩放对象（测试版）
 
