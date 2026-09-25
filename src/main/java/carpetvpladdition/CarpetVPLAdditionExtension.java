@@ -2,6 +2,7 @@ package carpetvpladdition;
 
 import carpet.CarpetExtension;
 import carpet.CarpetServer;
+import carpet.api.settings.SettingsManager;
 import carpetvpladdition.settings.CarpetVPLAdditionSettings;
 import carpetvpladdition.util.BeaconPPUpdateManager;
 import com.google.gson.Gson;
@@ -27,6 +28,12 @@ public class CarpetVPLAdditionExtension implements CarpetExtension {
             CarpetServer.settingsManager.parseSettingsClass(CarpetVPLAdditionSettings.class);
             // 初始化所有字符串规则的数值缓存
             CarpetVPLAdditionSettings.syncNumericCaches();
+            // b1.15.5 修复"改了规则没反应"：Carpet 的 ParsedRule.set 顺序是先跑 validator、
+            // 后 field.set、最后才 notifyRuleChanged（javap carpet 26.1 确认），所以挂在 validator 里的
+            // syncNumericCaches 读到的一定是旧字段值，缓存永远慢一步。观察者在校后才触发，
+            // 此时读静态字段拿到的就是刚写入的新值。数值规则与 stackable* 聚合开关都靠它兜底。
+            SettingsManager.registerGlobalRuleObserver(
+                (source, rule, userInput) -> CarpetVPLAdditionSettings.syncNumericCaches());
             // 注册信标统一 PP 更新：信标追踪 + 每 20GT 统一触发（规则 beaconUnifiedPPUpdate）
             BeaconPPUpdateManager.register();
         } catch (Exception e) {

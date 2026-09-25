@@ -349,11 +349,6 @@ public class CarpetVPLAdditionSettings {
     public static boolean amethystBoneMeal = false;
 
     @Rule(
-        categories = {CARPET_VPL_ADDITION, FEATURE}
-    )
-    public static boolean noWardenSpawn = false;
-
-    @Rule(
         categories = {CARPET_VPL_ADDITION, FEATURE},
         options = {"1.0", "1.5", "2.0", "3.0", "5.0"},
         strict = false,
