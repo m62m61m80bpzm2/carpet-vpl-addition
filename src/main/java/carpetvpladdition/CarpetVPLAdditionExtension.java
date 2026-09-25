@@ -2,6 +2,7 @@ package carpetvpladdition;
 
 import carpet.CarpetExtension;
 import carpet.CarpetServer;
+import carpet.api.settings.SettingsManager;
 import carpetvpladdition.settings.CarpetVPLAdditionSettings;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -26,6 +27,12 @@ public class CarpetVPLAdditionExtension implements CarpetExtension {
             CarpetServer.settingsManager.parseSettingsClass(CarpetVPLAdditionSettings.class);
             // 初始化所有字符串规则的数值缓存
             CarpetVPLAdditionSettings.syncNumericCaches();
+            // 与 26.1-26.2 分支同步的修复：Carpet 的 ParsedRule.set 顺序是
+            // 先跑 validator → 再写 @Rule 静态字段 → 最后 notifyRuleChanged，
+            // 故挂在 validator 里的 syncNumericCaches 读字段必然拿到旧值，
+            // 游戏中改数值规则会"看起来没效果"。观察者在校后触发，读到的才是新值。
+            SettingsManager.registerGlobalRuleObserver(
+                (source, rule, userInput) -> CarpetVPLAdditionSettings.syncNumericCaches());
         } catch (Exception e) {
             System.err.println("[carpet-vpl-addition] Failed to register settings: " + e.getMessage());
         }

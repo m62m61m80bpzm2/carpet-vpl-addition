@@ -3,7 +3,7 @@
 > 本项目的代码（含全部 Mixin、规则、工具类）均由 **AI 生成**（opencode 协助编写），特此说明。
 
 ## 版本号
-当前版本：v0.14.5（正式版，2026-09-12；1.21.6-1.21.10 分支版本线改用 0.x 前缀，与 26.2 分支 v1.14.5 的规则内容对应）
+当前版本：**b0.15.1.1**（测试版，2026-09-25；从 26.1-26.2 分支 v1.15.1 同步规则内容，两分支规则数已对齐为 46 条。上一正式版 v0.14.5 对应 26 分支 v1.14.5）
 
 ## 构建
 ```bash
@@ -122,6 +122,48 @@ Mojang 在 24w33a（1.21.2）修复了刷线漏洞，在 `TripWireHookBlock.calc
 4. 1.21.11 需要大量适配工作（mappings 重构）
 
 详细报告见 `compatibility-report-1.21.x.md`
+
+## 修复记录（b0.15.1.1 — 同步 26.1-26.2 分支 v1.15.1）
+
+### 补齐的 6 条规则（40 → 46 条，与 26 分支规则名集合完全一致）
+
+`namedMinecartChunkLoader`、`minableBuddingAmethyst`、`amethystBoneMeal`、
+`elytraFireworkMultiplier`、`tradedZombieVillagerPeace`、`beeNoAngerOnHarvest`。
+新增 mixin 7 个（含 `ZombieVillagerAccessor`），mixins.json 注册 22 → 37 项；6 语言 121 → 139 键（键集一致已校验）。
+
+### 移植时核对过的 API 差异（逐条查 `mc源码/1.21.8`，未照抄 26.x 代码）
+
+- **票据系统同形**：1.21.8 的 `TicketStorage.addTicketWithRadius` 同样是 `new Ticket(type, ChunkLevel.byStatus(FULL) - radius)`，
+  `FULL_CHUNK_LEVEL=33`、`ENTITY_TICKING_LEVEL=31`、`PORTAL=(300L, persist=true)`、`ENDER_PEARL=(40L, persist=false)` →
+  矿车加载器"3×3 显式源点票 + 传送门票据"方案原样可用。
+- **两处必改**：`AbstractMinecart` 在 `world.entity.vehicle` 包下（26.x 多一层 `minecart` 子包）；
+  `ChunkPos` 是普通类，`x`/`z` 为 `public final` 字段而非 record 访问器（26.x 是 `x()`/`z()`）。
+- **僵尸村民**：`ZombieVillager` 在 `world.entity.monster` 包下（26.x 为 `monster.zombie`）；
+  `gossips` 字段与 `GossipContainer.getCountForType(GossipType, DoublePredicate)` 两版一致。
+- **完全同形、直接搬**：`BoneMealItem.growCrop(ItemStack,Level,BlockPos)Z`、
+  `BeehiveBlock.useItemOn` + `CampfireBlock.isSmokeyPos(Level,BlockPos)Z`、
+  `FireworkRocketEntity.tick` 内 `look*1.5` 推进公式、`BuddingAmethystBlock.canClusterGrowAtState`、
+  `AmethystClusterBlock.FACING/WATERLOGGED`、`ServerPlayerGameMode.destroyBlock(BlockPos)Z`、
+  `EnchantmentHelper.getItemEnchantmentLevel(Holder<Enchantment>, ItemStack)` + `Enchantments.SILK_TOUCH`(ResourceKey)。
+
+### 一并同步的行为修复
+
+- **数值规则改了不即时生效**：注册 `SettingsManager.registerGlobalRuleObserver`（Carpet 1.4.177 已提供该 API，javap 确认）。
+  根因同 26 分支：`ParsedRule.set` 先跑 validator、后写字段，validator 里读字段必拿旧值。
+  受益规则：`maxPlayerHealth`、`playerAttackDamage`、`maxAir`、`observerTickDelay`、`furnaceXpMultiplier`、
+  `cactusGrowthMultiplier`、`hopperMinecartStackSize`、`elytraFireworkMultiplier`。
+- **未同步**：26 分支 b1.15.1.2 的 `stackableAnyCached` 聚合缓存优化。本分支 `StackableItemMixin` 是直接读 7 个布尔字段，
+  因此也**不存在**那边的"首次开启不生效"问题；纯性能项，留待单独评估。
+- **未处理**：`noZombieHorseSpawn` 在本分支仍是"有规则无 mixin"的死规则。原因见 `TODO-ZombieHorseSpawn-26.1-compat.md`：
+  1.21.8 中 `SpawnPlacements` 给 `ZOMBIE_HORSE` 注册的是 `ZombieHorse::checkZombieHorseSpawnRules`，
+  而该 mixin 注入 `Monster::checkMonsterSpawnRules`，补过来同样无效；文档已记"1.21.6 分支不处理"。
+
+### 实机验证（2026-09-25）
+
+本地用 fabric-installer 起 **1.21.8** 服务端（Carpet 1.21.7-1.4.177 + Fabric API 0.136.0+1.21.8 + 本模组 b0.15.1.1）：
+`Done (1.862s)!` 正常启动，无 Mixin 报错；控制台逐条开关 6 条新规则全部被接受
+（`namedMinecartChunkLoader: true` … `elytraFireworkMultiplier: 2.0`）。
+**游戏内实际效果未测**（骨粉是否长水晶、矿车是否真加载区块、蜜蜂是否不追人等仍需真人验证）。
 
 ## 修复记录（v0.14.5）
 

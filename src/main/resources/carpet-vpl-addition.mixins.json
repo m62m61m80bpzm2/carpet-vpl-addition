@@ -34,7 +34,14 @@
     "BeaconBlockEntityTrackerMixin",
     "BeaconTickPhaseMixin",
     "ServerPlayerPearlMixin",
-    "FlowingFluidTickMixin"
+    "FlowingFluidTickMixin",
+    "NamedMinecartChunkLoaderMixin",
+    "MinableBuddingAmethystMixin",
+    "AmethystBoneMealMixin",
+    "ElytraFireworkBoostMixin",
+    "TradedZombieVillagerMixin",
+    "BeeNoAngerOnHarvestMixin",
+    "ZombieVillagerAccessor"
   ],
   "injectors": {
     "defaultRequire": 1
