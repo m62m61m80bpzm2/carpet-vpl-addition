@@ -5,7 +5,7 @@
 > **声明：本项目的代码（含全部 Mixin、规则、工具类）均由 AI 生成，特此说明。**
 
 * 目标游戏版本：**Minecraft 26.1 ~ 26.2**
-* 当前 Mod 版本：**b1.15.1.5**（测试版；最新正式版为 v1.14.5，v1.15.1 已撤回未发布）
+* 当前 Mod 版本：**b1.15.1.6**（测试版；最新正式版为 v1.14.5，v1.15.1 已撤回未发布）
 * 支持语言：简体中文 / 繁體中文 / English / Français / Español (AR) / Português (BR)
 
 本文件是**给玩家使用的说明**（怎么装、有哪些规则）。
@@ -38,7 +38,7 @@
 
    * Carpet（26.1+ 版本）
    * Fabric API
-   * **`[vpl-b1.15.1.5-for-26.1-26.2]carpet-addition-b1.15.1.5.jar`**
+   * **`[vpl-b1.15.1.6-for-26.1-26.2]carpet-addition-b1.15.1.6.jar`**
 3. 启动游戏即可。
 
 ## 使用
@@ -131,7 +131,7 @@
 |`beaconUnifiedPPUpdate`|布尔|false|信标统一PP更新（20GT）|
 |`noZombieHorseSpawn`|布尔|false|禁止僵尸马自然生成（**仅 26.2 生效**，26.1/26.1.2 上无效）|
 |`namedMinecartChunkLoader`|布尔|false|命名矿车区块加载器：铁砧把矿车命名为 `chunkloader`（或 6 语言等价名，忽略大小写/空格/下划线）后，以它为中心的 3×3 区块保持完全运行，并随矿车移动|
-|`elytraFireworkMultiplier`|数值|1.0|鞘翅烟花推进加速度倍率（仅缩放推进加速度，不改烟花飞行与爆炸）|
+|`elytraFireworkMultiplier`|数值|1.0|鞘翅烟花巡航速度倍率（缩放原版推进目标速度，加速平滑不抖动；不改烟花飞行与爆炸伤害）|
 
 ### 修复
 
