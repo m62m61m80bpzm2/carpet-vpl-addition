@@ -19,7 +19,7 @@
 
 ## 版本号
 
-- 当前版本：**b1.15.5**（测试版；最新正式版 v1.14.5。v1.15.1 曾短暂转正，因用户实测发现两条规则无效而**撤回**，未推送公共仓库、未发 Release）
+- 当前版本：**b1.15.1.5**（测试版；最新正式版 v1.14.5。v1.15.1 曾短暂转正，因用户实测发现两条规则无效而**撤回**，未推送公共仓库、未发 Release）
 - 规则：**测试版本号前加 b 前缀**（如 1.14.2 之后的测试版 = b1.14.3.1，用户测试通过后去掉 b 转正式版）。
 - git 提交信息 = 当前版本号。
 
@@ -186,7 +186,7 @@ src/main/java/carpetvpladdition/
 
 ## 修复记录（变更日志）
 
-### b1.15.5 — 数值规则缓存时序 bug + 母岩骨粉 + 删除监守者规则（测试版）
+### b1.15.1.5 — 数值规则缓存时序 bug + 母岩骨粉 + 删除监守者规则（测试版）
 
 - **【根因确认，影响面大】改规则不生效**：用户报告 `elytraFireworkMultiplier` 设了没反应。javap 反编译 Carpet 26.1（`carpet.settings.ParsedRule` 私有 `set`）确认写入顺序为
   **① 遍历 validators → ② `Field.set` 写静态字段 → ③ `notifyRuleChanged`**。
@@ -197,7 +197,7 @@ src/main/java/carpetvpladdition/
   保留原 validator 不动（其刷新会被观察者覆盖，属冗余但无害），避免再碰 validator 泛型这个已经崩过一次的雷区。
 - **`amethystBoneMeal` 补母岩路径**（用户报告"没效果"）：原实现只处理点到**芽**的情况；实际玩家准星对着母岩那一面时 `growCrop` 收到的 pos 是 `BUDDING_AMETHYST` 本体，母岩不是 `BonemealableBlock`，`growCrop` 直接返回 false，故整体看起来毫无作用。现补上：对母岩使用骨粉时按原版同一套朝向判定依次尝试 6 个面，能长就长（空面出新芽、同朝向的芽推进一档），六面全被占住则**不消耗骨粉**。复用原版公开成员 `BuddingAmethystBlock.canClusterGrowAtState` 与 `AmethystClusterBlock.FACING/WATERLOGGED`，只去掉原版随机刻的 1/5 概率门槛。`BuddingAmethystBlock` 源码 26.1.2 与 26.2 完全一致。
 - **删除 `noWardenSpawn`**（用户要求）：`NoWardenSpawnMixin.java`、`@Rule` 字段、mixins.json 注册项、6 语言 3 键、README 表格行全部清除。规则 47 → **46 条**，mixins 注册 39 → **38 项**，6 语言 142 → **139 键**（键集一致性脚本校验通过）。
-- 版本号：v1.15.1 → b1.15.5（撤回转正，回到测试线）。
+- 版本号：v1.15.1 → b1.15.1.5（撤回转正，回到测试线）。
 
 ### v1.15.1 — 正式版发布（由 b1.15.1.4 转正）**〔已撤回，未推公共仓库、未发 Release〕**
 
