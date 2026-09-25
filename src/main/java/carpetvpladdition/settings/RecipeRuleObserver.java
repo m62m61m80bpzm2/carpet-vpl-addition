@@ -11,6 +11,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
+import carpetvpladdition.mixin.VersionedMixinPlugin;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,6 +54,11 @@ public class RecipeRuleObserver extends Validator<Boolean> {
     }
 
     private void onValueChange(CommandSourceStack source) {
+        // 26.3+ 动态配方注入的注入点已被原版移除（见 VersionedMixinPlugin），
+        // 此处不再触发重载与配方书解锁，避免调用已不存在的原版 API。
+        if (VersionedMixinPlugin.isAtLeast26_3()) {
+            return;
+        }
         if (source == null || source.getServer() == null || pendingReload) {
             return;
         }

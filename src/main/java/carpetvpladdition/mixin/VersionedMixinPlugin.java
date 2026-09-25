@@ -18,6 +18,12 @@ public class VersionedMixinPlugin implements IMixinConfigPlugin {
 
     private static boolean isAtLeast1_21_2 = false;
     private static boolean isAtLeast1_21_6 = false;
+    /**
+     * 26.3 起 RecipeManager 重构：prepare() 方法被移除、配方改由注册表装载，
+     * 且 registries 字段不再存在 —— RecipeManagerMixin / RecipeManagerAccessor 的注入点
+     * 在 26.3+ 已无对应目标，若不关闭会在开服时直接 Mixin 应用失败而崩溃。
+     */
+    private static boolean isAtLeast26_3 = false;
 
     @Override
     public void onLoad(String mixinPackage) {
@@ -70,6 +76,13 @@ public class VersionedMixinPlugin implements IMixinConfigPlugin {
             if (mixinClassName.equals("carpetvpladdition.mixin.PortalZombiePigmanMixin")) return false;
         }
 
+        // === 26.3+ 关闭：配方动态注入机制整体失效（原版 prepare()/registries 已不存在） ===
+        // 不关闭的后果不是"规则没效果"，而是 Mixin 找不到注入点导致开服崩溃，故必须在此拦截。
+        if (isAtLeast26_3) {
+            if (mixinClassName.equals("carpetvpladdition.mixin.RecipeManagerMixin")) return false;
+            if (mixinClassName.equals("carpetvpladdition.mixin.RecipeManagerAccessor")) return false;
+        }
+
         // 刷线机保护判断在 1.21.2+ 才存在，低于此版本不需此 mixin（漏洞原生存在）
         if (!isAtLeast1_21_2) {
             if (mixinClassName.equals("carpetvpladdition.mixin.TripwireHookBlockStringDupeMixin")) return false;
@@ -78,6 +91,11 @@ public class VersionedMixinPlugin implements IMixinConfigPlugin {
         }
 
         return true;
+    }
+
+    /** 供规则侧判断：当前是否运行在 26.3 及以上（动态配方规则在该区间不生效） */
+    public static boolean isAtLeast26_3() {
+        return isAtLeast26_3;
     }
 
     @Override
