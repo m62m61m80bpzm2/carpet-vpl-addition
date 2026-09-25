@@ -1,6 +1,8 @@
 # Carpet VPL Addition
 
-一个基于 `fabric-carpet` 的 Fabric 服务端 Mod，为原版 Carpet 添加大量自定义游戏规则（Rules）。
+一个基于 `fabric-carpet` 的 Fabric 服务端 Mod，为原版 Carpet 追加 **46 条**自定义游戏规则：区块加载矿车、物品堆叠、合成配方、村民与生物行为、紫水晶与作物生长、鞘翅与信标机制，外加几个原版 bug 修复。
+
+规则**默认全部关闭**，用 `/carpet <规则名> true` 按需开启；只在服务端安装即可，玩家客户端什么都不用装。
 
 > **声明：本项目的代码（含全部 Mixin、规则、工具类）均由 AI 生成，特此说明。**
 
