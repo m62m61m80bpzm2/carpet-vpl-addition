@@ -144,7 +144,7 @@
 
 ## 已知问题
 
-* 已对 26.1.2 / 26.2 / 26.3 做注入点核对（91 个被引用原版类全部存在、221 处成员引用无回归、38 个 Mixin 目标类齐全），并用 26.3 映射试编译验证；期间发现并修复两处静态核对看不出的破坏：`BonemealableBlock` 在 26.3 加了 `BonemealSource` 参数（仙人掌骨粉已改为注入 `BoneMealItem.growCrop`，三版通用）、`RecipeManager.prepare()` 与 `registries` 字段在 26.3 被删除（5 条配方规则已在 26.3+ 自动关闭，不再崩溃）。**尚未在 26.3 实机开服验证**。
+* 已对 26.1.2 / 26.2 / 26.3 做注入点核对（91 个被引用原版类全部存在、221 处成员引用无回归、38 个 Mixin 目标类齐全），并用 26.3 映射试编译验证；期间发现并修复两处静态核对看不出的破坏：`BonemealableBlock` 在 26.3 加了 `BonemealSource` 参数（仙人掌骨粉已改为注入 `BoneMealItem.growCrop`，三版通用）、`RecipeManager.prepare()` 与 `registries` 字段在 26.3 被删除（5 条配方规则已在 26.3+ 自动关闭，不再崩溃）。**26.1.2 与 26.2 已真起服务端验证通过**（正常启动 + 规则实时开关）；26.3 上我方 38 个 Mixin 全部应用通过，但启动仍会失败在 Carpet 自身（其 26.3-beta-3 缺 `DensityFunction$FunctionContext`），需等 Carpet 发布 26.3 正式版。
 * `noZombieHorseSpawn` 的说明目前写的是"仅 26.2 生效"；源码核对显示 26.1.2 与 26.3 同样把 `ZOMBIE_HORSE` 注册到 `Monster::checkMonsterSpawnRules`，该限定语很可能已过时，待实机确认后再改 6 语言文案。
 * 与其他模组（尤其 Lithium 一类区块/性能优化模组）的搭配未做兼容实测。
 
