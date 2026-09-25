@@ -21,13 +21,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import java.util.Map;
 
 /**
- * 骨粉催熟紫水晶（b1.15.1.1 新增，b1.15.5 补齐母岩路径，规则 amethystBoneMeal）。
+ * 骨粉催熟紫水晶（b1.15.1.1 新增，b1.15.1.5 补齐母岩路径，规则 amethystBoneMeal）。
  *
  * 注入 BoneMealItem.growCrop（static，玩家手持右键与发射器发射骨粉的公共路径），
  * 覆盖两种点击目标：
  *
  * 1) 点到紫水晶芽（小/中/大芽）—— b1.15.1.1 原有行为，推进一个生长阶段。
- * 2) 点到紫水晶母岩（BUDDING_AMETHYST）—— b1.15.5 新增。
+ * 2) 点到紫水晶母岩（BUDDING_AMETHYST）—— b1.15.1.5 新增。
  *    这才是玩家实际会命中的目标：芽是贴在母岩表面的小体积方块，准星对着母岩那一面时
  *    右键拿到的 pos 就是母岩，原版母岩既不是 BonemealableBlock 也没有其它骨粉分支，
  *    growCrop 直接返回 false，故旧实现"看起来没效果"。
