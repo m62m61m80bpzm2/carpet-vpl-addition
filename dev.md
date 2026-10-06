@@ -3,7 +3,7 @@
 > 本项目的代码（含全部 Mixin、规则、工具类）均由 **AI 生成**（opencode 协助编写），特此说明。
 
 ## 版本号
-当前版本：**b0.15.1.1**（测试版，2026-09-25；从 26.1-26.2 分支 v1.15.1 同步规则内容，两分支规则数已对齐为 46 条。上一正式版 v0.14.5 对应 26 分支 v1.14.5）
+当前版本：**b1.15.1.3**（测试版；2026-10-06 由 b0.15.1.3 更名而来，见下文「版本号」沿革记录。规则自 26.1-26.2 分支 v1.15.1 移植，两分支规则数已对齐为 46 条。上一正式版 v0.14.5 对应 26 分支 v1.14.5）
 
 ## ⚠️ 风险提示
 
@@ -180,7 +180,7 @@ Mojang 在 24w33a（1.21.2）修复了刷线漏洞，在 `TripWireHookBlock.calc
   - `RecipeManager.prepare`/`byKey`/`Recipe.isSpecial`/`ServerRecipeBook.addRecipes(Collection, ServerPlayer)` 均 1.21.8 在位。
   - **refmap 机制确认**：本分支 intermediary 构建无 refmap 文件是正常现象——loom 在 remapJar 时直接把 Mixin 注解中的 Mojang 名重写为 intermediary 写入 class 字节码（解包验证：FlowingFluidTickMixin 含 `method_15778(class_3218;class_2338;class_2680;class_3610;)V`、ServerPlayerPearlMixin 含 `method_64123(class_3218;class_1923;)J`，与实测可用的 1.14.2 jar 同机制）。
   - 26.2 分支 API 名适配：`Identifier`→`ResourceLocation`、`ServerLevelEvents`→`ServerWorldEvents`（1.21.x Fabric API 事件名），全项目无 Identifier 残留。
-- **版本号**：1.14.2 → b1.14.5.1 → v0.14.5（测试版号对齐 26.2 分支 b1.14.5.x 线；正式版 1.21.6-1.21.10 分支版本线改用 0.x 前缀，v0.14.5 对应 26.2 分支 v1.14.5 的规则内容；初误定 b1.15.1/v1.15，已更正）。
+- **版本号**：1.14.2 → b1.14.5.1 → v0.14.5（测试版号对齐 26.2 分支 b1.14.5.x 线；正式版 1.21.6-1.21.10 分支版本线改用 0.x 前缀，v0.14.5 对应 26.2 分支 v1.14.5 的规则内容；初误定 b1.15.1/v1.15，已更正）。2026-10-06 按用户决定弃用 0.x 前缀惯例，测试版 b0.15.1.3 更名 b1.15.1.3、与 26 分支 b1.15.1.x 补丁线对齐——当初判 b1.15.1 误定是因为彼时规则内容尚停在 26.2 分支 v1.14.5 代际，现规则已自 26 分支 v1.15.1 全量移植，b1.15.1.3 名实相符。
 - jar 命名同步 26.2 分支格式：`[vpl-v0.14.5-for-1.21.6-1.21.10]carpet-addition-v0.14.5.jar`。
 
 ### b1.14.5.1 — 与 26.2 分支规则对齐（测试版）
