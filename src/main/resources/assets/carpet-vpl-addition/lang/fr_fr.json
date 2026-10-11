@@ -137,5 +137,11 @@
   "carpet.rule.tradedZombieVillagerPeace.extra.0": "Détails : « échangé » est détecté via l’enregistrement de ragots TRADING hérité lors de la conversion ; les zombies-villageois issus de villageois jamais échangés sont toujours supprimés comme en vanilla.",
   "carpet.rule.beeNoAngerOnHarvest.name": "Récolte sans agresser les abeilles",
   "carpet.rule.beeNoAngerOnHarvest.desc": "Récolter un rayon de miel ou remplir une bouteille de miel ne rend plus les abeilles environnantes hostiles envers le joueur. Revient à poser en permanence un tas de feux de camp allumés sous la ruche.",
-  "carpet.rule.beeNoAngerOnHarvest.extra.0": "Détails : seule la récolte est couverte - détruire le nid à la main ou le faire exploser met toujours les abeilles en colère. Avec cette règle, la récolte ne les éjecte plus de la ruche non plus."
+  "carpet.rule.beeNoAngerOnHarvest.extra.0": "Détails : seule la récolte est couverte - détruire le nid à la main ou le faire exploser met toujours les abeilles en colère. Avec cette règle, la récolte ne les éjecte plus de la ruche non plus.",
+  "carpet.rule.pinkSheepSpawnMultiplier.name": "Multiplicateur de moutons roses",
+  "carpet.rule.pinkSheepSpawnMultiplier.desc": "Ajuste le multiplicateur de probabilité qu'un mouton nouvellement apparu soit rose. 1.0 correspond à la probabilité vanilla (~1/610) ; 10.0 rend les moutons roses 10 fois plus fréquents (~1/61) ; à 1000.0 presque tous les nouveaux moutons sont roses. Affecte tous les nouveaux moutons (y compris la reproduction) ; les moutons existants ne changent pas.",
+  "carpet.rule.pinkSheepSpawnMultiplier.extra.0": "Détails : règle numérique avec redistribution exacte des probabilités (chance vanilla 0,164 % × multiplicateur) ; une valeur inférieure à 1.0 rend les moutons roses plus rares ; tiré une seule fois à l’apparition de chaque mouton.",
+  "carpet.rule.villagerNoWitchFromLightning.name": "Pas de sorcière par éclair sur villageois",
+  "carpet.rule.villagerNoWitchFromLightning.desc": "Une fois activé, un villageois frappé par la foudre ne se transforme plus en sorcière et ne subit que les dégâts normaux de la foudre (dégâts et inflammation inchangés). Protège vos villages des pertes accidentelles pendant les orages.",
+  "carpet.rule.villagerNoWitchFromLightning.extra.0": "Détails : seule la transformation en sorcière est bloquée ; les autres effets de la foudre restent vanilla. En difficulté Paisible les villageois ne se transforment de toute façon jamais, la règle n’y a donc aucun effet supplémentaire."
 }

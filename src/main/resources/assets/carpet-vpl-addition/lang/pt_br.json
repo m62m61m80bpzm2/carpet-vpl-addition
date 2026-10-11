@@ -137,5 +137,11 @@
   "carpet.rule.tradedZombieVillagerPeace.extra.0": "Detalhes: negociado é detectado pelo registro de fofocas TRADING herdado na conversão; aldeões zumbis de aldeões nunca negociados continuam sendo removidos como no vanilla.",
   "carpet.rule.beeNoAngerOnHarvest.name": "Colheita sem irritar abelhas",
   "carpet.rule.beeNoAngerOnHarvest.desc": "Cortar um favo de mel ou engarrafar mel não faz mais as abelhas por perto te considerarem um alvo. Equivale a deixar uma pilha de fogueiras acesas embaixo da colmeia o tempo todo.",
-  "carpet.rule.beeNoAngerOnHarvest.extra.0": "Detalhes: só a colheita é coberta - quebrar o ninho na mão ou explodi-lo ainda deixa as abelhas agressivas. Com essa regra ligada, colher mel também para de expulsar as abelhas da colmeia."
+  "carpet.rule.beeNoAngerOnHarvest.extra.0": "Detalhes: só a colheita é coberta - quebrar o ninho na mão ou explodi-lo ainda deixa as abelhas agressivas. Com essa regra ligada, colher mel também para de expulsar as abelhas da colmeia.",
+  "carpet.rule.pinkSheepSpawnMultiplier.name": "Multiplicador de ovelhas rosas",
+  "carpet.rule.pinkSheepSpawnMultiplier.desc": "Ajusta o multiplicador de probabilidade de uma ovelha recém-gerada ser rosa. 1.0 é a chance vanilla (~1/610); com 10.0 as ovelhas rosas ficam 10 vezes mais comuns (~1/61); com 1000.0 quase todas as novas ovelhas são rosas. Afeta todas as ovelhas recém-geradas (incluindo reprodução); ovelhas existentes não mudam.",
+  "carpet.rule.pinkSheepSpawnMultiplier.extra.0": "Detalhes: regra numérica com redistribuição exata de probabilidade (chance vanilla 0,164% × multiplicador); valores abaixo de 1.0 deixam ovelhas rosas mais raras; decidido uma vez na geração de cada ovelha.",
+  "carpet.rule.villagerNoWitchFromLightning.name": "Sem bruxa por raio em aldeões",
+  "carpet.rule.villagerNoWitchFromLightning.desc": "Quando ativada, um aldeão atingido por um raio não se transforma mais em bruxo e só recebe o dano normal do raio (dano e fogo como de costume). Protege suas vilas de perdas acidentais durante tempestades.",
+  "carpet.rule.villagerNoWitchFromLightning.extra.0": "Detalhes: apenas a conversão em bruxo é bloqueada; os demais efeitos do raio continuam vanilla. Na dificuldade pacífica aldeões nunca se transformam, então a regra não tem efeito extra ali."
 }

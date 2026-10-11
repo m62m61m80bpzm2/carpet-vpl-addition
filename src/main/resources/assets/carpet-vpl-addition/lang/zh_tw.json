@@ -137,5 +137,11 @@
   "carpet.rule.tradedZombieVillagerPeace.extra.0": "細節：透過村民的傳播聲望（TRADING 記錄）判斷是否交易過；未交易過的殭屍村民在和平模式下仍按原版移除。",
   "carpet.rule.beeNoAngerOnHarvest.name": "採蜜不驚蜂",
   "carpet.rule.beeNoAngerOnHarvest.desc": "開啟後，剪下蜂巢或用玻璃瓶取蜂蜜時，附近的蜜蜂不再把玩家列為攻擊目標。效果等同於蜂巢底下永遠壓著一堆點燃的營火。",
-  "carpet.rule.beeNoAngerOnHarvest.extra.0": "細節：只免除「取蜜」這一種情形——用工具砸毀蜂巢、或蜂巢被炸掉時，蜜蜂照舊追人。開啟後取蜜也不會再驚出巢內蜜蜂。"
+  "carpet.rule.beeNoAngerOnHarvest.extra.0": "細節：只免除「取蜜」這一種情形——用工具砸毀蜂巢、或蜂巢被炸掉時，蜜蜂照舊追人。開啟後取蜜也不會再驚出巢內蜜蜂。",
+  "carpet.rule.pinkSheepSpawnMultiplier.name": "粉紅羊生成倍率",
+  "carpet.rule.pinkSheepSpawnMultiplier.desc": "調整新生成的羊中出現粉紅羊的機率倍率。1.0 為原版機率（約 1/610），填 10.0 則粉紅羊機率提升 10 倍（約 1/61），填 1000.0 時幾乎全部新生成的羊都是粉紅色。影響所有新生成的羊（含繁殖），存檔中已有的羊不變。",
+  "carpet.rule.pinkSheepSpawnMultiplier.extra.0": "細節：數值規則，按精確機率換算（原版粉紅羊機率 0.164% × 倍率）；填小於 1.0 的值可使粉紅羊更稀有；僅在羊生成時判定一次。",
+  "carpet.rule.villagerNoWitchFromLightning.name": "雷電不劈村民成女巫",
+  "carpet.rule.villagerNoWitchFromLightning.desc": "開啟後，村民被閃電擊中時不再變成女巫，只會受到正常的雷擊傷害（掉血與著火不變）。用於保護村莊免受雷暴天氣的意外損失。",
+  "carpet.rule.villagerNoWitchFromLightning.extra.0": "細節：僅阻止向女巫的轉化，雷擊的其他效果保持原版；和平難度下村民本就不會變身，此規則無額外影響。"
 }

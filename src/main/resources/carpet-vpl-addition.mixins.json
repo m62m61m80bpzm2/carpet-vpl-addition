@@ -41,7 +41,9 @@
     "ElytraFireworkBoostMixin",
     "TradedZombieVillagerMixin",
     "BeeNoAngerOnHarvestMixin",
-    "ZombieVillagerAccessor"
+    "ZombieVillagerAccessor",
+    "SheepColorSpawnMultiplierMixin",
+    "VillagerNoWitchFromLightningMixin"
   ],
   "injectors": {
     "defaultRequire": 1

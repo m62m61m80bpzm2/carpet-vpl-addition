@@ -23,6 +23,8 @@ public class CarpetVPLAdditionSettings {
     public static int maxPlayerHealthCached = 20;
     public static double playerAttackDamageCached = 2.0;
     public static float cactusGrowthMultiplierCached = 1.0f;
+    /** 粉色羊生成概率倍率缓存（b1.16.1.1，自 26.1-26.3 分支同步） */
+    public static float pinkSheepSpawnMultiplierCached = 1.0f;
     public static float elytraFireworkMultiplierCached = 1.0f;
 
     /** 将所有字符串规则解析到缓存字段（含最小值/上限保护，防止玩家输入 0 或负数破坏机制） */
@@ -47,6 +49,9 @@ public class CarpetVPLAdditionSettings {
 
         try { cactusGrowthMultiplierCached = Math.max(0.0f, Float.parseFloat(cactusGrowthMultiplier)); }
         catch (NumberFormatException e) { cactusGrowthMultiplierCached = 1.0f; }
+
+        try { pinkSheepSpawnMultiplierCached = Math.max(0.0f, Float.parseFloat(pinkSheepSpawnMultiplier)); }
+        catch (NumberFormatException e) { pinkSheepSpawnMultiplierCached = 1.0f; }
         try { elytraFireworkMultiplierCached = Math.max(0.0f, Float.parseFloat(elytraFireworkMultiplier)); }
         catch (NumberFormatException e) { elytraFireworkMultiplierCached = 1.0f; }
     }
@@ -340,4 +345,18 @@ public class CarpetVPLAdditionSettings {
         categories = {CARPET_VPL_ADDITION, FEATURE, SURVIVAL}
     )
     public static boolean beeNoAngerOnHarvest = false;
+
+    // 【b1.16.1.1 暂时隐藏】与 26.1-26.3 分支保持一致：粉羊规则暂不对外（字段保留供 mixin 读取默认值 1.0=原版行为），恢复时取消注释：
+    // @Rule(
+    //     categories = {CARPET_VPL_ADDITION, FEATURE, SURVIVAL},
+    //     options = {"1.0", "2.0", "5.0", "10.0", "50.0", "100.0", "1000.0"},
+    //     strict = false,
+    //     validators = CacheRefreshValidator.class
+    // )
+    public static String pinkSheepSpawnMultiplier = "1.0";
+
+    @Rule(
+        categories = {CARPET_VPL_ADDITION, FEATURE, SURVIVAL}
+    )
+    public static boolean villagerNoWitchFromLightning = false;
 }

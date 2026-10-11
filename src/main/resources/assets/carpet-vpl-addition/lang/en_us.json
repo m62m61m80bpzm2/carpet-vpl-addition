@@ -137,5 +137,11 @@
   "carpet.rule.tradedZombieVillagerPeace.extra.0": "Details: \"traded\" is detected via the villager gossip TRADING record inherited on conversion; zombie villagers from never-traded villagers are still removed as vanilla.",
   "carpet.rule.beeNoAngerOnHarvest.name": "Calm Bee Harvest",
   "carpet.rule.beeNoAngerOnHarvest.desc": "Shearing a hive or bottling honey no longer makes the bees nearby target the player. Works as if a pile of lit campfires always sat under the hive.",
-  "carpet.rule.beeNoAngerOnHarvest.extra.0": "Details: only harvesting is covered - breaking a nest by hand or blowing it up still provokes the bees. With this rule on, harvesting no longer drives the bees out of the hive either."
+  "carpet.rule.beeNoAngerOnHarvest.extra.0": "Details: only harvesting is covered - breaking a nest by hand or blowing it up still provokes the bees. With this rule on, harvesting no longer drives the bees out of the hive either.",
+  "carpet.rule.pinkSheepSpawnMultiplier.name": "Pink Sheep Spawn Multiplier",
+  "carpet.rule.pinkSheepSpawnMultiplier.desc": "Adjusts the probability multiplier of pink sheep among newly spawned sheep. 1.0 is the vanilla chance (~1/610); 10.0 makes pink sheep 10 times more common (~1/61); at 1000.0 nearly every newly spawned sheep is pink. Affects all newly spawned sheep (including breeding); existing sheep in your world are unchanged.",
+  "carpet.rule.pinkSheepSpawnMultiplier.extra.0": "Details: a numeric rule with exact probability redistribution (vanilla pink chance 0.164% × multiplier); values below 1.0 make pink sheep rarer; the chance is rolled once per sheep at spawn time.",
+  "carpet.rule.villagerNoWitchFromLightning.name": "No Witch from Villager Lightning",
+  "carpet.rule.villagerNoWitchFromLightning.desc": "When enabled, a villager struck by lightning no longer turns into a witch and only takes normal lightning damage (hurt and set on fire as usual). Protects your villages from accidental losses during thunderstorms.",
+  "carpet.rule.villagerNoWitchFromLightning.extra.0": "Details: only the witch conversion is blocked; all other lightning effects stay vanilla. In Peaceful difficulty villagers never convert anyway, so this rule has no extra effect there."
 }
