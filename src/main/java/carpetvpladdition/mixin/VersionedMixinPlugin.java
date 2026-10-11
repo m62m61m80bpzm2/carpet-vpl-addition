@@ -36,6 +36,12 @@ public class VersionedMixinPlugin implements IMixinConfigPlugin {
                         // 26.x (Spring to Life) 包含所有 1.21.x 的 API
                         isAtLeast1_21_2 = true;
                         isAtLeast1_21_6 = true;
+                        // b1.16.1.2 修复：b1.16.1.1 声明了 isAtLeast26_3 但漏赋值，门控在 26.3 上永不生效
+                        // 版本形如 "26.1"/"26.2"/"26.3"，解析第二段 minor 判定 >=26.3
+                        String[] parts26 = version.split("\\.");
+                        if (parts26.length >= 2) {
+                            isAtLeast26_3 = Integer.parseInt(parts26[1].replaceAll("[^0-9].*", "")) >= 3;
+                        }
                     } else {
                         String[] parts = version.split("\\.");
                         if (parts.length >= 3) {
@@ -49,6 +55,7 @@ public class VersionedMixinPlugin implements IMixinConfigPlugin {
         } catch (Exception e) {
             isAtLeast1_21_2 = false;
             isAtLeast1_21_6 = false;
+            isAtLeast26_3 = false;
         }
     }
 

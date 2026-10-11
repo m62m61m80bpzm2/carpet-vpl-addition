@@ -190,6 +190,22 @@ src/main/java/carpetvpladdition/
 
 ## 修复记录（变更日志）
 
+### b1.16.1.2 — Carpet 26.3 正式版兼容 + 配方规则 26.3 数据包方案（测试版）
+
+- **背景**：用户报告 Carpet 依赖从项目起一直是 `26.1+v260401`。查证：Carpet 官方已有 26.2 正式版（26.2+v260616）与 **26.3 正式版（26.3+v261008，maven）**，b1.16.1.1 的 26.3 兼容当时卡在 Carpet 只有 beta-3。
+- **依赖升级**：carpet_version 26.1+v260401 → **26.3+v261008**（玩家侧 9 月发布的 26.3+v260915 与 v261008 同为 26.3 正式线，API 一致）。以 MC 26.1.2 + Carpet 26.3 编译通过，fabric.mod.json 的 minecraft 依赖 <26.4（b1.16.1.1 已扩）。
+- **修复 1（b1.16.1.1 遗留漏洞）：VersionedMixinPlugin 的 isAtLeast26_3 声明后从未赋值**，26.3 门控永不生效 → RecipeManagerMixin 在 26.3 上找不到 prepare 注入点开服崩（本次 26.3 实机首启即复现）。修复：26.x 分支解析 minor>=3 赋值 + catch 块同步重置。
+- **修复 2（用户报告"26.3 羊毛分解无效"）**：26.3 配方加载彻底重构——RecipeManager 从 Registries.RECIPE 可重载注册表构建（RegistryDataLoader 用 Recipe.DIRECT_CODEC 解析 datapack JSON），prepare 注入点永久消失。5 条配方规则改用**动态数据包方案**（新类 RecipeDataPackManager）：
+  - 规则开启 → 配方 JSON 写入 `<world>/datapacks/carpet-vpl-addition/data/carpet-vpl-addition/recipe/<id>.json`，由原版 FolderRepositorySource 发现、RegistryDataLoader 注册；关闭 → 删文件。
+  - **关键细节 ①**：26.3 世界数据包的 PackRepository id 带 `file/` 前缀（PackLocationInfo("file/"+目录名)），addPack/查询必须用 `file/carpet-vpl-addition`；data 下命名空间目录仍是 `carpet-vpl-addition`（无前缀）。
+  - **关键细节 ②**：pack.mcmeta 用 26.3 权威格式（照抄原版内置包）：**不写 pack_format**，只有 description+min_format+max_format（=97）。带 pack_format:97 会触发 validatePackFormatForRange 额外校验导致 pack 被 FolderRepositorySource 静默跳过（available 无此包）。
+  - **关键细节 ③**：pendingReload 竞态——Carpet 配置加载（observer 触发 reloadAndUnlock）早于 onServerLoadedWorlds（pack 才被 add），第二次调用被 pendingReload 吞掉致配方永不加载。改为 queuedReload 排队，当前 reload 完成后补跑。
+  - 统一入口 RecipeRuleObserver.reloadAndUnlock(server)（updatePackFiles + reloadResources + whenComplete unlock），observer 与 onServerLoadedWorlds 共用。
+- **验证**：26.3 专用服务端 + RCON 端到端：启动即 `registry size=2043（2042+1）, unlocking 1 recipes: [carpet-vpl-addition:string_from_wool]`；规则 false→文件删除+removePack、true→写回+addPack，开关即时生效。6 语言 5 条配方规则 extra.0 的"26.3 暂不生效"过时说明更新为"26.3 起经动态数据包实现，开关即时生效"（139 键一致）。
+- 版本号：b1.16.1.1 → b1.16.1.2。
+
+### v1.15.1
+
 ### b1.16.1.1 — 扩展支持 Minecraft 26.3（测试版）
 
 - 目标：`26.1-26.2` 分支的产物同时覆盖 **26.1 ~ 26.3**。仍按项目既有做法**以最低支持版本 26.1.2 编译**（`minecraft_version` 不动），靠"引用面在三个版本都存在"来保证向上兼容。
