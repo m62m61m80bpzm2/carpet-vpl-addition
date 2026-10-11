@@ -190,6 +190,12 @@ src/main/java/carpetvpladdition/
 
 ## 修复记录（变更日志）
 
+### b1.16.1.6 — 暂时隐藏 pinkSheepSpawnMultiplier 规则（测试版）
+
+- 按用户要求暂时隐藏 `pinkSheepSpawnMultiplier`（粉羊生成倍率）：注释该字段的 @Rule 注解即可不注册到 Carpet——/carpet 列表不显示、set 命令返回 Unknown rule；字段与缓存逻辑保留（mixin 读到默认 1.0 = 原版行为），恢复时取消注释即可。
+- **验证**：26.3 服务端 RCON 实测——list 不出现该规则、`carpet pinkSheepSpawnMultiplier 50.0` 返回 "Unknown rule"；`villagerNoWitchFromLightning` 单条查询正常可见。
+- 版本号：b1.16.1.5 → b1.16.1.6。
+
 ### b1.16.1.5 — 新增 2 条规则：粉羊倍率 + 雷电不劈村民成女巫（测试版）
 
 - **`pinkSheepSpawnMultiplier`**（数值倍率，默认 1.0，中文：粉色羊生成倍率）：调整新生成的羊中出现粉色羊的概率倍率。原版机制（26.1~26.3 同构）：`Sheep.finalizeSpawn` 按气候三档（SheepColorSpawnRules）roll 颜色，粉羊概率恒定 0.82 × 1/500 = 0.164%（约 1/610）。实现：`SheepColorSpawnMultiplierMixin` 注入 finalizeSpawn TAIL，按倍率精确概率重分配——m>1 时非粉羊以 (target−p0)/(1−p0) 翻转为粉，m<1 时粉羊以 m 概率保留否则回退白色，数学上保证最终频率 = 原版概率 × 倍率。影响所有新生成的羊（含繁殖）。

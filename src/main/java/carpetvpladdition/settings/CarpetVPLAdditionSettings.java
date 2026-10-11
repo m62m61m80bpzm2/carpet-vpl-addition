@@ -371,12 +371,14 @@ public class CarpetVPLAdditionSettings {
     )
     public static boolean beeNoAngerOnHarvest = false;
 
-    @Rule(
-        categories = {CARPET_VPL_ADDITION, FEATURE, SURVIVAL},
-        options = {"1.0", "2.0", "5.0", "10.0", "50.0", "100.0", "1000.0"},
-        strict = false,
-        validators = CacheRefreshValidator.class
-    )
+    // 【b1.16.1.6 暂时隐藏】规则暂不对外（注释 @Rule 即不注册到 Carpet，字段保留供 mixin 读取默认值 1.0=原版行为），
+    // 恢复时取消下方注释即可：
+    // @Rule(
+    //     categories = {CARPET_VPL_ADDITION, FEATURE, SURVIVAL},
+    //     options = {"1.0", "2.0", "5.0", "10.0", "50.0", "100.0", "1000.0"},
+    //     strict = false,
+    //     validators = CacheRefreshValidator.class
+    // )
     public static String pinkSheepSpawnMultiplier = "1.0";
 
     @Rule(
