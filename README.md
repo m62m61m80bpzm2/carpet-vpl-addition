@@ -7,7 +7,7 @@
 > **声明：本项目的代码（含全部 Mixin、规则、工具类）均由 AI 生成，特此说明。**
 
 * 目标游戏版本：**Minecraft 26.1 ~ 26.3**
-* 当前 Mod 版本：**b1.16.1.1**（测试版，已扩到支持 26.3；最新正式版为 v1.15.1）
+* 当前 Mod 版本：**v1.16.1**（正式版，支持 26.1 ~ 26.3 一个 jar 通吃）
 * 支持语言：简体中文 / 繁體中文 / English / Français / Español (AR) / Português (BR)
 
 本文件是**给玩家使用的说明**（怎么装、有哪些规则）。
@@ -40,7 +40,7 @@
 
    * Carpet（26.1+ 版本）
    * Fabric API
-   * **`[vpl-b1.16.1.1-for-26.1-26.3]carpet-addition-b1.16.1.1.jar`**
+   * **`[vpl-v1.16.1-for-26.1-26.3]carpet-addition-v1.16.1.jar`**
 3. 启动游戏即可。
 
 ## 使用
@@ -108,6 +108,7 @@
 |`bedrockPortalZombiePigman`|布尔|false|地狱门刷僵尸猪人（基岩版行为）|
 |`tradedZombieVillagerPeace`|布尔|false|和平模式不再移除交易过的僵尸村民|
 |`beeNoAngerOnHarvest`|布尔|false|采蜜不惊蜂：剪蜜脾/玻璃瓶取蜜时蜜蜂不仇恨玩家（等同蜂巢下永远压着点燃的营火；砸毁蜂巢与爆炸仍会仇恨）|
+|`villagerNoWitchFromLightning`|布尔|false|雷电不劈村民成女巫：村民被闪电击中不再变身女巫，只受正常雷击伤害（不掉血豁免，仅阻止变身）|
 
 ### 方块与生长
 
@@ -144,7 +145,7 @@
 
 ## 已知问题
 
-* 已对 26.1.2 / 26.2 / 26.3 做注入点核对（91 个被引用原版类全部存在、221 处成员引用无回归、38 个 Mixin 目标类齐全），并用 26.3 映射试编译验证；期间发现并修复两处静态核对看不出的破坏：`BonemealableBlock` 在 26.3 加了 `BonemealSource` 参数（仙人掌骨粉已改为注入 `BoneMealItem.growCrop`，三版通用）、`RecipeManager.prepare()` 与 `registries` 字段在 26.3 被删除（5 条配方规则已在 26.3+ 自动关闭，不再崩溃）。**26.1.2 与 26.2 已真起服务端验证通过**（正常启动 + 规则实时开关）；26.3 上我方 38 个 Mixin 全部应用通过，但启动仍会失败在 Carpet 自身（其 26.3-beta-3 缺 `DensityFunction$FunctionContext`），需等 Carpet 发布 26.3 正式版。
+* **26.1.2 / 26.2 / 26.3 已全部真起服务端验证通过**（正常启动 + 规则实时开关），依赖 Carpet 26.3 正式版（26.3+v261008，9 月发布的 v260915 同线兼容）。26.3 的配方装载机制改版已适配：5 条配方规则在 26.3 走动态数据包方案（`world/datapacks` 自动写入），开关即时生效。Mod 内置 MixinExtras 0.5.5，与各版本 Loader 内置版本冲突问题（26.2 上 @Redirect 类 Mixin 崩溃）已修复。
 * `noZombieHorseSpawn` 的说明目前写的是"仅 26.2 生效"；源码核对显示 26.1.2 与 26.3 同样把 `ZOMBIE_HORSE` 注册到 `Monster::checkMonsterSpawnRules`，该限定语很可能已过时，待实机确认后再改 6 语言文案。
 * 与其他模组（尤其 Lithium 一类区块/性能优化模组）的搭配未做兼容实测。
 
