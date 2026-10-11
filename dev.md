@@ -190,14 +190,14 @@ src/main/java/carpetvpladdition/
 
 ## 修复记录（变更日志）
 
-### b1.17.1.1 — 新增 2 条规则：粉羊倍率 + 雷电不劈村民成女巫（测试版）
+### b1.16.1.5 — 新增 2 条规则：粉羊倍率 + 雷电不劈村民成女巫（测试版）
 
 - **`pinkSheepSpawnMultiplier`**（数值倍率，默认 1.0，中文：粉色羊生成倍率）：调整新生成的羊中出现粉色羊的概率倍率。原版机制（26.1~26.3 同构）：`Sheep.finalizeSpawn` 按气候三档（SheepColorSpawnRules）roll 颜色，粉羊概率恒定 0.82 × 1/500 = 0.164%（约 1/610）。实现：`SheepColorSpawnMultiplierMixin` 注入 finalizeSpawn TAIL，按倍率精确概率重分配——m>1 时非粉羊以 (target−p0)/(1−p0) 翻转为粉，m<1 时粉羊以 m 概率保留否则回退白色，数学上保证最终频率 = 原版概率 × 倍率。影响所有新生成的羊（含繁殖）。
 - **`villagerNoWitchFromLightning`**（布尔，默认 false，中文：雷电不劈村民成女巫）：村民被雷击不再变身女巫，只受正常雷击伤害。实现：`VillagerNoWitchFromLightningMixin` @Redirect Villager.thunderHit 里的 Mob.convertTo 调用强制返回 null——原版自身有 `if (witch == null) super.thunderHit` fallback，短路后自然走"普通雷击不变身"分支（方案 A）。
 - **兼容性**：26.1.2 与 26.3 的 finalizeSpawn（4 参）与 thunderHit/convertTo（EntityType/ConversionParams/AfterConversion 擦除签名）逐一核对一致，各一个 mixin 通吃；convertTo 的 EntityType 类名在两版相同（EntityTypes 是 26.3 另一入口类，无冲突）。
 - **验证**：26.3 与 26.2 双服务端 RCON 切换两条规则全部接受，零 Mixin 异常；26.3 配方解锁（unlocking）不受影响。
 - 6 语言翻译同步（139→145 键，键集一致）。
-- 版本号：b1.16.1.4 → b1.17.1.1（新功能新档）。
+- 版本号：b1.16.1.4 → b1.16.1.5（沿用 b1.16.1.x 补丁线；初误定 b1.17.1.1，已按用户要求更正并删除 my-mods 中的错误版本 jar）。
 
 ### b1.16.1.4 — 修复 26.2 客户端开服崩溃（MixinExtras 升级 0.5.5）
 
