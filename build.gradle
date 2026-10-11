@@ -26,7 +26,7 @@ dependencies {
     implementation "net.fabricmc:fabric-loader:${project.loader_version}"
     implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
     implementation "carpet:fabric-carpet:${project.carpet_version}"
-    include(annotationProcessor("io.github.llamalad7:mixinextras-fabric:0.4.1"))
+    include(annotationProcessor("io.github.llamalad7:mixinextras-fabric:0.5.5"))
 }
 
 java {
