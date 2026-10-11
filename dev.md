@@ -190,6 +190,13 @@ src/main/java/carpetvpladdition/
 
 ## 修复记录（变更日志）
 
+### v1.16.1 — 正式版发布（由测试版 b1.16.1.6 转正）
+
+- **转正式版**：测试线 b1.16.1.1~b1.16.1.6 经用户实测通过，转正式版 v1.16.1。
+- 含内容：Carpet 26.3 正式版兼容（依赖升级 + 门控修复 + 配方规则动态数据包方案）、MixinExtras 0.5.5（26.2 崩溃修复）、`villagerNoWitchFromLightning`（雷电不劈村民成女巫）；`pinkSheepSpawnMultiplier` 已隐藏暂不随版发布。
+- 规则数：46 条（可见 45 + 隐藏 1）。
+- 版本号：b1.16.1.6 → v1.16.1。
+
 ### b1.16.1.6 — 暂时隐藏 pinkSheepSpawnMultiplier 规则（测试版）
 
 - 按用户要求暂时隐藏 `pinkSheepSpawnMultiplier`（粉羊生成倍率）：注释该字段的 @Rule 注解即可不注册到 Carpet——/carpet 列表不显示、set 命令返回 Unknown rule；字段与缓存逻辑保留（mixin 读到默认 1.0 = 原版行为），恢复时取消注释即可。
