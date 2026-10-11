@@ -194,7 +194,7 @@ src/main/java/carpetvpladdition/
 
 - **转正式版**：测试线 b1.16.1.1~b1.16.1.6 经用户实测通过，转正式版 v1.16.1。
 - 含内容：Carpet 26.3 正式版兼容（依赖升级 + 门控修复 + 配方规则动态数据包方案）、MixinExtras 0.5.5（26.2 崩溃修复）、`villagerNoWitchFromLightning`（雷电不劈村民成女巫）；`pinkSheepSpawnMultiplier` 已隐藏暂不随版发布。
-- 规则数：46 条（可见 45 + 隐藏 1）。
+- 规则数：48 条（可见 47 + 隐藏 1）。
 - 版本号：b1.16.1.6 → v1.16.1。
 
 ### b1.16.1.6 — 暂时隐藏 pinkSheepSpawnMultiplier 规则（测试版）
