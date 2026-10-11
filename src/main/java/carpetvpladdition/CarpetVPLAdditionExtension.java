@@ -3,8 +3,12 @@ package carpetvpladdition;
 import carpet.CarpetExtension;
 import carpet.CarpetServer;
 import carpet.api.settings.SettingsManager;
+import carpetvpladdition.mixin.VersionedMixinPlugin;
 import carpetvpladdition.settings.CarpetVPLAdditionSettings;
 import carpetvpladdition.util.BeaconPPUpdateManager;
+import carpetvpladdition.settings.RecipeRuleObserver;
+import carpetvpladdition.util.RecipeDataPackManager;
+import net.minecraft.server.MinecraftServer;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import net.minecraft.server.level.ServerPlayer;
@@ -38,6 +42,16 @@ public class CarpetVPLAdditionExtension implements CarpetExtension {
             BeaconPPUpdateManager.register();
         } catch (Exception e) {
             System.err.println("[carpet-vpl-addition] Failed to register settings: " + e.getMessage());
+        }
+    }
+
+    @Override
+    public void onServerLoadedWorlds(MinecraftServer server) {
+        // 26.3+：世界加载完成后按已保存的规则状态重建动态配方数据包（b1.16.1.2），
+        // 并补一次 reload+解锁——Carpet 配置加载（observer）早于此阶段，当时 pack 尚未启用
+        if (VersionedMixinPlugin.isAtLeast26_3()) {
+            RecipeDataPackManager.initOnServerLoadedWorlds(server);
+            RecipeRuleObserver.reloadAndUnlock(server);
         }
     }
 

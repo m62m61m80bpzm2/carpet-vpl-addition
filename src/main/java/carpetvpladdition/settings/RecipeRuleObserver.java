@@ -12,6 +12,7 @@ import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
 import carpetvpladdition.mixin.VersionedMixinPlugin;
+import carpetvpladdition.util.RecipeDataPackManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +31,8 @@ import java.util.Map;
  */
 public class RecipeRuleObserver extends Validator<Boolean> {
     // 防重复执行标志
-    private static boolean pendingReload = false;
+    private static volatile boolean pendingReload = false;
+    private static volatile boolean queuedReload = false;
 
     /**
      * 动态配方清单：规则字段名 -> 配方注册 ID（命名空间 carpet-vpl-addition）。
@@ -54,18 +56,35 @@ public class RecipeRuleObserver extends Validator<Boolean> {
     }
 
     private void onValueChange(CommandSourceStack source) {
-        // 26.3+ 动态配方注入的注入点已被原版移除（见 VersionedMixinPlugin），
-        // 此处不再触发重载与配方书解锁，避免调用已不存在的原版 API。
-        if (VersionedMixinPlugin.isAtLeast26_3()) {
+        if (source == null || source.getServer() == null) {
             return;
         }
-        if (source == null || source.getServer() == null || pendingReload) {
+        reloadAndUnlock(source.getServer());
+    }
+
+    /**
+     * 统一的"数据包同步 + 资源重载 + 配方书解锁"入口（b1.16.1.2）。
+     * 规则 observer 与服务器启动初始化（onServerLoadedWorlds）都必须走这里：
+     * Carpet 加载配置（触发 observer）早于世界加载完成（pack 才被 add），
+     * 因此启动路径也要再走一遍本方法，否则第一次 reload 时 pack 未启用、
+     * 配方不注册而解锁为空。
+     */
+    public static void reloadAndUnlock(MinecraftServer server) {
+        if (pendingReload) {
+            // b1.16.1.2 竞态修复：启动时 Carpet 配置加载（observer）先触发一次 reload，
+            // 异步未完成时 onServerLoadedWorlds 的初始化会被这里直接吞掉，
+            // 导致 pack 虽已启用但配方永不加载。改为排队，当前 reload 完成后补跑。
+            queuedReload = true;
             return;
         }
         pendingReload = true;
-        MinecraftServer server = source.getServer();
         // 异步重载配方，避免在主线程同步执行完整 reloadResources
         server.executeIfPossible(() -> {
+            // 26.3+：配方经动态数据包（world/datapacks）走原版 RegistryDataLoader 注册，
+            // 规则开关先同步数据包文件与启用状态，再统一 reloadResources（b1.16.1.2）
+            if (VersionedMixinPlugin.isAtLeast26_3()) {
+                RecipeDataPackManager.updatePackFiles(server);
+            }
             server.reloadResources(server.getPackRepository().getSelectedIds())
                 // 重载完成（RecipeMap 已更新且原版已向玩家广播配方包）后，解锁配方书
                 .whenComplete((unused, throwable) -> server.execute(() -> {
@@ -73,6 +92,10 @@ public class RecipeRuleObserver extends Validator<Boolean> {
                         unlockDynamicRecipes(server);
                     } finally {
                         pendingReload = false;
+                        if (queuedReload) {
+                            queuedReload = false;
+                            reloadAndUnlock(server);
+                        }
                     }
                 }));
         });
@@ -99,11 +122,14 @@ public class RecipeRuleObserver extends Validator<Boolean> {
                 .ifPresent(toUnlock::add);
         }
         if (toUnlock.isEmpty()) {
+            System.out.println("[carpet-vpl-addition] unlockDynamicRecipes: nothing to unlock (recipes missing from registry?)");
             return;
         }
+        System.out.println("[carpet-vpl-addition] unlockDynamicRecipes: unlocking " + toUnlock.size()
+            + " recipes: " + toUnlock.stream().map(h -> h.id().identifier().toString()).toList());
         for (ServerPlayer player : server.getPlayerList().getPlayers()) {
             // 解锁 + 新配方高亮 + 发送配方书包，客户端立即显示
-            player.getRecipeBook().addRecipes(toUnlock, player);
+            int added = player.getRecipeBook().addRecipes(toUnlock, player);
         }
     }
 }
