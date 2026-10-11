@@ -26,6 +26,8 @@ public class CarpetVPLAdditionSettings {
     public static float elytraFireworkMultiplierCached = 1.0f;
     /** 堆叠规则聚合开关（b1.15.1.2 性能优化）：getMaxStackSize 极热路径，用单个缓存布尔替代 7 次字段读取 */
     public static boolean stackableAnyCached = false;
+    /** 粉色羊生成概率倍率缓存（b1.17.1.1） */
+    public static float pinkSheepSpawnMultiplierCached = 1.0f;
 
     /** 将所有字符串规则解析到缓存字段（含最小值/上限保护，防止玩家输入 0 或负数破坏机制） */
     public static void syncNumericCaches() {
@@ -56,6 +58,9 @@ public class CarpetVPLAdditionSettings {
         // 堆叠规则聚合开关：任意一条开启即需要进入堆叠修改逻辑
         stackableAnyCached = stackableTotem || stackableLavaBucket || stackableGlassBottle || stackableWaterBucket
             || stackablePotion || stackableStew || stackableCake;
+
+        try { pinkSheepSpawnMultiplierCached = Math.max(0.0f, Float.parseFloat(pinkSheepSpawnMultiplier)); }
+        catch (NumberFormatException e) { pinkSheepSpawnMultiplierCached = 1.0f; }
     }
 
     // ========== 通用验证器：规则变更时刷新缓存 ==========
@@ -365,4 +370,17 @@ public class CarpetVPLAdditionSettings {
         categories = {CARPET_VPL_ADDITION, FEATURE, SURVIVAL}
     )
     public static boolean beeNoAngerOnHarvest = false;
+
+    @Rule(
+        categories = {CARPET_VPL_ADDITION, FEATURE, SURVIVAL},
+        options = {"1.0", "2.0", "5.0", "10.0", "50.0", "100.0", "1000.0"},
+        strict = false,
+        validators = CacheRefreshValidator.class
+    )
+    public static String pinkSheepSpawnMultiplier = "1.0";
+
+    @Rule(
+        categories = {CARPET_VPL_ADDITION, FEATURE, SURVIVAL}
+    )
+    public static boolean villagerNoWitchFromLightning = false;
 }
