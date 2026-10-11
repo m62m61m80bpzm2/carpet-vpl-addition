@@ -190,6 +190,15 @@ src/main/java/carpetvpladdition/
 
 ## 修复记录（变更日志）
 
+### b1.16.1.4 — 修复 26.2 客户端开服崩溃（MixinExtras 升级 0.5.5）
+
+- **崩溃现象**（用户 26.2 单人档，错误报告 2026-10-11_14.17.48）：Bootstrap 阶段 `Mixin transformation of ServerLevel failed` → `FactoryRedirectWrapperMixinTransformer` 内 `ArrayList cannot be cast to AnnotationNode`。实测服务端同因复现，且**所有 @Redirect mixin 目标类都崩**（移除 NoSnow 后换 BeehiveBlock 原样崩）——排除特定 mixin 问题。
+- **环境对照**：26.3 服务端（loader 0.19.5 内置 MixinExtras 0.5.5）同代码正常；26.2（loader 0.19.3 内置 MixinExtras 0.5.4）必崩。而我们 jar bundle 的是 **MixinExtras 0.4.1**——0.4.1 与 0.5.4 运行时交互触发 FactoryRedirectWrapper 的 CCE bug，0.5.5 已修复。
+- **修复**：build.gradle 的 `include(annotationProcessor(mixinextras-fabric))` **0.4.1 → 0.5.5**。jar-in-jar 版本高于 loader 内置版本时 loader 采用高版本，26.2 环境从此统一跑 0.5.5。
+- **验证**：26.2 服务端（fabric-api 0.155.2+26.2 + carpet 26.2+v260616）`Done (2.394s)` 零异常（b1.16.1.4 同 jar）；26.3 服务端回归 `unlocking 1 recipes` 正常。
+- 版本号：b1.16.1.3 → b1.16.1.4。
+- **分支改名**：26.1-26.2 → **26.1-26.3**（本地 + origin + private 三处，GitHub rename API，支持范围已扩至 26.3 名实一致）。
+
 ### b1.16.1.2 — Carpet 26.3 正式版兼容 + 配方规则 26.3 数据包方案（测试版）
 
 - **背景**：用户报告 Carpet 依赖从项目起一直是 `26.1+v260401`。查证：Carpet 官方已有 26.2 正式版（26.2+v260616）与 **26.3 正式版（26.3+v261008，maven）**，b1.16.1.1 的 26.3 兼容当时卡在 Carpet 只有 beta-3。
